@@ -45,7 +45,7 @@ jobs:
           ./gradlew build -x test
     ## docker build & push to production
     - name: Docker build & push to dockerhub
-      if: contains(github.ref, 'release')
+      if: contains(github.ref, 'main')
       run: |
           cd ./BE
           docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
@@ -55,7 +55,7 @@ jobs:
     ## deploy to production 
     - name: Deploy to prod
       uses: fifsky/ssh-action@master
-      if: contains(github.ref, 'release')
+      if: contains(github.ref, 'main')
       with:
         command: |
               sudo docker pull ${{ secrets.DOCKER_REPO }}/issue-tracker-team31
