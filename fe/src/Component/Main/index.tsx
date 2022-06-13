@@ -1,5 +1,7 @@
 import styled, { css } from "styled-components";
 
+import Header from "Component/Header";
+
 const StyledMain = styled.div`
 	${({ theme: { colors } }) => css`
 		color: ${colors.green};
@@ -7,7 +9,12 @@ const StyledMain = styled.div`
 `;
 
 const Main = () => {
-	return <StyledMain>HI</StyledMain>;
+	return (
+		<>
+			<Header />
+			<StyledMain>THIS IS MAIN</StyledMain>
+		</>
+	);
 };
 
 export default Main;

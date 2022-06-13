@@ -1,41 +1,95 @@
 const colors = {
-	white: "#FFFFFF",
-	grey6: "#F5F5F7",
-	grey5: "#E0E0E0",
-	grey4: "#BDBDBD",
-	grey3: "#828282",
-	grey3dark: "#4A4A4A",
-	grey2: "#4F4F4F",
-	grey1: "#333333",
-	black: "#010101",
-	primary: "#E84C60",
-	green: "#118917",
+	greyScale: {
+		offWhite: "#FEFEFE",
+		background: "#F7F7FC",
+		inputBackground: "#EFF0F6",
+		line: "#D9DBE9",
+		placeholder: "#A0A3BD",
+		label: "#6E7191",
+		body: "#4E4B66",
+		titleActive: "#14142B",
+	},
+	blue: "#007AFF",
+	darkBlue: "#004DE3",
+	lightBlue: "#C7EBFF",
+	purple: "#0025E7",
+	lightPurple: "#CCD4FF",
+	darkPurple: "#020070",
+	red: "#FF3B30",
+	lightRed: "#FFD1CF",
+	darkRed: "#C60B00",
+	green: "#34C759",
+	lightGreen: "#DDFFE6",
+	darkGreen: "#00A028",
 };
 
 const fontMain = {
 	"font-family": '"IBM Plex Sans KR", sans-serif',
-	"font-weight": 500,
+	"font-style": "normal",
+	"font-weight": 400,
 };
 
-const fontSize = {
-	xSmall: "12px",
-	small: "14px",
-	medium: "16px",
-	large: "18px",
-	xLarge: "20px",
-};
-
-const fontWeight = {
-	small: 400,
-	medium: 600,
-	large: 700,
+const fonts = {
+	display: {
+		"font-size": "32px",
+		"line-height": "48px",
+	},
+	displayBold: {
+		"font-weight": 700,
+		"font-size": "32px",
+		"line-height": "48px",
+	},
+	textLarge: {
+		"font-size": "24px",
+		"line-height": "40px",
+	},
+	lineLarge: {
+		"font-weight": 700,
+		"font-size": "24px",
+		"line-height": "40px",
+	},
+	textMedium: {
+		"font-size": "18px",
+		"line-height": "32px",
+	},
+	linkMedium: {
+		"font-weight": 700,
+		"font-size": "18px",
+		"line-height": "32px",
+	},
+	textSmall: {
+		"font-size": "16px",
+		"line-height": "28px",
+	},
+	textXSamll: {
+		"font-weight": 500,
+		"font-size": "12px",
+		"line-height": "20px",
+	},
+	linkXSmall: {
+		"font-weight": 700,
+		"font-size": "12px",
+		"line-height": "20px",
+	},
+	logotypeLarge: {
+		"font-style": "italic",
+		"font-size": "56px",
+		"line-height": "72px",
+		"letter-spacing": "-0.04em",
+	},
+	logotypeRegular: {
+		"font-style": "italic",
+		"font-weight": 500,
+		"font-size": "32px",
+		"line-height": "40px",
+		"letter-spacing": "-0.04em",
+	},
 };
 
 const theme = {
 	colors,
+	fonts,
 	fontMain,
-	fontSize,
-	fontWeight,
 };
 
 export default theme;
