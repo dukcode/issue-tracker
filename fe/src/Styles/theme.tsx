@@ -23,13 +23,15 @@ const colors = {
 	darkGreen: "#00A028",
 };
 
-const fontMain = {
-	"font-family": '"IBM Plex Sans KR", sans-serif',
-	"font-style": "normal",
-	"font-weight": 400,
-};
-
 const fonts = {
+	main: {
+		"font-family": '"IBM Plex Sans KR", sans-serif',
+		"font-style": "normal",
+		"font-size": "18px",
+		"line-height": "32px",
+		"font-weight": 400,
+		color: colors.greyScale.titleActive,
+	},
 	display: {
 		"font-size": "32px",
 		"line-height": "48px",
@@ -89,7 +91,9 @@ const fonts = {
 const theme = {
 	colors,
 	fonts,
-	fontMain,
 };
 
+type ThemeType = typeof theme;
+
+export type { ThemeType };
 export default theme;
