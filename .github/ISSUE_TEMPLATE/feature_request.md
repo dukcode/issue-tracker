@@ -6,20 +6,16 @@ labels: ""
 assignees: ""
 ---
 
-| type | title | labels | assignees |
-| :--: | :---: | :----: | :-------: |
-| BUG  | Title |  Bug   |   John    |
-
-## Description
+## 📙 Description
 
 작업 설명
 
-## To Do
+## 📘 To Do
 
 - [ ] Task
 - [ ] Task
 - [ ] Task
 
-## Etc
+## 📝 Etc
 
 기타 사항
