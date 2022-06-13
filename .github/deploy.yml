@@ -1,0 +1,65 @@
+name: Java CI with Gradle
+
+on:
+  push:
+    branches: [ "main" ]
+
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+  
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+    - name: make application-prod-db.yml
+      if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일
+      run: |
+          cd ./BE/src/main/resources
+          touch ./application-prod-db.yml
+          ls
+          echo "${{ secrets.APPLICATION_PROD_DB_YML }}" > ./application-prod-db.yml
+      shell: bash
+
+    - name: make application-oauth2.yml
+      if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일
+      run: |
+          cd ./BE/src/main/resources
+          touch ./application-oauth2.yml
+          ls
+          echo "${{ secrets.APPLICATION_OAUTH2_YML }}" > ./application-oauth2.yml
+      shell: bash
+
+    ## gradle build
+    - name: Build with Gradle!
+      run: | 
+          cd ./BE
+          ./gradlew build -x test
+    ## docker build & push to production
+    - name: Docker build & push to dockerhub
+      if: contains(github.ref, 'release')
+      run: |
+          cd ./BE
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker build --platform linux/amd64 -t ${{ secrets.DOCKER_REPO }}/issue-tracker-team31
+          docker push ${{ secrets.DOCKER_REPO }}/issue-tracker-team31
+    
+    ## deploy to production 
+    - name: Deploy to prod
+      uses: fifsky/ssh-action@master
+      if: contains(github.ref, 'release')
+      with:
+        command: |
+              sudo docker pull ${{ secrets.DOCKER_REPO }}/issue-tracker-team31
+              ./deploy.sh
+        host: ${{ secrets.HOST }}
+        user: ubuntu
+        key: ${{ secrets.PRIVATE_KEY}}

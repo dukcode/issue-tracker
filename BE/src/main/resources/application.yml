@@ -1,0 +1,80 @@
+spring:
+  profiles:
+    active: local
+
+---
+
+spring:
+  profiles:
+    group:
+      "local":
+        - common
+        - local-db
+      "prod1":
+        - common
+        - prod1
+        - prod-db
+      "prod2":
+        - common
+        - prod2
+        - prod-db
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: common
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: local-db
+
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/study/codesquad/team_project/issuetracker;MODE=MYSQL
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug    # sout? ?? logger? ??? SQL ??
+        type: trace   # ?? ? ??
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod1
+
+server:
+  port: 8082
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod2
+
+server:
+  port: 8082
