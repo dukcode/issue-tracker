@@ -40,11 +40,11 @@ public class MockIssueService implements IssueService {
                 TextColor.DARK);
 
         MilestoneResponse milestone1 = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3, 4);
         MilestoneResponse milestone2 = new MilestoneResponse(2L, "마일스톤 제목2", "마일스톤 설명2",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 5, 10);
         MilestoneResponse milestone3 = new MilestoneResponse(3L, "마일스톤 제목3", "마일스톤 설명3",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 1, 1);
 
         IssueResponse issueResponse1 = new IssueResponse(1L, IssueStatus.OPEN, "이슈 제목 1", user1,
                 Arrays.asList(label1, label2), milestone1, LocalDateTime.now(),
@@ -90,7 +90,7 @@ public class MockIssueService implements IssueService {
                 TextColor.LIGHT);
 
         MilestoneResponse milestone = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3, 10);
 
         CommentResponse comment1 = new CommentResponse(1L, user1, "첫 번째 코멘트");
         CommentResponse comment2 = new CommentResponse(2L, user3, "두 번째 코멘트");

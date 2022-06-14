@@ -23,11 +23,11 @@ public class MockMilestoneService implements MilestoneService {
     public OpenClosedCountResult<List<MilestoneResponse>> findAll(
             MilestoneStatus status) {
         MilestoneResponse milestone1 = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), OPEN);
+                LocalDate.of(2022, 7, 1), OPEN, 3, 4);
         MilestoneResponse milestone2 = new MilestoneResponse(2L, "마일스톤 제목2", "마일스톤 설명2",
-                LocalDate.of(2022, 7, 1), OPEN);
+                LocalDate.of(2022, 7, 1), OPEN, 5, 7);
         MilestoneResponse milestone3 = new MilestoneResponse(3L, "마일스톤 제목3", "마일스톤 설명3",
-                LocalDate.of(2022, 7, 1), CLOSED);
+                LocalDate.of(2022, 7, 1), CLOSED, 9, 2);
 
         List<MilestoneResponse> milestones = Arrays.asList(milestone1, milestone2, milestone3);
 
