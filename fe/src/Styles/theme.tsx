@@ -95,6 +95,7 @@ const width = {
 	issueContainer: "1280px",
 	issueHeader: "1280px",
 	issueCategory: "220px",
+	large: "1200px",
 };
 
 const height = {

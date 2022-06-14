@@ -2,13 +2,18 @@ import { createGlobalStyle, css } from "styled-components";
 import type { ThemeType } from "./theme";
 
 const Normalize = createGlobalStyle<{ theme: ThemeType }>`
-	${({ theme: { fonts, colors } }) => css`
+	${({ theme: { fonts, width, colors } }) => css`
 		.App {
 			${fonts.main};
-			box-sizing: border-box;
 			background-color: ${colors.background};
+			box-sizing: border-box;
 			width: 100vw;
 			height: 100vh;
+			min-width: ${width.large};
+		}
+
+		div {
+			box-sizing: border-box;
 		}
 
 		button {

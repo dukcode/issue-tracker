@@ -5,7 +5,6 @@ const StyledHeader = styled.div`
 	justify-content: space-between;
 	${({ theme: { width } }) => css`
 		min-width: ${width.main};
-		width: 1200px; // for test
 		margin: 0 auto;
 		padding-top: 20px;
 		padding-bottom: 40px;

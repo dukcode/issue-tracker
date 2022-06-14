@@ -1,8 +1,11 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 const StyledMain = styled.div`
-	width: 100vw;
-	height: 100vh;
+	${({ theme: { width } }) => css`
+		min-width: ${width.large};
+		margin: 0 auto;
+		padding: 20px 40px;
+	`}
 `;
 
 export default StyledMain;
