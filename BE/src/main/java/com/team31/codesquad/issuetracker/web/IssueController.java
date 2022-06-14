@@ -1,6 +1,7 @@
 package com.team31.codesquad.issuetracker.web;
 
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
+import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
@@ -49,6 +50,13 @@ public class IssueController {
     @GetMapping("/api/v1/issues/{issueId}")
     public IssueDetailResponse getIssueDetail(@PathVariable Long issueId) {
         return issueService.getIssue(issueId);
+    }
+
+    @PostMapping("/api/v1/issues/{issueId}/comments")
+    public ResponseEntity<Long> createComment(@PathVariable Long issueId,
+            @RequestBody CommentCreateRequest request) {
+        Long createdCommentId = issueService.createComment(issueId, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentId);
     }
 
 }

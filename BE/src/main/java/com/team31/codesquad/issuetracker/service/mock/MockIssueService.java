@@ -6,6 +6,7 @@ import com.team31.codesquad.issuetracker.domain.label.TextColor;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
 import com.team31.codesquad.issuetracker.dto.CountResult;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
+import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
@@ -103,5 +104,10 @@ public class MockIssueService implements IssueService {
                 Arrays.asList(user2, user3), Arrays.asList(label1, label2),
                 milestone, LocalDateTime.now(), LocalDateTime.now(),
                 new CountResult<>(comments.size(), comments));
+    }
+
+    @Override
+    public Long createComment(Long issueId, CommentCreateRequest request) {
+        return 3L;
     }
 }
