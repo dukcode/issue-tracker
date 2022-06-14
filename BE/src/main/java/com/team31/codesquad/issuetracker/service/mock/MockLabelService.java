@@ -2,9 +2,9 @@ package com.team31.codesquad.issuetracker.service.mock;
 
 import com.team31.codesquad.issuetracker.domain.label.Label;
 import com.team31.codesquad.issuetracker.domain.label.TextColor;
-import com.team31.codesquad.issuetracker.dto.LabelCreateRequest;
-import com.team31.codesquad.issuetracker.dto.LabelResponse;
-import com.team31.codesquad.issuetracker.dto.LabelUpdateRequest;
+import com.team31.codesquad.issuetracker.dto.label.LabelCreateRequest;
+import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
+import com.team31.codesquad.issuetracker.dto.label.LabelUpdateRequest;
 import com.team31.codesquad.issuetracker.service.LabelService;
 import java.util.Arrays;
 import java.util.List;

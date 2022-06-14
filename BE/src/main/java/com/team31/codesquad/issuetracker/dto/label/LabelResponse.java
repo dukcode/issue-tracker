@@ -1,4 +1,4 @@
-package com.team31.codesquad.issuetracker.dto;
+package com.team31.codesquad.issuetracker.dto.label;
 
 import com.team31.codesquad.issuetracker.domain.label.Label;
 import com.team31.codesquad.issuetracker.domain.label.TextColor;

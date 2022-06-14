@@ -1,9 +1,9 @@
 package com.team31.codesquad.issuetracker.web;
 
 import com.team31.codesquad.issuetracker.dto.CountResult;
-import com.team31.codesquad.issuetracker.dto.LabelCreateRequest;
-import com.team31.codesquad.issuetracker.dto.LabelResponse;
-import com.team31.codesquad.issuetracker.dto.LabelUpdateRequest;
+import com.team31.codesquad.issuetracker.dto.label.LabelCreateRequest;
+import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
+import com.team31.codesquad.issuetracker.dto.label.LabelUpdateRequest;
 import com.team31.codesquad.issuetracker.service.LabelService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
