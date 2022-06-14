@@ -1,10 +1,12 @@
 package com.team31.codesquad.issuetracker.dto.milestone;
 
 import java.time.LocalDate;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+@Getter
 @NoArgsConstructor
 public class MilestoneUpdateRequest {
 
