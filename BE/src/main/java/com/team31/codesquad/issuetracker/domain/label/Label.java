@@ -31,16 +31,4 @@ public class Label extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private TextColor textColor;
 
-    public Label(String name, String description, String labelColor,
-            TextColor textColor) {
-        this.name = name;
-        this.description = description;
-        this.labelColor = labelColor;
-        this.textColor = textColor;
-    }
-
-    // mock service 제공을 위한 임시 메서드
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
