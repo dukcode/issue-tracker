@@ -6,6 +6,8 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
+import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,6 +60,20 @@ public class IssueController {
             @RequestBody CommentCreateRequest request) {
         Long createdCommentId = issueService.createComment(issueId, request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentId);
+    }
+
+    @PatchMapping("/api/v1/issues/{issueId}")
+    public ResponseEntity<Void> changeStatus(@PathVariable Long issueId,
+            @RequestBody IssueStatusChangeRequest request) {
+        issueService.changeStatus(issueId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/api/v1/issues")
+    public ResponseEntity<Void> changeIssuesStatus(
+            @RequestBody MultiIssueStatusChangeRequest request) {
+        issueService.changIssuesStatus(request);
+        return ResponseEntity.noContent().build();
     }
 
 }

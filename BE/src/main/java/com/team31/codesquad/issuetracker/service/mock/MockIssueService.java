@@ -12,6 +12,8 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
+import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
@@ -109,5 +111,15 @@ public class MockIssueService implements IssueService {
     @Override
     public Long createComment(Long issueId, CommentCreateRequest request) {
         return 3L;
+    }
+
+    @Override
+    public void changeStatus(Long issueId, IssueStatusChangeRequest request) {
+        return;
+    }
+
+    @Override
+    public void changIssuesStatus(MultiIssueStatusChangeRequest request) {
+        return;
     }
 }
