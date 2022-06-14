@@ -5,6 +5,7 @@ const Normalize = createGlobalStyle<{ theme: ThemeType }>`
 	${({ theme: { fonts, colors } }) => css`
 		.App {
 			${fonts.main};
+			box-sizing: border-box;
 			background-color: ${colors.greyScale.background};
 			width: 100vw;
 			height: 100vh;

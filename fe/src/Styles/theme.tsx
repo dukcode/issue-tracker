@@ -32,6 +32,10 @@ const fonts = {
 		"font-weight": 400,
 		color: colors.greyScale.titleActive,
 	},
+	title: {
+		"font-size": "40px",
+		"line-height": "60px",
+	},
 	display: {
 		"font-size": "32px",
 		"line-height": "48px",

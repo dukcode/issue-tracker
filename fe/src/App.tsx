@@ -1,11 +1,11 @@
-import Main from "Component/Main";
+import Router from "Router";
 import Styles from "Styles";
 
 const App = () => {
 	return (
 		<div className="App">
 			<Styles>
-				<Main />
+				<Router />
 			</Styles>
 		</div>
 	);
