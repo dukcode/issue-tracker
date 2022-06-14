@@ -9,8 +9,10 @@ import {
 	ClosedIssue,
 } from "./Home.styled";
 import FilterCategoryList from "./FilterCategoryList/FilterCategoryList";
-import type { listItem } from "./FilterCategoryList/FilterCategoryList";
 import IssueCells from "./IssueCells/IssueCells";
+import OptionsBox from "Component/OptionsBox";
+
+import type { listItem } from "./FilterCategoryList/FilterCategoryList";
 import type { issueItem } from "./IssueCells/IssueCells";
 
 const filterCategoryItems: listItem[] = [
@@ -52,23 +54,26 @@ const Home = () => {
 	const CLOSED_ISSUE = "닫힌 이슈";
 
 	return (
-		<IssueContainer>
-			<IssueHeader>
-				<IssueHeaderLeft>
-					<Checkbox size="small" color="default" />
-					<IssueCategory>
-						<OpenedIssue>
-							<ErrorOutline colorset="titleActive" size={18} /> {OPENED_ISSUE}
-						</OpenedIssue>
-						<ClosedIssue>
-							<Inventory colorset="titleActive" size={18} /> {CLOSED_ISSUE}
-						</ClosedIssue>
-					</IssueCategory>
-				</IssueHeaderLeft>
-				<FilterCategoryList listItems={filterCategoryItems} />
-			</IssueHeader>
-			<IssueCells issueItems={issueCellItems} />
-		</IssueContainer>
+		<>
+			<OptionsBox />
+			<IssueContainer>
+				<IssueHeader>
+					<IssueHeaderLeft>
+						<Checkbox size="small" color="default" />
+						<IssueCategory>
+							<OpenedIssue>
+								<ErrorOutline colorset="titleActive" size={18} /> {OPENED_ISSUE}
+							</OpenedIssue>
+							<ClosedIssue>
+								<Inventory colorset="titleActive" size={18} /> {CLOSED_ISSUE}
+							</ClosedIssue>
+						</IssueCategory>
+					</IssueHeaderLeft>
+					<FilterCategoryList listItems={filterCategoryItems} />
+				</IssueHeader>
+				<IssueCells issueItems={issueCellItems} />
+			</IssueContainer>
+		</>
 	);
 };
 

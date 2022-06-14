@@ -7,6 +7,8 @@ const StyledHeader = styled.div`
 		min-width: ${width.main};
 		width: 1200px; // for test
 		margin: 0 auto;
+		padding-top: 20px;
+		padding-bottom: 40px;
 	`}
 `;
 
@@ -25,7 +27,7 @@ const StyledUserImgWrapper = styled.div`
 	border-radius: 50%;
 	overflow: hidden;
 	${({ theme: { colors } }) => css`
-		border: solid 1px ${colors.greyScale.line};
+		border: solid 1px ${colors.line};
 	`}
 `;
 
