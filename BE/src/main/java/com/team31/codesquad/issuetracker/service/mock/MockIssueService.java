@@ -8,6 +8,7 @@ import com.team31.codesquad.issuetracker.dto.CountResult;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.comment.CommentResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
@@ -70,8 +71,8 @@ public class MockIssueService implements IssueService {
     }
 
     @Override
-    public Long createService(IssueCreateRequest request) {
-        return 4L;
+    public IssueCreateResponse createIssue(IssueCreateRequest request) {
+        return new IssueCreateResponse(2L, 3L);
     }
 
     @Override

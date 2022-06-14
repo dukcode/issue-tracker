@@ -2,6 +2,7 @@ package com.team31.codesquad.issuetracker.web;
 
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.service.IssueService;
@@ -39,9 +40,10 @@ public class IssueController {
     }
 
     @PostMapping("/api/v1/issues")
-    public ResponseEntity<Long> createIssue(@RequestBody IssueCreateRequest request) {
-        Long createdIssueId = issueService.createService(request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdIssueId);
+    public ResponseEntity<IssueCreateResponse> createIssue(
+            @RequestBody IssueCreateRequest request) {
+        IssueCreateResponse response = issueService.createIssue(request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/api/v1/issues/{issueId}")
