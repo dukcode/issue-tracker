@@ -39,4 +39,16 @@ public class Milestone extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private MilestoneStatus status;
 
+    public Milestone(String title, String description, LocalDate dueDate,
+            MilestoneStatus status) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+    }
+
+    // mock service 제공을 위한 임시 메서드
+    public void setId(Long id) {
+        this.id = id;
+    }
 }
