@@ -8,6 +8,9 @@ import {
 	KeyboardArrowDown,
 	EmojiFlags,
 	Search,
+	BookmarksOutlined,
+	DirectionsOutlined,
+	AddBox,
 } from "@mui/icons-material";
 
 type TResultButton = {
@@ -20,7 +23,17 @@ type TIcons = {
 	[key in string]: any;
 };
 
-const muiIcons: TIcons = { GitHub, ErrorOutline, Inventory, KeyboardArrowDown, EmojiFlags, Search };
+const muiIcons: TIcons = {
+	GitHub,
+	ErrorOutline,
+	Inventory,
+	KeyboardArrowDown,
+	EmojiFlags,
+	Search,
+	BookmarksOutlined,
+	DirectionsOutlined,
+	AddBox,
+};
 const muiKeys = Object.keys(muiIcons);
 
 const getIcon = (buttonType: SvgIconComponent) => {

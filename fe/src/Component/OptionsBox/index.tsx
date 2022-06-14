@@ -1,11 +1,12 @@
 import StyledOptionsBox from "./OptionsBox.styled";
 import FilterBar from "./FilterBar";
+import OptionTabs from "./OptionTabs";
 
 const OptionsBox = () => {
 	return (
 		<StyledOptionsBox>
 			<FilterBar />
-			<div>label area</div>
+			<OptionTabs />
 		</StyledOptionsBox>
 	);
 };
