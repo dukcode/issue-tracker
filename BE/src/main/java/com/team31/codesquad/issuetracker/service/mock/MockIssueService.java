@@ -11,6 +11,7 @@ import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -42,16 +43,18 @@ public class MockIssueService implements IssueService {
                 LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN);
 
         IssueResponse issueResponse1 = new IssueResponse(1L, IssueStatus.OPEN, "이슈 제목 1", user1,
-                Arrays.asList(label1, label2), milestone1);
+                Arrays.asList(label1, label2), milestone1, LocalDateTime.now(),
+                LocalDateTime.now());
         IssueResponse issueResponse2 = new IssueResponse(1L, IssueStatus.OPEN, "이슈 제목 2", user2,
-                List.of(label3), milestone2);
+                List.of(label3), milestone2, LocalDateTime.now(), LocalDateTime.now());
         IssueResponse issueResponse3 = new IssueResponse(1L, IssueStatus.CLOSED, "이슈 제목 3", user3,
-                Arrays.asList(label1, label3), milestone3);
+                Arrays.asList(label1, label3), milestone3,
+                LocalDateTime.now(), LocalDateTime.now());
 
         if (query.contains("is:closed")) {
             return new OpenClosedCountResult<>(2, 1, List.of(issueResponse3));
         }
-       
+
         List<IssueResponse> issueResponses = Arrays.asList(issueResponse1,
                 issueResponse2);
         return new OpenClosedCountResult<>(2, 1, issueResponses);

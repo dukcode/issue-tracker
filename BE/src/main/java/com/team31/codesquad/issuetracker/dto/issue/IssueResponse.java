@@ -4,6 +4,7 @@ import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
+import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,5 +19,7 @@ public class IssueResponse {
     private UserResponse author;
     private List<LabelResponse> labels;
     private MilestoneResponse milestone;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
 
 }
