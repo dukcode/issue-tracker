@@ -2,9 +2,12 @@ package com.team31.codesquad.issuetracker.web;
 
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
+import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
@@ -62,7 +65,7 @@ public class IssueController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentId);
     }
 
-    @PatchMapping("/api/v1/issues/{issueId}")
+    @PatchMapping("/api/v1/issues/{issueId}/status")
     public ResponseEntity<Void> changeStatus(@PathVariable Long issueId,
             @RequestBody IssueStatusChangeRequest request) {
         issueService.changeStatus(issueId, request);
@@ -73,6 +76,27 @@ public class IssueController {
     public ResponseEntity<Void> changeIssuesStatus(
             @RequestBody MultiIssueStatusChangeRequest request) {
         issueService.changIssuesStatus(request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/api/v1/issues/{issueId}/assignees")
+    public ResponseEntity<Void> changeAssignee(@PathVariable Long issueId,
+            @RequestBody IssueAssigneesChangeRequest request) {
+        issueService.changeAssignee(issueId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/api/v1/issues/{issueId}/milestone")
+    public ResponseEntity<Void> changeMilestone(@PathVariable Long issueId,
+            @RequestBody IssueMilestoneChangeRequest request) {
+        issueService.changeMilestone(issueId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/api/v1/issues/{issueId}/labels")
+    public ResponseEntity<Void> changeLabels(@PathVariable Long issueId,
+            @RequestBody IssueLabelsChangeRequest request) {
+        issueService.changeLabels(issueId, request);
         return ResponseEntity.noContent().build();
     }
 

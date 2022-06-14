@@ -8,9 +8,12 @@ import com.team31.codesquad.issuetracker.dto.CountResult;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentResponse;
+import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
+import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
@@ -120,6 +123,21 @@ public class MockIssueService implements IssueService {
 
     @Override
     public void changIssuesStatus(MultiIssueStatusChangeRequest request) {
+        return;
+    }
+
+    @Override
+    public void changeAssignee(Long issueId, IssueAssigneesChangeRequest request) {
+        return;
+    }
+
+    @Override
+    public void changeMilestone(Long issueId, IssueMilestoneChangeRequest request) {
+        return;
+    }
+
+    @Override
+    public void changeLabels(Long issueId, IssueLabelsChangeRequest request) {
         return;
     }
 }
