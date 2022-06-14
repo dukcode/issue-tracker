@@ -3,7 +3,6 @@ package com.team31.codesquad.issuetracker.service.mock;
 import static com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus.CLOSED;
 import static com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus.OPEN;
 
-import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneCreateRequest;
@@ -23,18 +22,17 @@ public class MockMilestoneService implements MilestoneService {
     @Override
     public OpenClosedCountResult<List<MilestoneResponse>> findAll(
             MilestoneStatus status) {
-        Milestone milestone1 = new Milestone("마일스톤 제목1", "마일스톤 설명1",
+        MilestoneResponse milestone1 = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
                 LocalDate.of(2022, 7, 1), OPEN);
-        Milestone milestone2 = new Milestone("마일스톤 제목2", "마일스톤 설명2",
+        MilestoneResponse milestone2 = new MilestoneResponse(2L, "마일스톤 제목2", "마일스톤 설명2",
                 LocalDate.of(2022, 7, 1), OPEN);
-        Milestone milestone3 = new Milestone("마일스톤 제목3", "마일스톤 설명3",
+        MilestoneResponse milestone3 = new MilestoneResponse(3L, "마일스톤 제목3", "마일스톤 설명3",
                 LocalDate.of(2022, 7, 1), CLOSED);
 
-        List<Milestone> milestones = Arrays.asList(milestone1, milestone2, milestone3);
+        List<MilestoneResponse> milestones = Arrays.asList(milestone1, milestone2, milestone3);
 
         List<MilestoneResponse> filteredMilestoneResponses = milestones.stream()
                 .filter(m -> m.getStatus().equals(status))
-                .map(MilestoneResponse::new)
                 .collect(Collectors.toList());
 
         if (status.equals(OPEN)) {
