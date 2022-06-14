@@ -15,4 +15,6 @@ public interface LabelService {
     void deleteLabel(Long labelId);
 
     void update(Long labelId, LabelUpdateRequest request);
+
+    Long getCount();
 }

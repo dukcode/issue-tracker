@@ -43,4 +43,9 @@ public class MockLabelService implements LabelService {
     public void update(Long labelId, LabelUpdateRequest request) {
         return;
     }
+
+    @Override
+    public Long getCount() {
+        return 11L;
+    }
 }

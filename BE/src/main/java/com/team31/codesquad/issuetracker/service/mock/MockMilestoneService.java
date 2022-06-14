@@ -67,4 +67,9 @@ public class MockMilestoneService implements MilestoneService {
     public void changeStatus(Long milestoneId, MilestoneStatusChangeRequest request) {
         return;
     }
+
+    @Override
+    public Long getCount(MilestoneStatus status) {
+        return 3L;
+    }
 }

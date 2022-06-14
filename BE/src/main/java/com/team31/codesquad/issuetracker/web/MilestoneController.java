@@ -59,4 +59,8 @@ public class MilestoneController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/api/v1/milestones/count")
+    public Long getCount(@RequestParam MilestoneStatus status) {
+        return milestoneService.getCount(status);
+    }
 }

@@ -47,4 +47,9 @@ public class LabelController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/api/v1/labels/count")
+    public Long getCount() {
+        return labelService.getCount();
+    }
+
 }

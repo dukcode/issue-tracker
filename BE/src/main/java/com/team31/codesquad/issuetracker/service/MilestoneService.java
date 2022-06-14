@@ -20,4 +20,6 @@ public interface MilestoneService {
     void updateMilestone(Long milestoneId, MilestoneUpdateRequest milestoneUpdateRequest);
 
     void changeStatus(Long milestoneId, MilestoneStatusChangeRequest request);
+
+    Long getCount(MilestoneStatus status);
 }
