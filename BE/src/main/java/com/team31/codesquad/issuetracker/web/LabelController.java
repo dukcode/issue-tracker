@@ -25,8 +25,7 @@ public class LabelController {
 
     @GetMapping("/api/v1/labels")
     public CountResult<List<LabelResponse>> getLabels() {
-        List<LabelResponse> labelResponses = labelService.findAll();
-        return new CountResult<>(labelResponses.size(), labelResponses);
+        return labelService.findAll();
     }
 
     @PostMapping("/api/v1/labels")
