@@ -6,7 +6,10 @@ import static com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
+import com.team31.codesquad.issuetracker.dto.milestone.MilestoneCreateRequest;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
+import com.team31.codesquad.issuetracker.dto.milestone.MilestoneStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.milestone.MilestoneUpdateRequest;
 import com.team31.codesquad.issuetracker.service.MilestoneService;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -45,5 +48,25 @@ public class MockMilestoneService implements MilestoneService {
                 milestones.size() - filteredMilestoneResponses.size(),
                 filteredMilestoneResponses.size(),
                 filteredMilestoneResponses);
+    }
+
+    @Override
+    public Long createMilestone(MilestoneCreateRequest request) {
+        return 4L;
+    }
+
+    @Override
+    public void deleteMilestone(Long milestoneId) {
+        return;
+    }
+
+    @Override
+    public void updateMilestone(Long milestoneId, MilestoneUpdateRequest milestoneUpdateRequest) {
+        return;
+    }
+
+    @Override
+    public void changeStatus(Long milestoneId, MilestoneStatusChangeRequest request) {
+        return;
     }
 }
