@@ -92,9 +92,14 @@ const fonts = {
 	},
 };
 
+const width = {
+	main: "1100px",
+};
+
 const theme = {
 	colors,
 	fonts,
+	width,
 };
 
 type ThemeType = typeof theme;
