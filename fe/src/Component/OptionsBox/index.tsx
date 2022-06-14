@@ -1,6 +1,6 @@
+import FilterBar from "Component/FilterBar";
+import OptionTabs from "Component/OptionTabs";
 import StyledOptionsBox from "./OptionsBox.styled";
-import FilterBar from "./FilterBar";
-import OptionTabs from "./OptionTabs";
 
 const OptionsBox = () => {
 	return (

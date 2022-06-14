@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 const StyledFilterBar = styled.div`
 	${({ theme: { colors } }) => css`
 		border: solid 1px ${colors.line};
-		border-radius: 20px;
+		border-radius: 10px;
 		height: 40px;
 		display: flex;
 		overflow: hidden;
@@ -11,6 +11,7 @@ const StyledFilterBar = styled.div`
 `;
 
 const StyledFilterSelector = styled.div`
+	cursor: pointer;
 	width: 130px;
 	padding: 4px;
 	display: flex;
