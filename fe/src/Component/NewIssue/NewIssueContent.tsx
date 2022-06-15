@@ -21,7 +21,7 @@ const NewIssueContent = () => {
 
 	return (
 		<StyledNewIssueContentWrapper>
-			<UserImg img={user} />
+			<UserImg img={user} size="medium" />
 			<StyledNewIssueContent>
 				<StyledNewIssueTitle>
 					<input value={issueTitle} />
