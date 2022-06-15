@@ -10,14 +10,20 @@ spring:
       "local":
         - common
         - local-db
+        - local-oauth2
+        - jwt
       "prod1":
         - common
         - prod1
         - prod-db
+        - prod-oauth2
+        - jwt
       "prod2":
         - common
         - prod2
         - prod-db
+        - prod-oauth2
+        - jwt
 
 ---
 
