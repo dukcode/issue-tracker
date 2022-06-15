@@ -11,6 +11,7 @@ import {
 	BookmarksOutlined,
 	DirectionsOutlined,
 	AddBox,
+	FilePresent,
 } from "@mui/icons-material";
 
 type TResultButton = {
@@ -33,6 +34,7 @@ const muiIcons: TIcons = {
 	BookmarksOutlined,
 	DirectionsOutlined,
 	AddBox,
+	FilePresent,
 };
 const muiKeys = Object.keys(muiIcons);
 
