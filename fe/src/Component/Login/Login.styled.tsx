@@ -11,8 +11,8 @@ const StyledLogin = styled.div`
 
 const StyledLoginButton = styled.button`
 	${({ theme: { colors } }) => css`
-		color: ${colors.greyScale.offWhite};
-		background-color: ${colors.greyScale.titleActive};
+		color: ${colors.offWhite};
+		background-color: ${colors.titleActive};
 		width: 340px;
 		margin: 0 auto;
 		padding: 16px;
@@ -29,7 +29,7 @@ const StyledLoginButton = styled.button`
 const StyledLoginMention = styled.div`
 	${({ theme: { fonts, colors } }) => css`
 		${fonts.linkMedium};
-		color: ${colors.greyScale.offWhite};
+		color: ${colors.offWhite};
 	`}
 	display: flex;
 	align-items: center;
@@ -44,7 +44,7 @@ const StyledLoginTitle = styled.div`
 	margin-bottom: 30px;
 	${({ theme: { fonts, colors } }) => css`
 		${fonts.title};
-		color: ${colors.greyScale.titleActive};
+		color: ${colors.titleActive};
 	`}
 `;
 

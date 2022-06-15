@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 const StyledNotFound = styled.div`
 	${({ theme: { colors } }) => css`
 		background-color: ${colors.blue};
-		color: ${colors.greyScale.offWhite};
+		color: ${colors.offWhite};
 	`}
 	display: flex;
 	flex-direction: column;
@@ -23,7 +23,7 @@ const StyledGoHome = styled.button`
 		font-weight: 700;
 		padding: 40px;
 		border-radius: 40px;
-		background-color: ${colors.greyScale.offWhite};
+		background-color: ${colors.offWhite};
 		color: ${colors.blue};
 	`}
 `;

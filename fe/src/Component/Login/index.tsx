@@ -1,4 +1,5 @@
 import icons from "Util/Icons";
+import { Link } from "react-router-dom";
 import warning from "Img/warning.png";
 import {
 	StyledLogin,
@@ -17,12 +18,14 @@ const Login = () => {
 		<StyledLogin>
 			<img src={warning} alt="logo" width={250} />
 			<StyledLoginTitle>{ISSUE_TRACKER}</StyledLoginTitle>
-			<StyledLoginButton>
-				<StyledLoginMention>
-					<GitHub colorset="white" size={18} />
-					{GITHUB_LOGIN}
-				</StyledLoginMention>
-			</StyledLoginButton>
+			<Link to="/">
+				<StyledLoginButton>
+					<StyledLoginMention>
+						<GitHub colorset="white" size={18} />
+						{GITHUB_LOGIN}
+					</StyledLoginMention>
+				</StyledLoginButton>
+			</Link>
 		</StyledLogin>
 	);
 };

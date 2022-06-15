@@ -1,14 +1,12 @@
 const colors = {
-	greyScale: {
-		offWhite: "#FEFEFE",
-		background: "#F7F7FC",
-		inputBackground: "#EFF0F6",
-		line: "#D9DBE9",
-		placeholder: "#A0A3BD",
-		label: "#6E7191",
-		body: "#4E4B66",
-		titleActive: "#14142B",
-	},
+	offWhite: "#FEFEFE",
+	background: "#F7F7FC",
+	inputBackground: "#EFF0F6",
+	line: "#D9DBE9",
+	placeholder: "#A0A3BD",
+	label: "#6E7191",
+	body: "#4E4B66",
+	titleActive: "#14142B",
 	blue: "#007AFF",
 	darkBlue: "#004DE3",
 	lightBlue: "#C7EBFF",
@@ -30,7 +28,7 @@ const fonts = {
 		"font-size": "18px",
 		"line-height": "32px",
 		"font-weight": 400,
-		color: colors.greyScale.titleActive,
+		color: colors.titleActive,
 	},
 	title: {
 		"font-size": "40px",
@@ -78,13 +76,13 @@ const fonts = {
 		"line-height": "20px",
 	},
 	logotypeLarge: {
-		"font-style": "italic",
+		// "font-style": "italic",
 		"font-size": "56px",
 		"line-height": "72px",
 		"letter-spacing": "-0.04em",
 	},
 	logotypeRegular: {
-		"font-style": "italic",
+		// "font-style": "italic",
 		"font-weight": 500,
 		"font-size": "32px",
 		"line-height": "40px",
@@ -92,9 +90,30 @@ const fonts = {
 	},
 };
 
+const width = {
+	issueContainer: "1280px",
+	issueHeader: "1280px",
+	issueCategory: "220px",
+	large: "1200px",
+	main: {
+		"min-width": "1100px",
+		"max-width": "1400px",
+	},
+	base: {
+		"min-width": "1200px",
+	},
+};
+
+const height = {
+	issueContainer: "266px",
+	issueHeader: "64px",
+};
+
 const theme = {
 	colors,
 	fonts,
+	width,
+	height,
 };
 
 type ThemeType = typeof theme;
