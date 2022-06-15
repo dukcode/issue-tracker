@@ -26,9 +26,8 @@ const IssueHeader = styled.div`
 `;
 
 const IssueCategory = styled.div`
-	${({ theme: { width, height } }) =>
+	${({ theme: { height } }) =>
 		css`
-			${width.main};
 			height: ${height.issueHeader};
 		`}
 	display: flex;

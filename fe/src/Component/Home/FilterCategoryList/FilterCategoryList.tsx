@@ -15,7 +15,7 @@ const { KeyboardArrowDown } = icons;
 const FilterCategoryList = ({ listItems }: filterCategoryListType) => {
 	const categoryList = listItems.map((item: listItem) => (
 		<li key={item.id}>
-			{item.category}
+			<div>{item.category}</div>
 			<KeyboardArrowDown colorset="label" size={18} />
 		</li>
 	));
