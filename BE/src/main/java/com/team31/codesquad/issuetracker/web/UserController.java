@@ -22,7 +22,7 @@ public class UserController {
         return userService.getUsers();
     }
 
-    @GetMapping("/login/oauth2/code/github")
+    @GetMapping("/api/v1/users/login/oauth2/redirect")
     public LoginResponse loginByOAuth2(@RequestParam String code) {
         return oAuthService.login(code);
     }

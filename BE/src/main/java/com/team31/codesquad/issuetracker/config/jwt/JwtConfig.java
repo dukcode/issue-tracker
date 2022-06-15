@@ -16,6 +16,6 @@ public class JwtConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/login/oauth2/code/github");
+                .excludePathPatterns("/api/v1/users/login/oauth2/redirect");
     }
 }
