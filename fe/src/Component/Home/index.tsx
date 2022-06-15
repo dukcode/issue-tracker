@@ -7,21 +7,11 @@ import {
 	IssueCategory,
 	OpenedIssue,
 	ClosedIssue,
-	IssueCell,
-	IssueCellLeft,
-	IssueInfo,
-	IssueInfoTop,
-	IssueInfoBottom,
-	IssueCellRight,
-	AuthorImg,
-	Title,
-	IssueNumber,
-	AuthorTimeStamp,
-	MileStone,
-	StyledCheckbox,
 } from "./Home.styled";
 import FilterCategoryList from "./FilterCategoryList/FilterCategoryList";
 import type { listItem } from "./FilterCategoryList/FilterCategoryList";
+import IssueCells from "./IssueCells/IssueCells";
+import type { issueItem } from "./IssueCells/IssueCells";
 
 const filterCategoryItems: listItem[] = [
 	{ id: 1, category: "담당자" },
@@ -30,19 +20,7 @@ const filterCategoryItems: listItem[] = [
 	{ id: 4, category: "작성자" },
 ];
 
-const { ErrorOutline, Inventory, EmojiFlags } = icons;
-
-type issueItem = {
-	id: number;
-	title: string;
-	author: string;
-	timeStamp: string; // TODO: timestamp 형식
-	mileStone: string;
-};
-
-type issueItemType = {
-	issueItems: issueItem[];
-};
+const { ErrorOutline, Inventory } = icons;
 
 // TODO: label 추가해야 함
 const issueCellItems: issueItem[] = [
@@ -68,43 +46,6 @@ const issueCellItems: issueItem[] = [
 		mileStone: "[BE] issue-tracker Week 1",
 	},
 ];
-
-const IssueCells = ({ issueItems }: issueItemType) => {
-	const issueList = issueItems
-		.slice(0)
-		.reverse()
-		.map((item: issueItem) => (
-			<IssueCell key={item.id}>
-				<IssueCellLeft>
-					<StyledCheckbox>
-						<Checkbox size="small" color="default" />
-					</StyledCheckbox>
-					<IssueInfo>
-						<IssueInfoTop>
-							<Title>
-								<ErrorOutline colorset="blue" size={18} />
-								{item.title}
-							</Title>
-						</IssueInfoTop>
-						<IssueInfoBottom>
-							<IssueNumber>#{item.id}</IssueNumber>
-							<AuthorTimeStamp>
-								이 이슈가 {item.timeStamp} 전, {item.author}님에 의해 작성되었습니다
-							</AuthorTimeStamp>
-							<MileStone>
-								<EmojiFlags colorset="label" size={18} /> {item.mileStone}
-							</MileStone>
-						</IssueInfoBottom>
-					</IssueInfo>
-				</IssueCellLeft>
-				<IssueCellRight>
-					<AuthorImg>이미지</AuthorImg>
-				</IssueCellRight>
-			</IssueCell>
-		));
-
-	return <div>{issueList}</div>;
-};
 
 const Home = () => {
 	const OPENED_ISSUE = "열린 이슈";
