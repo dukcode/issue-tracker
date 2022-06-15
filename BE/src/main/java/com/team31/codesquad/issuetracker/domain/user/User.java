@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -22,10 +23,27 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
+    @Column(unique = true)
+    private String loginName;
+
     private String name;
 
     private String email;
 
     private String profileImage;
 
+    @Builder
+    public User(String loginName, String name, String email, String profileImage) {
+        this.loginName = loginName;
+        this.name = name;
+        this.email = email;
+        this.profileImage = profileImage;
+    }
+
+    public User update(String name, String email, String profileImage) {
+        this.name = name;
+        this.email = email;
+        this.profileImage = profileImage;
+        return this;
+    }
 }
