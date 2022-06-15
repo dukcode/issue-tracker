@@ -1,14 +1,12 @@
 const colors = {
-	greyScale: {
-		offWhite: "#FEFEFE",
-		background: "#F7F7FC",
-		inputBackground: "#EFF0F6",
-		line: "#D9DBE9",
-		placeholder: "#A0A3BD",
-		label: "#6E7191",
-		body: "#4E4B66",
-		titleActive: "#14142B",
-	},
+	offWhite: "#FEFEFE",
+	background: "#F7F7FC",
+	inputBackground: "#EFF0F6",
+	line: "#D9DBE9",
+	placeholder: "#A0A3BD",
+	label: "#6E7191",
+	body: "#4E4B66",
+	titleActive: "#14142B",
 	blue: "#007AFF",
 	darkBlue: "#004DE3",
 	lightBlue: "#C7EBFF",
@@ -30,7 +28,7 @@ const fonts = {
 		"font-size": "18px",
 		"line-height": "32px",
 		"font-weight": 400,
-		color: colors.greyScale.titleActive,
+		color: colors.titleActive,
 	},
 	title: {
 		"font-size": "40px",
@@ -94,12 +92,21 @@ const fonts = {
 
 const width = {
 	main: "1100px",
+	issueContainer: "1280px",
+	issueHeader: "1280px",
+	issueCategory: "220px",
+};
+
+const height = {
+	issueContainer: "266px",
+	issueHeader: "64px",
 };
 
 const theme = {
 	colors,
 	fonts,
 	width,
+	height,
 };
 
 type ThemeType = typeof theme;

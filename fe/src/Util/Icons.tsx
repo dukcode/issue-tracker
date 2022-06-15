@@ -1,6 +1,13 @@
 import styled, { css } from "styled-components";
 
-import { SvgIconComponent, GitHub } from "@mui/icons-material";
+import {
+	SvgIconComponent,
+	GitHub,
+	ErrorOutline,
+	Inventory,
+	KeyboardArrowDown,
+	EmojiFlags,
+} from "@mui/icons-material";
 
 type TResultButton = {
 	colorset: string;
@@ -12,7 +19,7 @@ type TIcons = {
 	[key in string]: any;
 };
 
-const muiIcons: TIcons = { GitHub };
+const muiIcons: TIcons = { GitHub, ErrorOutline, Inventory, KeyboardArrowDown, EmojiFlags };
 const muiKeys = Object.keys(muiIcons);
 
 const getIcon = (buttonType: SvgIconComponent) => {
