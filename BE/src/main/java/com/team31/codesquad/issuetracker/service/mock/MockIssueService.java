@@ -1,6 +1,7 @@
 package com.team31.codesquad.issuetracker.service.mock;
 
 
+import com.team31.codesquad.issuetracker.domain.comment.ReactionEmoji;
 import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.domain.label.TextColor;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
@@ -24,7 +25,9 @@ import com.team31.codesquad.issuetracker.service.IssueService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -99,9 +102,18 @@ public class MockIssueService implements IssueService {
         MilestoneResponse milestone = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
                 LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3, 10);
 
-        CommentResponse comment1 = new CommentResponse(1L, user1, "첫 번째 코멘트");
-        CommentResponse comment2 = new CommentResponse(2L, user3, "두 번째 코멘트");
-        CommentResponse comment3 = new CommentResponse(3L, user2, "세 번째 코멘트");
+        Map<ReactionEmoji, Integer> reactions1 = new HashMap<>();
+        reactions1.put(ReactionEmoji.THUMBS_UP, 2);
+        Map<ReactionEmoji, Integer> reactions2 = new HashMap<>();
+        reactions2.put(ReactionEmoji.EYES, 2);
+        reactions2.put(ReactionEmoji.LAUGH, 5);
+        Map<ReactionEmoji, Integer> reactions3 = new HashMap<>();
+        reactions3.put(ReactionEmoji.THUMBS_DOWN, 1);
+        reactions3.put(ReactionEmoji.HEART, 30);
+
+        CommentResponse comment1 = new CommentResponse(1L, user1, "첫 번째 코멘트", reactions1);
+        CommentResponse comment2 = new CommentResponse(2L, user3, "두 번째 코멘트", reactions2);
+        CommentResponse comment3 = new CommentResponse(3L, user2, "세 번째 코멘트", reactions3);
 
         List<CommentResponse> comments = Arrays.asList(comment1, comment2, comment3);
 
