@@ -9,13 +9,13 @@ import lombok.ToString;
 @Getter
 public class UserProfile {
 
-    private String loginId;
+    private String loginName;
     private String name;
     private String email;
     private String profileImage;
 
     public UserProfile(Map<String, Object> userInfo) {
-        this.loginId = (String) userInfo.get("login");
+        this.loginName = (String) userInfo.get("login");
         this.name = (String) userInfo.get("name");
         this.email = (String) userInfo.get("email");
         this.profileImage = (String) userInfo.get("avatar_url");
@@ -23,7 +23,7 @@ public class UserProfile {
 
     public User toEntity() {
         return User.builder()
-                .loginId(loginId)
+                .loginName(loginName)
                 .name(name)
                 .email(email)
                 .profileImage(profileImage)

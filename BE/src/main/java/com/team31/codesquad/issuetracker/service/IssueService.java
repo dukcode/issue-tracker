@@ -36,7 +36,7 @@ public interface IssueService {
 
     void changeLabels(Long issueId, IssueLabelsChangeRequest request);
 
-    Long createReaction(Long issueId, Long commentId, String loginId,
+    Long createReaction(Long issueId, Long commentId, String loginName,
             ReactionCreateRequest request);
 
     void deleteReaction(Long reactionId);

@@ -24,7 +24,7 @@ public class User extends BaseTimeEntity {
     private Long id;
 
     @Column(unique = true)
-    private String loginId;
+    private String loginName;
 
     private String name;
 
@@ -33,8 +33,8 @@ public class User extends BaseTimeEntity {
     private String profileImage;
 
     @Builder
-    public User(String loginId, String name, String email, String profileImage) {
-        this.loginId = loginId;
+    public User(String loginName, String name, String email, String profileImage) {
+        this.loginName = loginName;
         this.name = name;
         this.email = email;
         this.profileImage = profileImage;

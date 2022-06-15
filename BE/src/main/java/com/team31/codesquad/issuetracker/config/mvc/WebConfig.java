@@ -10,10 +10,10 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
-    private final LogInIdArgumentResolver logInIdArgumentResolver;
+    private final LoginNameArgumentResolver loginNameArgumentResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(logInIdArgumentResolver);
+        resolvers.add(loginNameArgumentResolver);
     }
 }

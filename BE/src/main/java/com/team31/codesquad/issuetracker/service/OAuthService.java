@@ -38,7 +38,7 @@ public class OAuthService {
         UserProfile userProfile = new UserProfile(userInfo);
         User user = saveOrUpdate(userProfile);
 
-        String accessToken = jwtUtil.createAccessToken(user.getLoginId());
+        String accessToken = jwtUtil.createAccessToken(user.getLoginName());
 
         // TODO: refreshToken 발급
 
@@ -46,7 +46,7 @@ public class OAuthService {
     }
 
     private User saveOrUpdate(UserProfile userProfile) {
-        User user = userRepository.findByLoginId(userProfile.getLoginId())
+        User user = userRepository.findByLoginName(userProfile.getLoginName())
                 .map(entity -> entity.update(
                         userProfile.getName(), userProfile.getEmail(),
                         userProfile.getProfileImage()))
