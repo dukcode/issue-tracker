@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
 
 const IssueCell = styled.div`
-	${({ theme: { colors } }) =>
+	${({ theme: { colors, width } }) =>
 		css`
 			background: ${colors.offWhite};
 			border-left: 1px solid ${colors.line};
 			border-right: 1px solid ${colors.line};
 			border-bottom: 1px solid ${colors.line};
+			${width.main};
 		`}
-	width: 1280px;
 	height: 100px;
 	display: flex;
 	justify-content: space-between;

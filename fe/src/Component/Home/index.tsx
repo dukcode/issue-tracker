@@ -1,5 +1,6 @@
 import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
+import OptionsBox from "Component/OptionsBox";
 import {
 	IssueContainer,
 	IssueHeader,
@@ -10,7 +11,6 @@ import {
 } from "./Home.styled";
 import FilterCategoryList from "./FilterCategoryList/FilterCategoryList";
 import IssueCells from "./IssueCells/IssueCells";
-import OptionsBox from "Component/OptionsBox";
 
 import type { listItem } from "./FilterCategoryList/FilterCategoryList";
 import type { issueItem } from "./IssueCells/IssueCells";

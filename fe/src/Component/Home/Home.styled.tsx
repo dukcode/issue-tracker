@@ -3,8 +3,9 @@ import styled, { css } from "styled-components";
 const IssueContainer = styled.div`
 	${({ theme: { colors, width, height } }) =>
 		css`
+			margin-top: 20px;
 			background: ${colors.line};
-			width: ${width.issueContainer};
+			${width.main};
 			height: ${height.issueContainer};
 			border-radius: 16px;
 		`}
@@ -14,7 +15,7 @@ const IssueHeader = styled.div`
 	${({ theme: { colors, width, height } }) =>
 		css`
 			background: ${colors.background};
-			width: ${width.issueHeader};
+			${width.main};
 			height: ${height.issueHeader};
 			border: 1px solid ${colors.line};
 			border-radius: 16px 16px 0px 0px;
@@ -27,7 +28,7 @@ const IssueHeader = styled.div`
 const IssueCategory = styled.div`
 	${({ theme: { width, height } }) =>
 		css`
-			width: ${width.issueCategory};
+			${width.main};
 			height: ${height.issueHeader};
 		`}
 	display: flex;

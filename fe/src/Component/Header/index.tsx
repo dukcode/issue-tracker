@@ -1,6 +1,6 @@
 import user from "Img/user.jpeg";
-import warning from "Img/warning.png";
 import UserImg from "Component/UserImg";
+import warning from "Img/warning.png";
 import { StyledHeader, StyledHeaderLogo } from "./Header.styled";
 
 const ISSUE_TRACKER = "ISSUE TRACKER";
