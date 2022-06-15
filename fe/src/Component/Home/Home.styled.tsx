@@ -23,6 +23,7 @@ const IssueHeader = styled.div`
 	align-items: center;
 	justify-content: space-between;
 `;
+
 const IssueCategory = styled.div`
 	${({ theme: { width, height } }) =>
 		css`
@@ -53,6 +54,7 @@ const OpenedIssue = styled.button`
 		margin-top: -3px;
 	}
 `;
+
 const ClosedIssue = styled.button`
 	${({ theme: { colors } }) =>
 		css`

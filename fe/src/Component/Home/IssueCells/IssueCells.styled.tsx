@@ -12,6 +12,10 @@ const IssueCell = styled.div`
 	height: 100px;
 	display: flex;
 	justify-content: space-between;
+
+	:last-child {
+		border-radius: 0px 0px 16px 16px;
+	}
 `;
 
 const IssueCellLeft = styled.div`
@@ -70,6 +74,7 @@ const Title = styled.div`
 const IssueNumber = styled.div`
 	margin-right: 20px;
 `;
+
 const AuthorTimeStamp = styled.div`
 	margin-right: 20px;
 `;
