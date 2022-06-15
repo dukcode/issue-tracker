@@ -7,7 +7,6 @@ import {
 	IssueCategory,
 	OpenedIssue,
 	ClosedIssue,
-	FilterCategory,
 	IssueCell,
 	IssueCellLeft,
 	IssueInfo,
@@ -21,15 +20,8 @@ import {
 	MileStone,
 	StyledCheckbox,
 } from "./Home.styled";
-
-type listItem = {
-	id: number;
-	category: string;
-};
-
-type filterCategoryListType = {
-	listItems: listItem[];
-};
+import FilterCategoryList from "./FilterCategoryList/FilterCategoryList";
+import type { listItem } from "./FilterCategoryList/FilterCategoryList";
 
 const filterCategoryItems: listItem[] = [
 	{ id: 1, category: "담당자" },
@@ -38,17 +30,7 @@ const filterCategoryItems: listItem[] = [
 	{ id: 4, category: "작성자" },
 ];
 
-const { ErrorOutline, Inventory, KeyboardArrowDown, EmojiFlags } = icons;
-
-const FilterCategoryList = ({ listItems }: filterCategoryListType) => {
-	const categoryList = listItems.map((item: listItem) => (
-		<li key={item.id}>
-			{item.category}
-			<KeyboardArrowDown colorset="label" size={18} />
-		</li>
-	));
-	return <FilterCategory>{categoryList}</FilterCategory>;
-};
+const { ErrorOutline, Inventory, EmojiFlags } = icons;
 
 type issueItem = {
 	id: number;
