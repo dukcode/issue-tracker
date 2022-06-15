@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import icons from "Util/Icons";
 import { StyledOptionTabs, StyledTabsLabelMilestone, StyledAddIssue } from "./OptionsTabs.styled";
 
@@ -36,10 +38,12 @@ const OptionTabs = () => {
 	return (
 		<StyledOptionTabs>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
-			<StyledAddIssue>
-				<AddBox colorset="offWhite" size={20} />
-				{ADD_ISSUE}
-			</StyledAddIssue>
+			<Link to="new-issue">
+				<StyledAddIssue>
+					<AddBox colorset="offWhite" size={20} />
+					{ADD_ISSUE}
+				</StyledAddIssue>
+			</Link>
 		</StyledOptionTabs>
 	);
 };

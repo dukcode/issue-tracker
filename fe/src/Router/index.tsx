@@ -3,6 +3,7 @@ import NotFound from "Component/NotFound";
 import Main from "Component/Main";
 import Login from "Component/Login";
 import Home from "Component/Home";
+import NewIssue from "Component/NewIssue";
 
 const Router = () => {
 	return (
@@ -12,6 +13,7 @@ const Router = () => {
 				<Route path="login" element={<Login />} />
 				<Route path="/" element={<Main />}>
 					<Route index element={<Home />} />
+					<Route path="new-issue" element={<NewIssue />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>
