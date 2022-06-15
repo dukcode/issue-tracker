@@ -1,9 +1,6 @@
 import NewIssueContent from "./NewIssueContent";
-import { StyledNewIssueMain, StyledNewIssueOptions } from "./NewIssue.styled";
-
-const NewIssueOptions = () => {
-	return <StyledNewIssueOptions>options</StyledNewIssueOptions>;
-};
+import NewIssueOptions from "./NewIssueOptions";
+import { StyledNewIssueMain } from "./NewIssue.styled";
 
 const NewIssueMain = () => {
 	return (

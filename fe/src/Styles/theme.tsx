@@ -97,7 +97,7 @@ const width = {
 	large: "1200px",
 	main: {
 		"min-width": "1100px",
-		"max-width": "1600px",
+		"max-width": "1400px",
 	},
 	base: {
 		"min-width": "1200px",

@@ -20,6 +20,7 @@ const StyledNewIssueMain = styled.div`
 	padding-bottom: 30px;
 	display: flex;
 	justify-content: space-between;
+	gap: 20px;
 
 	${({ theme: { colors } }) => css`
 		border-bottom: solid 1px ${colors.line};
@@ -32,7 +33,7 @@ const StyledNewIssueContentWrapper = styled.div`
 `;
 
 const StyledNewIssueContent = styled.div`
-	width: 800px;
+	width: 750px;
 `;
 
 const StyledNewIssueTitle = styled.div`
@@ -88,7 +89,31 @@ const StyledNewIssueDesc = styled.div`
 `;
 
 const StyledNewIssueOptions = styled.div`
-	width: 350px;
+	${({ theme: { colors } }) => css`
+		height: fit-content;
+		background-color: ${colors.offWhite};
+		border: solid 1px ${colors.line};
+		border-radius: 10px;
+		color: ${colors.label};
+	`}
+`;
+
+const StyledNewIssueOption = styled.div`
+	${({ theme: { colors, fonts } }) => css`
+		${fonts.textSmall};
+		cursor: pointer;
+		width: 300px;
+		display: flex;
+		height: 100px;
+		border-bottom: solid 1px ${colors.line};
+		padding: 30px;
+		align-items: center;
+		justify-content: space-between;
+
+		:last-child {
+			border-bottom: none;
+		}
+	`}
 `;
 
 export {
@@ -100,4 +125,5 @@ export {
 	StyledNewIssueTitle,
 	StyledNewIssueDesc,
 	StyledNewIssueOptions,
+	StyledNewIssueOption,
 };
