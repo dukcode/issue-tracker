@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 const StyledMain = styled.div`
 	${({ theme: { width } }) => css`
-		min-width: ${width.large};
+		${width.main};
 		margin: 0 auto;
 		padding: 20px 40px;
 	`}

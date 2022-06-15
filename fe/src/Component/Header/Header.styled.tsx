@@ -4,7 +4,7 @@ const StyledHeader = styled.div`
 	display: flex;
 	justify-content: space-between;
 	${({ theme: { width } }) => css`
-		min-width: ${width.main};
+		${width.main};
 		margin: 0 auto;
 		padding-top: 20px;
 		padding-bottom: 40px;

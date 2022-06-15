@@ -91,11 +91,17 @@ const fonts = {
 };
 
 const width = {
-	main: "1100px",
 	issueContainer: "1280px",
 	issueHeader: "1280px",
 	issueCategory: "220px",
 	large: "1200px",
+	main: {
+		"min-width": "1100px",
+		"max-width": "1600px",
+	},
+	base: {
+		"min-width": "1200px",
+	},
 };
 
 const height = {
