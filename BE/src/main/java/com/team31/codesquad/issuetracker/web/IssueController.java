@@ -1,6 +1,6 @@
 package com.team31.codesquad.issuetracker.web;
 
-import com.team31.codesquad.issuetracker.annotation.LoginId;
+import com.team31.codesquad.issuetracker.annotation.LoginName;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
@@ -105,8 +105,9 @@ public class IssueController {
     @PostMapping("/api/v1/issues/{issueId}/comments/{commentId}/reactions")
     public ResponseEntity<Long> createReaction(
             @PathVariable Long issueId, @PathVariable Long commentId,
-            @LoginId String loginId, @RequestBody ReactionCreateRequest request) {
-        Long createdReactionId = issueService.createReaction(issueId, commentId, loginId, request);
+            @LoginName String loginName, @RequestBody ReactionCreateRequest request) {
+        Long createdReactionId = issueService.createReaction(issueId, commentId, loginName,
+                request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReactionId);
     }
 

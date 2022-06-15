@@ -155,7 +155,7 @@ public class MockIssueService implements IssueService {
     }
 
     @Override
-    public Long createReaction(Long issueId, Long commentId, String loginId,
+    public Long createReaction(Long issueId, Long commentId, String loginName,
             ReactionCreateRequest request) {
         return 5L;
     }
