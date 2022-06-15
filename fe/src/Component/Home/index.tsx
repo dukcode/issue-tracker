@@ -8,6 +8,7 @@ import {
 	IssueCategory,
 	OpenedIssue,
 	ClosedIssue,
+	StyledCheckbox,
 } from "./Home.styled";
 import FilterCategoryList from "./FilterCategoryList/FilterCategoryList";
 import IssueCells from "./IssueCells/IssueCells";
@@ -59,7 +60,9 @@ const Home = () => {
 			<IssueContainer>
 				<IssueHeader>
 					<IssueHeaderLeft>
-						<Checkbox size="small" color="default" />
+						<StyledCheckbox>
+							<Checkbox size="small" color="default" />
+						</StyledCheckbox>
 						<IssueCategory>
 							<OpenedIssue>
 								<ErrorOutline colorset="titleActive" size={18} /> {OPENED_ISSUE}

@@ -1,5 +1,10 @@
 import styled, { css } from "styled-components";
 
+const StyledCheckbox = styled.div`
+	display: flex;
+	align-items: center;
+`;
+
 const IssueContainer = styled.div`
 	${({ theme: { colors, width, height } }) =>
 		css`
@@ -79,4 +84,12 @@ const IssueHeaderLeft = styled.div`
 	margin-left: 20px;
 `;
 
-export { IssueContainer, IssueHeader, IssueHeaderLeft, IssueCategory, OpenedIssue, ClosedIssue };
+export {
+	StyledCheckbox,
+	IssueContainer,
+	IssueHeader,
+	IssueHeaderLeft,
+	IssueCategory,
+	OpenedIssue,
+	ClosedIssue,
+};
