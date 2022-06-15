@@ -1,5 +1,5 @@
 import icons from "Util/Icons";
-import FilterCategory from "./FilterCatory.styled";
+import FilterCategory from "./FilterCategory.styled";
 
 type listItem = {
 	id: number;
