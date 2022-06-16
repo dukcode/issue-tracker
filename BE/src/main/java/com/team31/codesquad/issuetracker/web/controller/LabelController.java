@@ -42,8 +42,9 @@ public class LabelController {
     }
 
     @PutMapping("/api/v1/labels/{labelId}")
-    public ResponseEntity<Void> updateLabel(@PathVariable Long labelId,
-            @RequestBody LabelUpdateRequest request) {
+    public ResponseEntity<Void> updateLabel(
+            @PathVariable Long labelId,
+            @Validated @RequestBody LabelUpdateRequest request) {
         labelService.update(labelId, request);
         return ResponseEntity.noContent().build();
     }
