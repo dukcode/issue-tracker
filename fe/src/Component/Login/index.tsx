@@ -6,6 +6,7 @@ import {
 	StyledLoginButton,
 	StyledLoginMention,
 	StyledLoginTitle,
+	StyledLoginImg,
 } from "./Login.styled";
 
 const GITHUB_LOGIN = "GITHUB LOGIN";
@@ -17,7 +18,9 @@ const Login = () => {
 
 	return (
 		<StyledLogin>
-			<img src={warning} alt="logo" width={250} />
+			<StyledLoginImg>
+				<img src={warning} alt="logo" width={250} />
+			</StyledLoginImg>
 			<StyledLoginTitle>{ISSUE_TRACKER}</StyledLoginTitle>
 			<a href={loginUrl}>
 				<StyledLoginButton>
