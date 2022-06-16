@@ -18,7 +18,7 @@ const Login = () => {
 		<StyledLogin>
 			<img src={warning} alt="logo" width={250} />
 			<StyledLoginTitle>{ISSUE_TRACKER}</StyledLoginTitle>
-			<Link to="/">
+			<Link to="/loading">
 				<StyledLoginButton>
 					<StyledLoginMention>
 						<GitHub colorset="white" size={18} />
