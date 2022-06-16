@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const StyledIssueCell = styled.div`
+export const StyledIssueCell = styled.div`
 	${({ theme: { colors, width } }) =>
 		css`
 			background: ${colors.offWhite};
@@ -18,20 +18,20 @@ const StyledIssueCell = styled.div`
 	}
 `;
 
-const IssueCellLeft = styled.div`
+export const IssueCellLeft = styled.div`
 	display: flex;
 	margin: 20px;
 `;
 
-const IssueInfo = styled.div`
+export const IssueInfo = styled.div`
 	margin-left: 20px;
 `;
 
-const IssueInfoTop = styled.div`
+export const IssueInfoTop = styled.div`
 	display: flex;
 `;
 
-const IssueInfoBottom = styled.div`
+export const IssueInfoBottom = styled.div`
 	${({ theme: { colors, fonts } }) =>
 		css`
 			${fonts.testSmall};
@@ -44,13 +44,13 @@ const IssueInfoBottom = styled.div`
 	margin-top: 6px;
 `;
 
-const IssueCellRight = styled.div`
+export const IssueCellRight = styled.div`
 	display: flex;
 	align-items: center;
 	margin: 40px;
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
 	${({ theme: { colors } }) =>
 		css`
 			color: ${colors.titleActive};
@@ -69,15 +69,15 @@ const Title = styled.div`
 	}
 `;
 
-const IssueNumber = styled.div`
+export const IssueNumber = styled.div`
 	margin-right: 14px;
 `;
 
-const AuthorTimeStamp = styled.div`
+export const AuthorTimeStamp = styled.div`
 	margin-right: 14px;
 `;
 
-const MileStone = styled.div`
+export const MileStone = styled.div`
 	display: flex;
 	align-items: center;
 	gap: 5px;
@@ -87,20 +87,6 @@ const MileStone = styled.div`
 	}
 `;
 
-const StyledCheckbox = styled.div`
+export const StyledCheckbox = styled.div`
 	margin-top: -5px;
 `;
-
-export {
-	StyledIssueCell,
-	IssueCellLeft,
-	IssueInfo,
-	IssueInfoTop,
-	IssueInfoBottom,
-	IssueCellRight,
-	Title,
-	IssueNumber,
-	AuthorTimeStamp,
-	MileStone,
-	StyledCheckbox,
-};
