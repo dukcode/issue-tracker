@@ -13,21 +13,23 @@ type TIssueItems = {
 };
 
 const IssueCells = ({ issueItems }: TIssueItems) => {
-	const issueList = issueItems
-		.slice(0)
-		.reverse()
-		.map((item: TIssueItem) => (
-			<IssueCell
-				key={item.id}
-				id={item.id}
-				title={item.title}
-				author={item.author}
-				timeStamp={item.timeStamp}
-				mileStone={item.mileStone}
-			/>
-		));
-
-	return <div>{issueList}</div>;
+	return (
+		<>
+			{issueItems
+				.slice(0)
+				.reverse()
+				.map((item: TIssueItem) => (
+					<IssueCell
+						key={item.id}
+						id={item.id}
+						title={item.title}
+						author={item.author}
+						timeStamp={item.timeStamp}
+						mileStone={item.mileStone}
+					/>
+				))}
+		</>
+	);
 };
 
 export type { TIssueItem };
