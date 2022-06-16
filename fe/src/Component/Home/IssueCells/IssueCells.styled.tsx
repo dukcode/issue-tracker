@@ -20,7 +20,7 @@ const IssueCell = styled.div`
 
 const IssueCellLeft = styled.div`
 	display: flex;
-	margin-left: 20px;
+	margin: 20px;
 `;
 
 const IssueInfo = styled.div`
@@ -42,7 +42,7 @@ const IssueInfoBottom = styled.div`
 	line-height: 28px;
 	display: flex;
 	height: 28px;
-	margin-top: 30px;
+	margin-top: 6px;
 `;
 
 const IssueCellRight = styled.div`
@@ -60,7 +60,6 @@ const Title = styled.div`
 	height: 32px;
 	display: flex;
 	align-items: center;
-	margin-top: 16px;
 	gap: 8px;
 	font-weight: 700;
 	font-size: 18px;
@@ -90,7 +89,7 @@ const MileStone = styled.div`
 `;
 
 const StyledCheckbox = styled.div`
-	margin-top: 11px;
+	margin-top: -5px;
 `;
 
 export {
