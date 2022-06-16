@@ -1,22 +1,4 @@
-import icons from "Util/Icons";
-import Checkbox from "@mui/material/Checkbox";
-import user2 from "Img/user2.jpeg";
-import UserImg from "Component/UserImg";
-import {
-	StyledIssueCell,
-	IssueCellLeft,
-	IssueInfo,
-	IssueInfoTop,
-	IssueInfoBottom,
-	IssueCellRight,
-	Title,
-	IssueNumber,
-	AuthorTimeStamp,
-	MileStone,
-	StyledCheckbox,
-} from "./IssueCells.styled";
-
-const { ErrorOutline, EmojiFlags } = icons;
+import IssueCell from "../IssueCell/IssueCell";
 
 type TIssueItem = {
 	id: number;
@@ -35,33 +17,14 @@ const IssueCells = ({ issueItems }: TIssueItems) => {
 		.slice(0)
 		.reverse()
 		.map((item: TIssueItem) => (
-			<StyledIssueCell key={item.id}>
-				<IssueCellLeft>
-					<StyledCheckbox>
-						<Checkbox size="small" color="default" />
-					</StyledCheckbox>
-					<IssueInfo>
-						<IssueInfoTop>
-							<Title>
-								<ErrorOutline colorset="blue" size={18} />
-								{item.title}
-							</Title>
-						</IssueInfoTop>
-						<IssueInfoBottom>
-							<IssueNumber>#{item.id}</IssueNumber>
-							<AuthorTimeStamp>
-								이 이슈가 {item.timeStamp} 전, {item.author}님에 의해 작성되었습니다
-							</AuthorTimeStamp>
-							<MileStone>
-								<EmojiFlags colorset="label" size={18} /> {item.mileStone}
-							</MileStone>
-						</IssueInfoBottom>
-					</IssueInfo>
-				</IssueCellLeft>
-				<IssueCellRight>
-					<UserImg img={user2} size="small" />
-				</IssueCellRight>
-			</StyledIssueCell>
+			<IssueCell
+				key={item.id}
+				id={item.id}
+				title={item.title}
+				author={item.author}
+				timeStamp={item.timeStamp}
+				mileStone={item.mileStone}
+			/>
 		));
 
 	return <div>{issueList}</div>;
