@@ -24,11 +24,11 @@ CREATE TABLE milestone
 
 CREATE TABLE label
 (
-    label_id      BIGINT NOT NULL AUTO_INCREMENT,
-    name          VARCHAR(255) UNIQUE,
+    label_id      BIGINT       NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(255) NOT NULL UNIQUE,
     description   VARCHAR(255),
-    label_color   VARCHAR(255),
-    text_color    VARCHAR(255),
+    label_color   VARCHAR(255) NOT NULL,
+    text_color    VARCHAR(255) NOT NULL,
     create_date   DATETIME,
     modified_date DATETIME,
     PRIMARY KEY (label_id)
