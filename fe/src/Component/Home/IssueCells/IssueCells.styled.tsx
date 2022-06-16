@@ -45,10 +45,10 @@ const IssueInfoBottom = styled.div`
 	margin-top: 30px;
 `;
 
-const IssueCellRight = styled.div``;
-
-const AuthorImg = styled.div`
-	margin-right: 50px;
+const IssueCellRight = styled.div`
+	display: flex;
+	align-items: center;
+	margin: 40px;
 `;
 
 const Title = styled.div`
@@ -100,7 +100,6 @@ export {
 	IssueInfoTop,
 	IssueInfoBottom,
 	IssueCellRight,
-	AuthorImg,
 	Title,
 	IssueNumber,
 	AuthorTimeStamp,

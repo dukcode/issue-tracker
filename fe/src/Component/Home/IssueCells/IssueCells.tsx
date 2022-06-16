@@ -1,5 +1,7 @@
 import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
+import user2 from "Img/user2.jpeg";
+import UserImg from "Component/UserImg";
 import {
 	IssueCell,
 	IssueCellLeft,
@@ -7,7 +9,6 @@ import {
 	IssueInfoTop,
 	IssueInfoBottom,
 	IssueCellRight,
-	AuthorImg,
 	Title,
 	IssueNumber,
 	AuthorTimeStamp,
@@ -58,7 +59,7 @@ const IssueCells = ({ issueItems }: issueItemType) => {
 					</IssueInfo>
 				</IssueCellLeft>
 				<IssueCellRight>
-					<AuthorImg>이미지</AuthorImg>
+					<UserImg img={user2} size="small" />
 				</IssueCellRight>
 			</IssueCell>
 		));
