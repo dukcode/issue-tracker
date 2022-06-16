@@ -29,19 +29,18 @@ const IssueInfo = styled.div`
 
 const IssueInfoTop = styled.div`
 	display: flex;
-	height: 32px;
 `;
 
 const IssueInfoBottom = styled.div`
-	${({ theme: { colors } }) =>
+	${({ theme: { colors, fonts } }) =>
 		css`
+			${fonts.testSmall};
 			color: ${colors.label};
 		`}
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 28px;
 	display: flex;
-	height: 28px;
 	margin-top: 6px;
 `;
 
@@ -71,16 +70,16 @@ const Title = styled.div`
 `;
 
 const IssueNumber = styled.div`
-	margin-right: 20px;
+	margin-right: 14px;
 `;
 
 const AuthorTimeStamp = styled.div`
-	margin-right: 20px;
+	margin-right: 14px;
 `;
 
 const MileStone = styled.div`
-	align-items: center;
 	display: flex;
+	align-items: center;
 	gap: 5px;
 
 	svg {
