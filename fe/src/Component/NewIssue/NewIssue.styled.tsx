@@ -1,13 +1,13 @@
 import styled, { css } from "styled-components";
 
-const StyledNewIssue = styled.div`
+export const StyledNewIssue = styled.div`
 	${({ theme: { width } }) => css`
 		${width.main};
 		margin-top: 30px;
 	`}
 `;
 
-const StyledNewIssueHeader = styled.div`
+export const StyledNewIssueHeader = styled.div`
 	${({ theme: { fonts, colors } }) => css`
 		${fonts.title};
 		padding-bottom: 30px;
@@ -15,7 +15,7 @@ const StyledNewIssueHeader = styled.div`
 	`}
 `;
 
-const StyledNewIssueMain = styled.div`
+export const StyledNewIssueMain = styled.div`
 	padding-top: 30px;
 	padding-bottom: 30px;
 	display: flex;
@@ -27,16 +27,16 @@ const StyledNewIssueMain = styled.div`
 	`}
 `;
 
-const StyledNewIssueContentWrapper = styled.div`
+export const StyledNewIssueContentWrapper = styled.div`
 	display: flex;
 	gap: 20px;
 `;
 
-const StyledNewIssueContent = styled.div`
+export const StyledNewIssueContent = styled.div`
 	width: 750px;
 `;
 
-const StyledNewIssueTitle = styled.div`
+export const StyledNewIssueTitle = styled.div`
 	${({ theme: { colors, fonts } }) => css`
 		background-color: ${colors.inputBackground};
 		border-radius: 15px;
@@ -54,7 +54,7 @@ const StyledNewIssueTitle = styled.div`
 	`}
 `;
 
-const StyledNewIssueDesc = styled.div`
+export const StyledNewIssueDesc = styled.div`
 	${({ theme: { colors, fonts } }) => css`
 		background-color: ${colors.inputBackground};
 		border-radius: 15px;
@@ -88,7 +88,7 @@ const StyledNewIssueDesc = styled.div`
 	`}
 `;
 
-const StyledNewIssueOptions = styled.div`
+export const StyledNewIssueOptions = styled.div`
 	${({ theme: { colors } }) => css`
 		height: fit-content;
 		background-color: ${colors.offWhite};
@@ -98,7 +98,7 @@ const StyledNewIssueOptions = styled.div`
 	`}
 `;
 
-const StyledNewIssueOption = styled.div`
+export const StyledNewIssueOption = styled.div`
 	${({ theme: { colors, fonts } }) => css`
 		${fonts.textSmall};
 		cursor: pointer;
@@ -115,15 +115,3 @@ const StyledNewIssueOption = styled.div`
 		}
 	`}
 `;
-
-export {
-	StyledNewIssue,
-	StyledNewIssueHeader,
-	StyledNewIssueMain,
-	StyledNewIssueContentWrapper,
-	StyledNewIssueContent,
-	StyledNewIssueTitle,
-	StyledNewIssueDesc,
-	StyledNewIssueOptions,
-	StyledNewIssueOption,
-};
