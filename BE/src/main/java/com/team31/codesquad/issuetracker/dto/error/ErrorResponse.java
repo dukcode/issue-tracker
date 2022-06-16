@@ -1,4 +1,4 @@
-package com.team31.codesquad.issuetracker.web.advice;
+package com.team31.codesquad.issuetracker.dto.error;
 
 import java.util.List;
 import lombok.AllArgsConstructor;

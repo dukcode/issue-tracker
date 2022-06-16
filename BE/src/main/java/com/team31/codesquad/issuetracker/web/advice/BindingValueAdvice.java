@@ -1,6 +1,7 @@
 package com.team31.codesquad.issuetracker.web.advice;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
+import com.team31.codesquad.issuetracker.dto.error.ErrorResponse;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class EnumMatchAdvice {
+public class BindingValueAdvice {
 
     private static final Pattern WORD_IN_SQUARED_BRACKET = Pattern.compile("\\[(.*?)\\]");
 
