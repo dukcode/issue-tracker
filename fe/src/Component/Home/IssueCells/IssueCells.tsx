@@ -3,7 +3,7 @@ import Checkbox from "@mui/material/Checkbox";
 import user2 from "Img/user2.jpeg";
 import UserImg from "Component/UserImg";
 import {
-	IssueCell,
+	StyledIssueCell,
 	IssueCellLeft,
 	IssueInfo,
 	IssueInfoTop,
@@ -18,7 +18,7 @@ import {
 
 const { ErrorOutline, EmojiFlags } = icons;
 
-type issueItem = {
+type TIssueItem = {
 	id: number;
 	title: string;
 	author: string;
@@ -26,16 +26,16 @@ type issueItem = {
 	mileStone: string;
 };
 
-type issueItemType = {
-	issueItems: issueItem[];
+type TIssueItems = {
+	issueItems: TIssueItem[];
 };
 
-const IssueCells = ({ issueItems }: issueItemType) => {
+const IssueCells = ({ issueItems }: TIssueItems) => {
 	const issueList = issueItems
 		.slice(0)
 		.reverse()
-		.map((item: issueItem) => (
-			<IssueCell key={item.id}>
+		.map((item: TIssueItem) => (
+			<StyledIssueCell key={item.id}>
 				<IssueCellLeft>
 					<StyledCheckbox>
 						<Checkbox size="small" color="default" />
@@ -61,11 +61,11 @@ const IssueCells = ({ issueItems }: issueItemType) => {
 				<IssueCellRight>
 					<UserImg img={user2} size="small" />
 				</IssueCellRight>
-			</IssueCell>
+			</StyledIssueCell>
 		));
 
 	return <div>{issueList}</div>;
 };
 
-export type { issueItem };
+export type { TIssueItem };
 export default IssueCells;

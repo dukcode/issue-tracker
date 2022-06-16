@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const IssueCell = styled.div`
+const StyledIssueCell = styled.div`
 	${({ theme: { colors, width } }) =>
 		css`
 			background: ${colors.offWhite};
@@ -92,7 +92,7 @@ const StyledCheckbox = styled.div`
 `;
 
 export {
-	IssueCell,
+	StyledIssueCell,
 	IssueCellLeft,
 	IssueInfo,
 	IssueInfoTop,
