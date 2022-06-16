@@ -1,4 +1,4 @@
-package com.team31.codesquad.issuetracker.web;
+package com.team31.codesquad.issuetracker.web.controller;
 
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
 import com.team31.codesquad.issuetracker.dto.user.oauth.LoginResponse;

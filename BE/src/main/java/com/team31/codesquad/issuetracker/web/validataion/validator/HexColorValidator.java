@@ -1,6 +1,6 @@
-package com.team31.codesquad.issuetracker.validataion.validator;
+package com.team31.codesquad.issuetracker.web.validataion.validator;
 
-import com.team31.codesquad.issuetracker.validataion.HexColor;
+import com.team31.codesquad.issuetracker.web.validataion.HexColor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.validation.ConstraintValidator;

@@ -1,4 +1,4 @@
-package com.team31.codesquad.issuetracker.web;
+package com.team31.codesquad.issuetracker.web.controller;
 
 import com.team31.codesquad.issuetracker.dto.CountResult;
 import com.team31.codesquad.issuetracker.dto.label.LabelCreateRequest;

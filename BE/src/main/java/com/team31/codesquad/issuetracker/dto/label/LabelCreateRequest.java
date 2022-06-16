@@ -2,7 +2,7 @@ package com.team31.codesquad.issuetracker.dto.label;
 
 import com.team31.codesquad.issuetracker.domain.label.Label;
 import com.team31.codesquad.issuetracker.domain.label.TextColor;
-import com.team31.codesquad.issuetracker.validataion.HexColor;
+import com.team31.codesquad.issuetracker.web.validataion.HexColor;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;

@@ -1,6 +1,6 @@
-package com.team31.codesquad.issuetracker.web;
+package com.team31.codesquad.issuetracker.web.controller;
 
-import com.team31.codesquad.issuetracker.annotation.LoginName;
+import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginName;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;

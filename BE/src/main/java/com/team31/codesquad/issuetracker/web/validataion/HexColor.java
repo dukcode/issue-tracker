@@ -1,6 +1,6 @@
-package com.team31.codesquad.issuetracker.validataion;
+package com.team31.codesquad.issuetracker.web.validataion;
 
-import com.team31.codesquad.issuetracker.validataion.validator.HexColorValidator;
+import com.team31.codesquad.issuetracker.web.validataion.validator.HexColorValidator;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
