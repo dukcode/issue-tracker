@@ -1,6 +1,6 @@
 package com.team31.codesquad.issuetracker.config.mvc;
 
-import com.team31.codesquad.issuetracker.annotation.LoginName;
+import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginName;
 import com.team31.codesquad.issuetracker.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;

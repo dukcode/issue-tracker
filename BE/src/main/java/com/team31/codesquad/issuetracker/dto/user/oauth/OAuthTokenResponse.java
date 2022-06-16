@@ -19,4 +19,7 @@ public class OAuthTokenResponse {
     @JsonProperty("token_type")
     private String tokenType;
 
+    public boolean isNull() {
+        return accessToken == null || scope == null || tokenType == null;
+    }
 }

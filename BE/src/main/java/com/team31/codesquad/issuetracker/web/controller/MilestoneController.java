@@ -1,4 +1,4 @@
-package com.team31.codesquad.issuetracker.web;
+package com.team31.codesquad.issuetracker.web.controller;
 
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
