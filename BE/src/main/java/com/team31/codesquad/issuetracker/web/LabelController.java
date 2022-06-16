@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,7 @@ public class LabelController {
     }
 
     @PostMapping("/api/v1/labels")
-    public ResponseEntity<Long> createLabel(@RequestBody LabelCreateRequest request) {
+    public ResponseEntity<Long> createLabel(@Validated @RequestBody LabelCreateRequest request) {
         Long createdLabelId = labelService.createLabel(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLabelId);
     }
