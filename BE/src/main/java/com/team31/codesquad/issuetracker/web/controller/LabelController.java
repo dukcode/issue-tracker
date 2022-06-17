@@ -1,4 +1,4 @@
-package com.team31.codesquad.issuetracker.web;
+package com.team31.codesquad.issuetracker.web.controller;
 
 import com.team31.codesquad.issuetracker.dto.CountResult;
 import com.team31.codesquad.issuetracker.dto.label.LabelCreateRequest;
@@ -9,6 +9,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,7 +30,7 @@ public class LabelController {
     }
 
     @PostMapping("/api/v1/labels")
-    public ResponseEntity<Long> createLabel(@RequestBody LabelCreateRequest request) {
+    public ResponseEntity<Long> createLabel(@Validated @RequestBody LabelCreateRequest request) {
         Long createdLabelId = labelService.createLabel(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdLabelId);
     }
@@ -41,8 +42,9 @@ public class LabelController {
     }
 
     @PutMapping("/api/v1/labels/{labelId}")
-    public ResponseEntity<Void> updateLabel(@PathVariable Long labelId,
-            @RequestBody LabelUpdateRequest request) {
+    public ResponseEntity<Void> updateLabel(
+            @PathVariable Long labelId,
+            @Validated @RequestBody LabelUpdateRequest request) {
         labelService.update(labelId, request);
         return ResponseEntity.noContent().build();
     }

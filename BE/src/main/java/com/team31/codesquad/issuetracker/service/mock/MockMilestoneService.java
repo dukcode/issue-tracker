@@ -23,11 +23,11 @@ public class MockMilestoneService implements MilestoneService {
     public OpenClosedCountResult<List<MilestoneResponse>> findAll(
             MilestoneStatus status) {
         MilestoneResponse milestone1 = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), OPEN, 3, 4);
+                LocalDate.of(2022, 7, 1), OPEN, 3L, 4L);
         MilestoneResponse milestone2 = new MilestoneResponse(2L, "마일스톤 제목2", "마일스톤 설명2",
-                LocalDate.of(2022, 7, 1), OPEN, 5, 7);
+                LocalDate.of(2022, 7, 1), OPEN, 5L, 7L);
         MilestoneResponse milestone3 = new MilestoneResponse(3L, "마일스톤 제목3", "마일스톤 설명3",
-                LocalDate.of(2022, 7, 1), CLOSED, 9, 2);
+                LocalDate.of(2022, 7, 1), CLOSED, 9L, 2L);
 
         List<MilestoneResponse> milestones = Arrays.asList(milestone1, milestone2, milestone3);
 
@@ -37,14 +37,14 @@ public class MockMilestoneService implements MilestoneService {
 
         if (status.equals(OPEN)) {
             return new OpenClosedCountResult<>(
-                    filteredMilestoneResponses.size(),
-                    milestones.size() - filteredMilestoneResponses.size(),
+                    (long) filteredMilestoneResponses.size(),
+                    (long) milestones.size() - filteredMilestoneResponses.size(),
                     filteredMilestoneResponses);
         }
 
         return new OpenClosedCountResult<>(
-                milestones.size() - filteredMilestoneResponses.size(),
-                filteredMilestoneResponses.size(),
+                (long) milestones.size() - filteredMilestoneResponses.size(),
+                (long) filteredMilestoneResponses.size(),
                 filteredMilestoneResponses);
     }
 

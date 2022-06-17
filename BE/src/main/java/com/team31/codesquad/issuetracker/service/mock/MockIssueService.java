@@ -51,11 +51,11 @@ public class MockIssueService implements IssueService {
                 TextColor.DARK);
 
         MilestoneResponse milestone1 = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3, 4);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3L, 4L);
         MilestoneResponse milestone2 = new MilestoneResponse(2L, "마일스톤 제목2", "마일스톤 설명2",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 5, 10);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 5L, 10L);
         MilestoneResponse milestone3 = new MilestoneResponse(3L, "마일스톤 제목3", "마일스톤 설명3",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 1, 1);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 1L, 1L);
 
         IssueResponse issueResponse1 = new IssueResponse(1L, IssueStatus.OPEN, "이슈 제목 1", user1,
                 Arrays.asList(label1, label2), milestone1, LocalDateTime.now(),
@@ -67,12 +67,12 @@ public class MockIssueService implements IssueService {
                 LocalDateTime.now(), LocalDateTime.now());
 
         if (query.contains("is:closed")) {
-            return new OpenClosedCountResult<>(2, 1, List.of(issueResponse3));
+            return new OpenClosedCountResult<>(2L, 1L, List.of(issueResponse3));
         }
 
         List<IssueResponse> issueResponses = Arrays.asList(issueResponse1,
                 issueResponse2);
-        return new OpenClosedCountResult<>(2, 1, issueResponses);
+        return new OpenClosedCountResult<>(2L, 1L, issueResponses);
     }
 
     @Override
@@ -101,7 +101,7 @@ public class MockIssueService implements IssueService {
                 TextColor.LIGHT);
 
         MilestoneResponse milestone = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3, 10);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3L, 10L);
 
         Map<ReactionEmoji, Integer> reactions1 = new HashMap<>();
         reactions1.put(ReactionEmoji.THUMBS_UP, 2);

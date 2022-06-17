@@ -16,6 +16,9 @@ public class JwtConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/v1/users/login/oauth2/redirect");
+                .excludePathPatterns("/api/v1/users/login/oauth2/redirect",
+                        "/swagger-ui/**",
+                        "/swagger-resources/**",
+                        "/v2/api-docs");
     }
 }

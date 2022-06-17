@@ -1,7 +1,7 @@
 CREATE TABLE users
 (
     user_id       BIGINT NOT NULL AUTO_INCREMENT,
-    login_name    VARCHAR(255),
+    login_name    VARCHAR(255) UNIQUE,
     name          VARCHAR(255),
     email         VARCHAR(255),
     profile_image VARCHAR(255),
@@ -13,7 +13,7 @@ CREATE TABLE users
 CREATE TABLE milestone
 (
     milestone_id  BIGINT NOT NULL AUTO_INCREMENT,
-    description   VARCHAR(255),
+    description   VARCHAR(255) UNIQUE,
     title         VARCHAR(255),
     due_date      DATE,
     status        VARCHAR(255),
@@ -24,11 +24,11 @@ CREATE TABLE milestone
 
 CREATE TABLE label
 (
-    label_id      BIGINT NOT NULL AUTO_INCREMENT,
+    label_id      BIGINT       NOT NULL AUTO_INCREMENT,
+    name          VARCHAR(255) NOT NULL UNIQUE,
     description   VARCHAR(255),
-    label_color   VARCHAR(255),
-    name          VARCHAR(255),
-    text_color    VARCHAR(255),
+    label_color   VARCHAR(255) NOT NULL,
+    text_color    VARCHAR(255) NOT NULL,
     create_date   DATETIME,
     modified_date DATETIME,
     PRIMARY KEY (label_id)

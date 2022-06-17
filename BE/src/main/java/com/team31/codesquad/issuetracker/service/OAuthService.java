@@ -6,6 +6,7 @@ import com.team31.codesquad.issuetracker.domain.user.UserRepository;
 import com.team31.codesquad.issuetracker.dto.user.oauth.LoginResponse;
 import com.team31.codesquad.issuetracker.dto.user.oauth.OAuthTokenResponse;
 import com.team31.codesquad.issuetracker.dto.user.oauth.UserProfile;
+import com.team31.codesquad.issuetracker.exception.PermissionDeniedException;
 import com.team31.codesquad.issuetracker.util.JwtUtil;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -34,7 +35,13 @@ public class OAuthService {
     @Transactional
     public LoginResponse login(String code) {
         OAuthTokenResponse oAuthTokenResponse = getToken(code);
+
+        if (oAuthTokenResponse.isNull()) {
+            throw new PermissionDeniedException("유효하지 않은 Authorization code입니다.");
+        }
+
         Map<String, Object> userInfo = getUserInfo(oAuthTokenResponse);
+
         UserProfile userProfile = new UserProfile(userInfo);
         User user = saveOrUpdate(userProfile);
 
