@@ -1,15 +1,19 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 import { StyledLoading, StyledLoadingMention, StyledLoadingAnimation } from "./Loading.styled";
+
+type TTokenResponse = { data: { profileImage: string; accessToken: string } };
 
 const LOADING = "LOADING";
 const USER_INFO = "userInfo";
 
 const Loading = () => {
 	const [cookies, setCookie] = useCookies([USER_INFO]);
+	const isLogout = Object.keys(cookies).length === 0 && cookies.constructor === Object;
+
 	const { search } = useLocation();
 	const navigate = useNavigate();
 
@@ -23,9 +27,9 @@ const Loading = () => {
 		});
 
 		try {
-			const response: { profileImage: string; accessToken: string } = await client.get("");
-			const { profileImage } = response;
-			const { accessToken } = response;
+			const response: TTokenResponse = await client.get("");
+			const { profileImage } = response.data;
+			const { accessToken } = response.data;
 			setCookie(
 				USER_INFO,
 				{ profileImage, accessToken },
@@ -33,14 +37,18 @@ const Loading = () => {
 			);
 			navigate("/");
 		} catch (error) {
-			const e = error as Error;
-			console.error(e);
-			navigate("/login");
+			const e = error as AxiosError;
+			const status = e.response?.status;
+			if (status === 500) navigate("/login");
 		}
 	};
 
 	useEffect(() => {
-		getToken();
+		if (isLogout) {
+			getToken();
+		} else {
+			navigate("/");
+		}
 	}, []);
 
 	return (
