@@ -4,6 +4,7 @@ import Main from "Component/Main";
 import Home from "Component/Home";
 import Login from "Component/Login";
 import NewIssue from "Component/NewIssue";
+import Loading from "Component/Loading";
 
 const Router = () => {
 	return (
@@ -11,6 +12,7 @@ const Router = () => {
 			<Routes>
 				<Route path="*" element={<NotFound />} />
 				<Route path="login" element={<Login />} />
+				<Route path="loading" element={<Loading />} />
 				<Route path="/" element={<Main />}>
 					<Route index element={<Home />} />
 					<Route path="new-issue" element={<NewIssue />} />

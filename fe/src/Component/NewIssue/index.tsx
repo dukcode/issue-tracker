@@ -1,5 +1,6 @@
-import NewIssueMain from "./NewIssueMain";
-import { StyledNewIssue, StyledNewIssueHeader } from "./NewIssue.styled";
+import NewIssueContent from "./NewIssueContent";
+import NewIssueOptions from "./NewIssueOptions";
+import { StyledNewIssue, StyledNewIssueHeader, StyledNewIssueMain } from "./NewIssue.styled";
 
 const WRITE_NEW_ISSUE = "WRITE NEW ISSUE";
 
@@ -7,7 +8,10 @@ const NewIssue = () => {
 	return (
 		<StyledNewIssue>
 			<StyledNewIssueHeader>{WRITE_NEW_ISSUE}</StyledNewIssueHeader>
-			<NewIssueMain />
+			<StyledNewIssueMain>
+				<NewIssueContent />
+				<NewIssueOptions />
+			</StyledNewIssueMain>
 		</StyledNewIssue>
 	);
 };

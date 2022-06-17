@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const StyledLogin = styled.div`
+export const StyledLogin = styled.div`
 	width: 100vw;
 	height: 100vh;
 	display: flex;
@@ -9,7 +9,7 @@ const StyledLogin = styled.div`
 	justify-content: center;
 `;
 
-const StyledLoginButton = styled.button`
+export const StyledLoginButton = styled.button`
 	${({ theme: { colors } }) => css`
 		color: ${colors.offWhite};
 		background-color: ${colors.titleActive};
@@ -26,7 +26,7 @@ const StyledLoginButton = styled.button`
 	`}
 `;
 
-const StyledLoginMention = styled.div`
+export const StyledLoginMention = styled.div`
 	${({ theme: { fonts, colors } }) => css`
 		${fonts.linkMedium};
 		color: ${colors.offWhite};
@@ -40,7 +40,7 @@ const StyledLoginMention = styled.div`
 	}
 `;
 
-const StyledLoginTitle = styled.div`
+export const StyledLoginTitle = styled.div`
 	margin-bottom: 30px;
 	${({ theme: { fonts, colors } }) => css`
 		${fonts.title};
@@ -48,4 +48,15 @@ const StyledLoginTitle = styled.div`
 	`}
 `;
 
-export { StyledLoginButton, StyledLoginMention, StyledLogin, StyledLoginTitle };
+export const StyledLoginImg = styled.div`
+	animation: spinning 10s infinite;
+
+	@keyframes spinning {
+		from {
+			transform: rotate(0);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
+`;
