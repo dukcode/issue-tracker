@@ -11,6 +11,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -34,7 +35,8 @@ public class MilestoneController {
     }
 
     @PostMapping("/api/v1/milestones")
-    public ResponseEntity<Long> createMilestone(@RequestBody MilestoneCreateRequest request) {
+    public ResponseEntity<Long> createMilestone(
+            @Validated @RequestBody MilestoneCreateRequest request) {
         Long createdMilestoneId = milestoneService.createMilestone(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdMilestoneId);
     }
@@ -47,14 +49,14 @@ public class MilestoneController {
 
     @PutMapping("/api/v1/milestones/{milestoneId}")
     public ResponseEntity<Void> updateMilestone(@PathVariable Long milestoneId,
-            @RequestBody MilestoneUpdateRequest milestoneUpdateRequest) {
+            @Validated @RequestBody MilestoneUpdateRequest milestoneUpdateRequest) {
         milestoneService.updateMilestone(milestoneId, milestoneUpdateRequest);
         return ResponseEntity.noContent().build();
     }
 
     @PatchMapping("/api/v1/milestones/{milestoneId}")
     public ResponseEntity<Void> changeStatus(@PathVariable Long milestoneId,
-            @RequestBody MilestoneStatusChangeRequest request) {
+            @Validated @RequestBody MilestoneStatusChangeRequest request) {
         milestoneService.changeStatus(milestoneId, request);
         return ResponseEntity.noContent().build();
     }

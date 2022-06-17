@@ -13,7 +13,7 @@ CREATE TABLE users
 CREATE TABLE milestone
 (
     milestone_id  BIGINT NOT NULL AUTO_INCREMENT,
-    description   VARCHAR(255),
+    description   VARCHAR(255) UNIQUE,
     title         VARCHAR(255),
     due_date      DATE,
     status        VARCHAR(255),

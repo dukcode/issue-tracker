@@ -7,7 +7,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class OpenClosedCountResult<T> {
 
-    private Integer openCount;
-    private Integer closedCount;
+    private Long openCount;
+    private Long closedCount;
     private T data;
 }

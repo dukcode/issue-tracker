@@ -55,4 +55,7 @@ public class Issue extends BaseTimeEntity {
     @OneToMany(mappedBy = "issue")
     private List<Comment> comments = new ArrayList<>();
 
+    public boolean isOpen() {
+        return status.equals(IssueStatus.OPEN);
+    }
 }
