@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const IssueCell = styled.div`
+export const StyledIssueCell = styled.div`
 	${({ theme: { colors, width } }) =>
 		css`
 			background: ${colors.offWhite};
@@ -18,40 +18,39 @@ const IssueCell = styled.div`
 	}
 `;
 
-const IssueCellLeft = styled.div`
+export const IssueCellLeft = styled.div`
 	display: flex;
+	margin: 20px;
+`;
+
+export const IssueInfo = styled.div`
 	margin-left: 20px;
 `;
 
-const IssueInfo = styled.div`
-	margin-left: 20px;
-`;
-
-const IssueInfoTop = styled.div`
+export const IssueInfoTop = styled.div`
 	display: flex;
-	height: 32px;
 `;
 
-const IssueInfoBottom = styled.div`
-	${({ theme: { colors } }) =>
+export const IssueInfoBottom = styled.div`
+	${({ theme: { colors, fonts } }) =>
 		css`
+			${fonts.testSmall};
 			color: ${colors.label};
 		`}
 	font-weight: 400;
 	font-size: 16px;
 	line-height: 28px;
 	display: flex;
-	height: 28px;
-	margin-top: 30px;
+	margin-top: 6px;
 `;
 
-const IssueCellRight = styled.div``;
-
-const AuthorImg = styled.div`
-	margin-right: 50px;
+export const IssueCellRight = styled.div`
+	display: flex;
+	align-items: center;
+	margin: 40px;
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
 	${({ theme: { colors } }) =>
 		css`
 			color: ${colors.titleActive};
@@ -60,7 +59,6 @@ const Title = styled.div`
 	height: 32px;
 	display: flex;
 	align-items: center;
-	margin-top: 16px;
 	gap: 8px;
 	font-weight: 700;
 	font-size: 18px;
@@ -71,17 +69,17 @@ const Title = styled.div`
 	}
 `;
 
-const IssueNumber = styled.div`
-	margin-right: 20px;
+export const IssueNumber = styled.div`
+	margin-right: 14px;
 `;
 
-const AuthorTimeStamp = styled.div`
-	margin-right: 20px;
+export const AuthorTimeStamp = styled.div`
+	margin-right: 14px;
 `;
 
-const MileStone = styled.div`
-	align-items: center;
+export const MileStone = styled.div`
 	display: flex;
+	align-items: center;
 	gap: 5px;
 
 	svg {
@@ -89,21 +87,6 @@ const MileStone = styled.div`
 	}
 `;
 
-const StyledCheckbox = styled.div`
-	margin-top: 11px;
+export const StyledCheckbox = styled.div`
+	margin-top: -5px;
 `;
-
-export {
-	IssueCell,
-	IssueCellLeft,
-	IssueInfo,
-	IssueInfoTop,
-	IssueInfoBottom,
-	IssueCellRight,
-	AuthorImg,
-	Title,
-	IssueNumber,
-	AuthorTimeStamp,
-	MileStone,
-	StyledCheckbox,
-};

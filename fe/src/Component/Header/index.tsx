@@ -16,7 +16,7 @@ const Header = () => {
 					{ISSUE_TRACKER}
 				</StyledHeaderLogo>
 			</Link>
-			<UserImg img={user} />
+			<UserImg img={user} size="medium" />
 		</StyledHeader>
 	);
 };

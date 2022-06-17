@@ -1,5 +1,5 @@
 import icons from "Util/Icons";
-import { StyledNewIssueOptions, StyledNewIssueOption } from "./NewIssue.styled";
+import { StyledNewIssueOptions, StyledNewIssueOption } from "./NewIssueOptions.styled";
 
 const issueOptionsInfo = [
 	{ id: 1, name: "담당자" },

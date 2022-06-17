@@ -27,7 +27,7 @@ const fonts = {
 		"font-style": "normal",
 		"font-size": "18px",
 		"line-height": "32px",
-		"font-weight": 400,
+		"font-weight": "400",
 		color: colors.titleActive,
 	},
 	title: {
@@ -39,7 +39,7 @@ const fonts = {
 		"line-height": "48px",
 	},
 	displayBold: {
-		"font-weight": 700,
+		"font-weight": "700",
 		"font-size": "32px",
 		"line-height": "48px",
 	},
@@ -48,7 +48,7 @@ const fonts = {
 		"line-height": "40px",
 	},
 	lineLarge: {
-		"font-weight": 700,
+		"font-weight": "700",
 		"font-size": "24px",
 		"line-height": "40px",
 	},
@@ -57,7 +57,7 @@ const fonts = {
 		"line-height": "32px",
 	},
 	linkMedium: {
-		"font-weight": 700,
+		"font-weight": "700",
 		"font-size": "18px",
 		"line-height": "32px",
 	},
@@ -66,12 +66,12 @@ const fonts = {
 		"line-height": "28px",
 	},
 	textXSamll: {
-		"font-weight": 500,
+		"font-weight": "500",
 		"font-size": "12px",
 		"line-height": "20px",
 	},
 	linkXSmall: {
-		"font-weight": 700,
+		"font-weight": "700",
 		"font-size": "12px",
 		"line-height": "20px",
 	},
@@ -83,7 +83,7 @@ const fonts = {
 	},
 	logotypeRegular: {
 		// "font-style": "italic",
-		"font-weight": 500,
+		"font-weight": "500",
 		"font-size": "32px",
 		"line-height": "40px",
 		"letter-spacing": "-0.04em",
