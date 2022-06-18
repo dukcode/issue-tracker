@@ -183,9 +183,16 @@ public class IssueServiceImpl implements IssueService {
         issue.updateMilestone(milestone);
     }
 
+    @Transactional
     @Override
     public void changeLabels(Long issueId, IssueLabelsChangeRequest request) {
+        Issue issue = issueRepository.findById(issueId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        issueLabelRepository.deleteAll(issue.getIssueLabels());
 
+        List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
+        issue.updateIssueLabels(issueLabels);
     }
 
     @Override

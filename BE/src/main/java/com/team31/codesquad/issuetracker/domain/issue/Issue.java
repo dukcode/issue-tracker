@@ -118,4 +118,11 @@ public class Issue extends BaseTimeEntity {
 
         this.milestone = milestone;
     }
+
+    public void updateIssueLabels(List<IssueLabel> issueLabels) {
+        this.issueLabels = new ArrayList<>();
+        for (IssueLabel issueLabel : issueLabels) {
+            addIssueLabel(issueLabel);
+        }
+    }
 }
