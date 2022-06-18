@@ -7,6 +7,7 @@ import com.team31.codesquad.issuetracker.domain.user.AssignedUser;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -53,7 +54,7 @@ public class Issue extends BaseTimeEntity {
     @JoinColumn(name = "milestone_id")
     private Milestone milestone;
 
-    @OneToMany(mappedBy = "issue")
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
     public boolean isOpen() {

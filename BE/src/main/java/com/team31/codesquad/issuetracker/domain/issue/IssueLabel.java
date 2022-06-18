@@ -25,10 +25,10 @@ public class IssueLabel extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "issue_id")
+    @JoinColumn(name = "issue_id", nullable = false)
     private Issue issue;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "label_id")
+    @JoinColumn(name = "label_id", nullable = false)
     private Label label;
 }
