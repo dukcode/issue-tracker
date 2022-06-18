@@ -45,18 +45,12 @@ public class CommentController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/api/v1/issues/{issueId}/comments/{commentId}/reactions")
-    public ResponseEntity<Long> createReaction(
+    @PutMapping("/api/v1/issues/{issueId}/comments/{commentId}/reactions")
+    public ResponseEntity<Void> updateReactions(
             @PathVariable Long issueId, @PathVariable Long commentId,
-            @LoginName String loginName, @RequestBody ReactionCreateRequest request) {
-        Long createdReactionId = commentService.createReaction(issueId, commentId, loginName,
-                request);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdReactionId);
-    }
-
-    @DeleteMapping("/api/v1/issues/comments/reactions/{reactionId}")
-    public ResponseEntity<Void> deleteReaction(@PathVariable Long reactionId) {
-        commentService.deleteReaction(reactionId);
-        return ResponseEntity.noContent().build();
+            @Validated @RequestBody ReactionCreateRequest request,
+            @LoginName String loginName) {
+        commentService.updateReactions(issueId, commentId, request, loginName);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

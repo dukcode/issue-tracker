@@ -13,10 +13,9 @@ public interface CommentService {
             CommentUpdateRequest request,
             String loginName);
 
-    Long createReaction(Long issueId, Long commentId, String loginName,
-            ReactionCreateRequest request);
-
-    void deleteReaction(Long reactionId);
-
     void deleteComment(Long issueId, Long commentId, String loginName);
+
+    void updateReactions(Long issueId, Long commentId,
+            ReactionCreateRequest request, String loginName);
+
 }
