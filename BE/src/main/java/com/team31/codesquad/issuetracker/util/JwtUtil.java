@@ -24,6 +24,8 @@ public class JwtUtil {
     private String secretKey;
     @Value("${jwt.admin.password}")
     private String adminPassword;
+    @Value("${jwt.admin.login-name}")
+    private String adminLoginName;
 
     public String createAccessToken(String payload) {
         return createToken(payload, accessTokenValidityInMilliseconds);
@@ -73,5 +75,9 @@ public class JwtUtil {
 
     public String getAdminPassword() {
         return adminPassword;
+    }
+
+    public String getAdminLoginName() {
+        return adminLoginName;
     }
 }
