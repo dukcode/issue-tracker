@@ -57,7 +57,41 @@ public class Issue extends BaseTimeEntity {
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    public static Issue createIssue(String title, User author, List<AssignedUser> assignedUsers,
+            List<IssueLabel> issueLabels, Milestone milestone) {
+        Issue issue = new Issue();
+        issue.status = IssueStatus.OPEN;
+        issue.title = title;
+        issue.author = author;
+        for (AssignedUser assignedUser : assignedUsers) {
+            issue.addAssignedUser(assignedUser);
+        }
+        for (IssueLabel issueLabel : issueLabels) {
+            issue.addIssueLabel(issueLabel);
+        }
+        issue.milestone = milestone;
+
+        return issue;
+    }
+
+    private void addIssueLabel(IssueLabel issueLabel) {
+        this.issueLabels.add(issueLabel);
+        issueLabel.setIssue(this);
+
+    }
+
+    private void addAssignedUser(AssignedUser assignedUser) {
+        this.assignees.add(assignedUser);
+        assignedUser.setIssue(this);
+    }
+
+
     public boolean isOpen() {
         return status.equals(IssueStatus.OPEN);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+        comment.setIssue(this);
     }
 }

@@ -20,7 +20,7 @@ public interface IssueService {
 
     void deleteIssue(Long issueId);
 
-    IssueCreateResponse createIssue(IssueCreateRequest request);
+    IssueCreateResponse createIssue(IssueCreateRequest request, String loginName);
 
     IssueDetailResponse getIssue(Long issueId);
 
