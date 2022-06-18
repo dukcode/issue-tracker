@@ -50,8 +50,8 @@ public class IssueController {
 
     @PostMapping("/api/v1/issues")
     public ResponseEntity<IssueCreateResponse> createIssue(
-            @RequestBody IssueCreateRequest request) {
-        IssueCreateResponse response = issueService.createIssue(request);
+            @RequestBody IssueCreateRequest request, @LoginName String loginName) {
+        IssueCreateResponse response = issueService.createIssue(request, loginName);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
