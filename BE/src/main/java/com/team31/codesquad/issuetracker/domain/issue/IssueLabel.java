@@ -31,4 +31,12 @@ public class IssueLabel extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "label_id")
     private Label label;
+
+    public IssueLabel(Label label) {
+        this.label = label;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
 }

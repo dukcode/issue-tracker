@@ -23,7 +23,7 @@ public class User extends BaseTimeEntity {
     @Column(name = "user_id")
     private Long id;
 
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String loginName;
 
     private String name;
@@ -46,4 +46,5 @@ public class User extends BaseTimeEntity {
         this.profileImage = profileImage;
         return this;
     }
+
 }

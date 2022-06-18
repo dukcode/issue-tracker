@@ -1,5 +1,6 @@
 package com.team31.codesquad.issuetracker.dto.user;
 
+import com.team31.codesquad.issuetracker.domain.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -9,9 +10,19 @@ public class UserResponse {
 
     private Long id;
 
+    private String loginName;
+
     private String name;
 
     private String email;
 
     private String profileImage;
+
+    public UserResponse(User user) {
+        this.id = user.getId();
+        this.loginName = user.getLoginName();
+        this.name = user.getName();
+        this.email = user.getEmail();
+        this.profileImage = user.getProfileImage();
+    }
 }

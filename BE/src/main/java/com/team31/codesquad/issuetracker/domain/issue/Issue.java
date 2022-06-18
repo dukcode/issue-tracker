@@ -7,6 +7,7 @@ import com.team31.codesquad.issuetracker.domain.user.AssignedUser;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -33,29 +34,95 @@ public class Issue extends BaseTimeEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private IssueStatus status;
 
-    @Column(length = 500)
+    @Column(length = 500, nullable = false)
     private String title;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @OneToMany(mappedBy = "issue")
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<AssignedUser> assignees = new ArrayList<>();
 
-    @OneToMany(mappedBy = "issue")
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<IssueLabel> issueLabels = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "milestone_id")
     private Milestone milestone;
 
-    @OneToMany(mappedBy = "issue")
+    @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
+
+    public static Issue createIssue(String title, User author, List<AssignedUser> assignedUsers,
+            List<IssueLabel> issueLabels, Milestone milestone) {
+        Issue issue = new Issue();
+        issue.status = IssueStatus.OPEN;
+        issue.title = title;
+        issue.author = author;
+        for (AssignedUser assignedUser : assignedUsers) {
+            issue.addAssignedUser(assignedUser);
+        }
+        for (IssueLabel issueLabel : issueLabels) {
+            issue.addIssueLabel(issueLabel);
+        }
+        issue.milestone = milestone;
+
+        return issue;
+    }
+
+    private void addIssueLabel(IssueLabel issueLabel) {
+        this.issueLabels.add(issueLabel);
+        issueLabel.setIssue(this);
+
+    }
+
+    public void updateAssignedUsers(List<AssignedUser> assignedUsers) {
+        this.assignees = new ArrayList<>();
+        for (AssignedUser assignedUser : assignedUsers) {
+            addAssignedUser(assignedUser);
+        }
+    }
+
+    private void addAssignedUser(AssignedUser assignedUser) {
+        this.assignees.add(assignedUser);
+        assignedUser.setIssue(this);
+    }
+
 
     public boolean isOpen() {
         return status.equals(IssueStatus.OPEN);
+    }
+
+    public void addComment(Comment comment) {
+        this.comments.add(comment);
+        comment.setIssue(this);
+    }
+
+    public void deleteMilestone() {
+        this.milestone = null;
+    }
+
+    public void changStatus(IssueStatus status) {
+        this.status = status;
+    }
+
+    public void updateMilestone(Milestone milestone) {
+        if (milestone == null) {
+            deleteMilestone();
+            return;
+        }
+
+        this.milestone = milestone;
+    }
+
+    public void updateIssueLabels(List<IssueLabel> issueLabels) {
+        this.issueLabels = new ArrayList<>();
+        for (IssueLabel issueLabel : issueLabels) {
+            addIssueLabel(issueLabel);
+        }
     }
 }

@@ -36,11 +36,11 @@ public class MockIssueService implements IssueService {
 
     @Override
     public OpenClosedCountResult<List<IssueResponse>> findAll(Integer page, String query) {
-        UserResponse user1 = new UserResponse(1L, "데이먼", "damon@gmail.com",
+        UserResponse user1 = new UserResponse(1L, "asd", "데이먼", "damon@gmail.com",
                 "https://avatars.githubusercontent.com/u/59705184?s=400&u=ef7351f24549dbd8c07b2a18d797c5f7071a440b&v=4");
-        UserResponse user2 = new UserResponse(2L, "JinJeon", "jinjeon@gmail.com",
+        UserResponse user2 = new UserResponse(2L, "123", "JinJeon", "jinjeon@gmail.com",
                 "https://avatars.githubusercontent.com/u/59705184?s=400&u=ef7351f24549dbd8c07b2a18d797c5f7071a440b&v=4");
-        UserResponse user3 = new UserResponse(3L, "메이브", "serin-kim@gmail.com",
+        UserResponse user3 = new UserResponse(3L, "qwe", "메이브", "serin-kim@gmail.com",
                 "https://avatars.githubusercontent.com/u/68533016?v=4");
 
         LabelResponse label1 = new LabelResponse(1L, "docs", "서비스 관련 문서", "0052CC",
@@ -81,18 +81,18 @@ public class MockIssueService implements IssueService {
     }
 
     @Override
-    public IssueCreateResponse createIssue(IssueCreateRequest request) {
+    public IssueCreateResponse createIssue(IssueCreateRequest request, String loginName) {
         return new IssueCreateResponse(2L, 3L);
     }
 
     @Override
     public IssueDetailResponse getIssue(Long issueId) {
 
-        UserResponse user1 = new UserResponse(1L, "데이먼", "damon@gmail.com",
+        UserResponse user1 = new UserResponse(1L, "asd", "데이먼", "damon@gmail.com",
                 "https://avatars.githubusercontent.com/u/59705184?s=400&u=ef7351f24549dbd8c07b2a18d797c5f7071a440b&v=4");
-        UserResponse user2 = new UserResponse(2L, "JinJeon", "jinjeon@gmail.com",
+        UserResponse user2 = new UserResponse(2L, "123", "JinJeon", "jinjeon@gmail.com",
                 "https://avatars.githubusercontent.com/u/59705184?s=400&u=ef7351f24549dbd8c07b2a18d797c5f7071a440b&v=4");
-        UserResponse user3 = new UserResponse(3L, "메이브", "serin-kim@gmail.com",
+        UserResponse user3 = new UserResponse(3L, "qwe", "메이브", "serin-kim@gmail.com",
                 "https://avatars.githubusercontent.com/u/68533016?v=4");
 
         LabelResponse label1 = new LabelResponse(1L, "docs", "서비스 관련 문서", "0052CC",
@@ -103,14 +103,14 @@ public class MockIssueService implements IssueService {
         MilestoneResponse milestone = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
                 LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3L, 10L);
 
-        Map<ReactionEmoji, Integer> reactions1 = new HashMap<>();
-        reactions1.put(ReactionEmoji.THUMBS_UP, 2);
-        Map<ReactionEmoji, Integer> reactions2 = new HashMap<>();
-        reactions2.put(ReactionEmoji.EYES, 2);
-        reactions2.put(ReactionEmoji.LAUGH, 5);
-        Map<ReactionEmoji, Integer> reactions3 = new HashMap<>();
-        reactions3.put(ReactionEmoji.THUMBS_DOWN, 1);
-        reactions3.put(ReactionEmoji.HEART, 30);
+        Map<ReactionEmoji, Long> reactions1 = new HashMap<>();
+        reactions1.put(ReactionEmoji.THUMBS_UP, 2L);
+        Map<ReactionEmoji, Long> reactions2 = new HashMap<>();
+        reactions2.put(ReactionEmoji.EYES, 2L);
+        reactions2.put(ReactionEmoji.LAUGH, 5L);
+        Map<ReactionEmoji, Long> reactions3 = new HashMap<>();
+        reactions3.put(ReactionEmoji.THUMBS_DOWN, 1L);
+        reactions3.put(ReactionEmoji.HEART, 30L);
 
         CommentResponse comment1 = new CommentResponse(1L, user1, "첫 번째 코멘트", reactions1);
         CommentResponse comment2 = new CommentResponse(2L, user3, "두 번째 코멘트", reactions2);
