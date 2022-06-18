@@ -94,4 +94,8 @@ public class Issue extends BaseTimeEntity {
         this.comments.add(comment);
         comment.setIssue(this);
     }
+
+    public void deleteMilestone() {
+        this.milestone = null;
+    }
 }
