@@ -6,6 +6,7 @@ import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabel;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabelRepository;
 import com.team31.codesquad.issuetracker.domain.issue.IssueRepository;
+import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.domain.label.LabelRepository;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneRepository;
@@ -31,12 +32,16 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 @Primary
 @Service
 public class IssueServiceImpl implements IssueService {
+
+    public static final int DEFAULT_PAGE = 1;
+    public static final String DEFAULT_QUERY = "is:open";
 
     private final IssueRepository issueRepository;
     private final UserRepository userRepository;
@@ -48,7 +53,40 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public OpenClosedCountResult<List<IssueResponse>> findAll(Integer page, String query) {
-        return null;
+        setDefaultValue(page, query);
+
+        // TODO: 페이징 및 검색 조건 쿼리 구현
+
+        // 임시 로직
+        IssueStatus status = IssueStatus.OPEN;
+        if (query.strip().equals("is:closed")) {
+            status = IssueStatus.CLOSED;
+        }
+        long countAll = issueRepository.count();
+        List<IssueResponse> issueResponses = issueRepository.findAllByStatus(status).stream()
+                .map(IssueResponse::new)
+                .collect(Collectors.toList());
+
+        if (status.equals(IssueStatus.OPEN)) {
+            return new OpenClosedCountResult<>((long) issueResponses.size(),
+                    countAll - issueResponses.size()
+                    , issueResponses);
+        }
+
+        return new OpenClosedCountResult<>(
+                countAll - issueResponses.size(),
+                (long) issueResponses.size()
+                , issueResponses);
+    }
+
+    private void setDefaultValue(Integer page, String query) {
+        if (page == null) {
+            page = DEFAULT_PAGE;
+        }
+
+        if (!StringUtils.hasText(query)) {
+            query = DEFAULT_QUERY;
+        }
     }
 
     @Transactional
@@ -75,53 +113,6 @@ public class IssueServiceImpl implements IssueService {
         issue.addComment(comment);
 
         return new IssueCreateResponse(issue.getId(), comment.getId());
-    }
-
-    private User getAuthor(String loginName) {
-        return userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
-    }
-
-    private Milestone getMilestone(Long milestoneId) {
-        if (milestoneId == null) {
-            return null;
-        }
-        return milestoneRepository.findById(milestoneId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 milestone 입니다. id = " + milestoneId));
-    }
-
-    private List<IssueLabel> createIssueLabels(List<Long> labelIds) {
-        if (labelIds == null || labelIds.size() == 0) {
-            return new ArrayList<>();
-        }
-
-        List<IssueLabel> issueLabels = labelIds.stream()
-                .map(id -> labelRepository.findById(id)
-                        .orElseThrow(() -> new IllegalArgumentException(
-                                "존재하지 않는 label 입니다. id = " + id)))
-                .map(IssueLabel::new)
-                .collect(Collectors.toList());
-
-        issueLabelRepository.saveAll(issueLabels);
-        return issueLabels;
-    }
-
-    private List<AssignedUser> createAssignedUsers(List<Long> assigneeIds) {
-        if (assigneeIds == null || assigneeIds.size() == 0) {
-            return new ArrayList<>();
-        }
-
-        List<AssignedUser> assignedUsers = assigneeIds.stream()
-                .map(id -> userRepository.findById(id)
-                        .orElseThrow(
-                                () -> new IllegalArgumentException("존재하지 않는 user 입니다. id = " + id)))
-                .map(AssignedUser::new)
-                .collect(Collectors.toList());
-
-        assignedUserRepository.saveAll(assignedUsers);
-        return assignedUsers;
     }
 
     @Override
@@ -187,4 +178,52 @@ public class IssueServiceImpl implements IssueService {
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
         issue.updateIssueLabels(issueLabels);
     }
+
+    private User getAuthor(String loginName) {
+        return userRepository.findByLoginName(loginName)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 user 입니다. loginName = " + loginName));
+    }
+
+    private Milestone getMilestone(Long milestoneId) {
+        if (milestoneId == null) {
+            return null;
+        }
+        return milestoneRepository.findById(milestoneId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 milestone 입니다. id = " + milestoneId));
+    }
+
+    private List<IssueLabel> createIssueLabels(List<Long> labelIds) {
+        if (labelIds == null || labelIds.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        List<IssueLabel> issueLabels = labelIds.stream()
+                .map(id -> labelRepository.findById(id)
+                        .orElseThrow(() -> new IllegalArgumentException(
+                                "존재하지 않는 label 입니다. id = " + id)))
+                .map(IssueLabel::new)
+                .collect(Collectors.toList());
+
+        issueLabelRepository.saveAll(issueLabels);
+        return issueLabels;
+    }
+
+    private List<AssignedUser> createAssignedUsers(List<Long> assigneeIds) {
+        if (assigneeIds == null || assigneeIds.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        List<AssignedUser> assignedUsers = assigneeIds.stream()
+                .map(id -> userRepository.findById(id)
+                        .orElseThrow(
+                                () -> new IllegalArgumentException("존재하지 않는 user 입니다. id = " + id)))
+                .map(AssignedUser::new)
+                .collect(Collectors.toList());
+
+        assignedUserRepository.saveAll(assignedUsers);
+        return assignedUsers;
+    }
+
 }
