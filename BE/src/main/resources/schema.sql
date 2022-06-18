@@ -64,9 +64,9 @@ CREATE TABLE assigned_user
 CREATE TABLE comment
 (
     comment_id    BIGINT NOT NULL AUTO_INCREMENT,
-    author_id     BIGINT,
-    issue_id      BIGINT,
-    content       TEXT,
+    author_id     BIGINT NOT NULL,
+    issue_id      BIGINT NOT NULL,
+    content       TEXT   NOT NULL,
     create_date   DATETIME,
     modified_date DATETIME,
     PRIMARY KEY (comment_id),
@@ -88,10 +88,10 @@ CREATE TABLE issue_label
 
 CREATE TABLE reaction
 (
-    reaction_id    BIGINT NOT NULL AUTO_INCREMENT,
+    reaction_id    BIGINT       NOT NULL AUTO_INCREMENT,
     comment_id     BIGINT,
     user_id        BIGINT,
-    reaction_emoji VARCHAR(255),
+    reaction_emoji VARCHAR(255) NOT NULL,
     create_date    DATETIME,
     modified_date  DATETIME,
     PRIMARY KEY (reaction_id),
