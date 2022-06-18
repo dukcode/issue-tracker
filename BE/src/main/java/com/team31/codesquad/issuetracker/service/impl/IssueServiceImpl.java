@@ -142,14 +142,25 @@ public class IssueServiceImpl implements IssueService {
         return null;
     }
 
+    @Transactional
     @Override
     public void changeStatus(Long issueId, IssueStatusChangeRequest request) {
-
+        Issue issue = issueRepository.findById(issueId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        issue.changStatus(request.getStatus());
     }
 
+    @Transactional
     @Override
     public void changIssuesStatus(MultiIssueStatusChangeRequest request) {
-
+        request.getIssueIds().stream()
+                .map(
+                        id -> issueRepository.findById(id)
+                                .orElseThrow(() -> new IllegalArgumentException(
+                                        "존재하지 않는 issue 입니다. issueId = " + id))
+                )
+                .forEach(i -> i.changStatus(request.getStatus()));
     }
 
     @Override
