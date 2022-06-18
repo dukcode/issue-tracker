@@ -35,8 +35,9 @@ public class IssueController {
     private final IssueService issueService;
 
     @GetMapping("/api/v1/issues")
-    public OpenClosedCountResult<List<IssueResponse>> getIssues(@RequestParam Integer page,
-            @RequestParam(name = "q") String query) {
+    public OpenClosedCountResult<List<IssueResponse>> getIssues(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(name = "q", required = false) String query) {
 
         return issueService.findAll(page, query);
     }
