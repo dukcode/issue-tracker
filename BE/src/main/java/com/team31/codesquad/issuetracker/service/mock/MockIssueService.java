@@ -7,7 +7,6 @@ import com.team31.codesquad.issuetracker.domain.label.TextColor;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
 import com.team31.codesquad.issuetracker.dto.CountResult;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
-import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
@@ -20,7 +19,6 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
-import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import java.time.LocalDate;
@@ -125,11 +123,6 @@ public class MockIssueService implements IssueService {
     }
 
     @Override
-    public Long createComment(Long issueId, CommentCreateRequest request) {
-        return 3L;
-    }
-
-    @Override
     public void changeStatus(Long issueId, IssueStatusChangeRequest request) {
         return;
     }
@@ -154,14 +147,4 @@ public class MockIssueService implements IssueService {
         return;
     }
 
-    @Override
-    public Long createReaction(Long issueId, Long commentId, String loginName,
-            ReactionCreateRequest request) {
-        return 5L;
-    }
-
-    @Override
-    public void deleteReaction(Long reactionId) {
-        return;
-    }
 }

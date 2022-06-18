@@ -43,6 +43,7 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<Reaction> reactions = new ArrayList<>();
 
+
     public Comment(Issue issue, User author, String content) {
         this.issue = issue;
         this.author = author;
@@ -51,5 +52,21 @@ public class Comment extends BaseTimeEntity {
 
     public void setIssue(Issue issue) {
         this.issue = issue;
+    }
+
+    public void validateIssue(Long issueId) {
+        if (!issueId.equals(getIssue().getId())) {
+            throw new IllegalArgumentException("해당 이슈의 코멘트가 아닙니다.");
+        }
+    }
+
+    public void validateAuthor(String loginName) {
+        if (!loginName.equals(getAuthor().getLoginName())) {
+            throw new IllegalArgumentException("작성자만 접근이 가능합니다.");
+        }
+    }
+
+    public void update(String content) {
+        this.content = content;
     }
 }

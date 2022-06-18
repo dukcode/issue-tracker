@@ -14,7 +14,6 @@ import com.team31.codesquad.issuetracker.domain.user.AssignedUserRepository;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.domain.user.UserRepository;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
-import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateResponse;
@@ -24,7 +23,6 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
-import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import java.util.ArrayList;
 import java.util.List;
@@ -134,11 +132,6 @@ public class IssueServiceImpl implements IssueService {
         return new IssueDetailResponse(issue);
     }
 
-    @Override
-    public Long createComment(Long issueId, CommentCreateRequest request) {
-        return null;
-    }
-
     @Transactional
     @Override
     public void changeStatus(Long issueId, IssueStatusChangeRequest request) {
@@ -193,16 +186,5 @@ public class IssueServiceImpl implements IssueService {
 
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
         issue.updateIssueLabels(issueLabels);
-    }
-
-    @Override
-    public Long createReaction(Long issueId, Long commentId, String loginName,
-            ReactionCreateRequest request) {
-        return null;
-    }
-
-    @Override
-    public void deleteReaction(Long reactionId) {
-
     }
 }

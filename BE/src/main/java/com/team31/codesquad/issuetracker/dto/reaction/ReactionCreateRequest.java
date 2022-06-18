@@ -1,6 +1,8 @@
 package com.team31.codesquad.issuetracker.dto.reaction;
 
 import com.team31.codesquad.issuetracker.domain.comment.ReactionEmoji;
+import java.util.List;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ReactionCreateRequest {
 
-    private ReactionEmoji emoji;
+    @NotNull
+    private List<ReactionEmoji> emojis;
 
 }

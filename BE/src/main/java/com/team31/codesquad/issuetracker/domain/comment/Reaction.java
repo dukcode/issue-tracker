@@ -27,14 +27,20 @@ public class Reaction extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id", nullable = false)
+    @JoinColumn(name = "comment_id")
     private Comment comment;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReactionEmoji reactionEmoji;
+
+    public Reaction(User user, Comment comment, ReactionEmoji reactionEmoji) {
+        this.user = user;
+        this.comment = comment;
+        this.reactionEmoji = reactionEmoji;
+    }
 }
