@@ -53,9 +53,10 @@ public class IssueServiceImpl implements IssueService {
         return null;
     }
 
+    @Transactional
     @Override
     public void deleteIssue(Long issueId) {
-
+        issueRepository.deleteById(issueId);
     }
 
     @Transactional
