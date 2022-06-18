@@ -98,4 +98,8 @@ public class Issue extends BaseTimeEntity {
     public void deleteMilestone() {
         this.milestone = null;
     }
+
+    public void changStatus(IssueStatus status) {
+        this.status = status;
+    }
 }
