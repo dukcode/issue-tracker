@@ -2,6 +2,7 @@ package com.team31.codesquad.issuetracker.service;
 
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentUpdateRequest;
+import com.team31.codesquad.issuetracker.dto.comment.ReactionResponse;
 import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
 
 public interface CommentService {
@@ -18,4 +19,5 @@ public interface CommentService {
     void updateReactions(Long issueId, Long commentId,
             ReactionCreateRequest request, String loginName);
 
+    ReactionResponse getReactions(Long issueId, Long commentId, String loginName);
 }

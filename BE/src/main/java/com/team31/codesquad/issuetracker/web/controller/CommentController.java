@@ -3,6 +3,7 @@ package com.team31.codesquad.issuetracker.web.controller;
 import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginName;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentUpdateRequest;
+import com.team31.codesquad.issuetracker.dto.comment.ReactionResponse;
 import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
 import com.team31.codesquad.issuetracker.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -52,5 +54,12 @@ public class CommentController {
             @LoginName String loginName) {
         commentService.updateReactions(issueId, commentId, request, loginName);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping("/api/v1/issues/{issueId}/comments/{commentId}/reactions")
+    public ReactionResponse getReactions(
+            @PathVariable Long issueId, @PathVariable Long commentId,
+            @LoginName String loginName) {
+        return commentService.getReactions(issueId, commentId, loginName);
     }
 }

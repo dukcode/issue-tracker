@@ -10,6 +10,7 @@ import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.domain.user.UserRepository;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentUpdateRequest;
+import com.team31.codesquad.issuetracker.dto.comment.ReactionResponse;
 import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
 import com.team31.codesquad.issuetracker.service.CommentService;
 import java.util.List;
@@ -92,4 +93,21 @@ public class CommentServiceImpl implements CommentService {
         reactionRepository.saveAll(reactions);
     }
 
+    @Override
+    public ReactionResponse getReactions(Long issueId, Long commentId, String loginName) {
+        Comment comment = commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 comment 입니다. commentId = " + commentId));
+
+        comment.validateIssue(issueId);
+
+        User user = userRepository.findByLoginName(loginName)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 user 입니다. loginName = " + loginName));
+
+        List<Reaction> reactions = reactionRepository.findAllByUserAndComment(user,
+                comment);
+
+        return new ReactionResponse(reactions);
+    }
 }
