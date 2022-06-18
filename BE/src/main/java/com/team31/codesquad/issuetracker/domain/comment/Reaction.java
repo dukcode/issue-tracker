@@ -37,4 +37,10 @@ public class Reaction extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private ReactionEmoji reactionEmoji;
+
+    public Reaction(User user, Comment comment, ReactionEmoji reactionEmoji) {
+        this.user = user;
+        this.comment = comment;
+        this.reactionEmoji = reactionEmoji;
+    }
 }
