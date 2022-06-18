@@ -63,8 +63,8 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public IssueCreateResponse createIssue(IssueCreateRequest request, String loginName) {
         User author = getAuthor(loginName);
-        List<AssignedUser> assignedUsers = createAssignedUsers(request);
-        List<IssueLabel> issueLabels = createIssueLabels(request);
+        List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
+        List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
         Milestone milestone = getMilestone(request);
 
         Issue issue = Issue.createIssue(request.getTitle(), author,
@@ -95,8 +95,7 @@ public class IssueServiceImpl implements IssueService {
                         "존재하지 않는 milestone 입니다. id = " + milestoneId));
     }
 
-    private List<IssueLabel> createIssueLabels(IssueCreateRequest request) {
-        List<Long> labelIds = request.getLabelIds();
+    private List<IssueLabel> createIssueLabels(List<Long> labelIds) {
         if (labelIds == null || labelIds.size() == 0) {
             return new ArrayList<>();
         }
@@ -112,8 +111,7 @@ public class IssueServiceImpl implements IssueService {
         return issueLabels;
     }
 
-    private List<AssignedUser> createAssignedUsers(IssueCreateRequest request) {
-        List<Long> assigneeIds = request.getAssigneeIds();
+    private List<AssignedUser> createAssignedUsers(List<Long> assigneeIds) {
         if (assigneeIds == null || assigneeIds.size() == 0) {
             return new ArrayList<>();
         }
@@ -163,9 +161,16 @@ public class IssueServiceImpl implements IssueService {
                 .forEach(i -> i.changStatus(request.getStatus()));
     }
 
+    @Transactional
     @Override
     public void changeAssignee(Long issueId, IssueAssigneesChangeRequest request) {
+        Issue issue = issueRepository.findById(issueId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        assignedUserRepository.deleteAll(issue.getAssignees());
 
+        List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
+        issue.updateAssignedUsers(assignedUsers);
     }
 
     @Override

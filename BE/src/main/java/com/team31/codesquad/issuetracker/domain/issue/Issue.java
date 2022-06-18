@@ -80,6 +80,13 @@ public class Issue extends BaseTimeEntity {
 
     }
 
+    public void updateAssignedUsers(List<AssignedUser> assignedUsers) {
+        this.assignees = new ArrayList<>();
+        for (AssignedUser assignedUser : assignedUsers) {
+            addAssignedUser(assignedUser);
+        }
+    }
+
     private void addAssignedUser(AssignedUser assignedUser) {
         this.assignees.add(assignedUser);
         assignedUser.setIssue(this);
