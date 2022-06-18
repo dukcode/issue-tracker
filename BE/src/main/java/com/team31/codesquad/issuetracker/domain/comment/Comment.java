@@ -5,6 +5,7 @@ import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,17 +30,17 @@ public class Comment extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "issue_id")
+    @JoinColumn(name = "issue_id", nullable = false)
     private Issue issue;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "comment")
-    private List<Reaction> reaction = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<Reaction> reactions = new ArrayList<>();
 
 }
