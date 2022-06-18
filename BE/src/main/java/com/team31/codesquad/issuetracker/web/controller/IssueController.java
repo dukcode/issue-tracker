@@ -12,6 +12,8 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.service.IssueService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +30,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
+@Tag(name = "Issue", description = "Issue 관련 API")
 @RequiredArgsConstructor
 @RestController
 public class IssueController {
 
     private final IssueService issueService;
 
+    @Tag(name = "Issue")
     @GetMapping("/api/v1/issues")
+    @Operation(summary = "Issue 목록 조회",
+            description = "q와, page에 따라 필터링 된 Issue를 조회한다.")
     public OpenClosedCountResult<List<IssueResponse>> getIssues(
             @RequestParam(required = false) Integer page,
             @RequestParam(name = "q", required = false) String query) {
@@ -42,12 +48,18 @@ public class IssueController {
         return issueService.findAll(page, query);
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue 삭제",
+            description = "Issue를 삭제한다. Issue를 작성한 User만 삭제 권한을 가진다.")
     @DeleteMapping("/api/v1/issues/{issueId}")
     public ResponseEntity<Void> deleteIssue(@PathVariable Long issueId) {
         issueService.deleteIssue(issueId);
         return ResponseEntity.noContent().build();
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue 등록",
+            description = "Issue를 등록한다.")
     @PostMapping("/api/v1/issues")
     public ResponseEntity<IssueCreateResponse> createIssue(
             @Validated @RequestBody IssueCreateRequest request, @LoginName String loginName) {
@@ -55,11 +67,17 @@ public class IssueController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue 상세 조회",
+            description = "Issue를 상세 조회한다.")
     @GetMapping("/api/v1/issues/{issueId}")
     public IssueDetailResponse getIssueDetail(@PathVariable Long issueId) {
         return issueService.getIssue(issueId);
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "단건 Issue status 변경",
+            description = "단건 Issue의 status를 변경한다.")
     @PatchMapping("/api/v1/issues/{issueId}/status")
     public ResponseEntity<Void> changeStatus(@PathVariable Long issueId,
             @Validated @RequestBody IssueStatusChangeRequest request) {
@@ -67,6 +85,9 @@ public class IssueController {
         return ResponseEntity.noContent().build();
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "다중 Issue status 변경",
+            description = "Issue들의 status들을 일괄 변경한다.")
     @PatchMapping("/api/v1/issues")
     public ResponseEntity<Void> changeIssuesStatus(
             @Validated @RequestBody MultiIssueStatusChangeRequest request) {
@@ -74,6 +95,9 @@ public class IssueController {
         return ResponseEntity.noContent().build();
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue assignees 변경",
+            description = "Issue의 담당자들을 일괄 변경한다.")
     @PatchMapping("/api/v1/issues/{issueId}/assignees")
     public ResponseEntity<Void> changeAssignee(@PathVariable Long issueId,
             @Validated @RequestBody IssueAssigneesChangeRequest request) {
@@ -81,6 +105,9 @@ public class IssueController {
         return ResponseEntity.noContent().build();
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue milestone 변경",
+            description = "Issue의 milestone을 변경한다.")
     @PatchMapping("/api/v1/issues/{issueId}/milestone")
     public ResponseEntity<Void> changeMilestone(@PathVariable Long issueId,
             @Validated @RequestBody IssueMilestoneChangeRequest request) {
@@ -88,6 +115,9 @@ public class IssueController {
         return ResponseEntity.noContent().build();
     }
 
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue labels 변경",
+            description = "Issue의 레이블들을 일괄 변경한다.")
     @PatchMapping("/api/v1/issues/{issueId}/labels")
     public ResponseEntity<Void> changeLabels(@PathVariable Long issueId,
             @Validated @RequestBody IssueLabelsChangeRequest request) {
