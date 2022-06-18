@@ -98,7 +98,7 @@ public class IssueController {
 
     @PatchMapping("/api/v1/issues/{issueId}/labels")
     public ResponseEntity<Void> changeLabels(@PathVariable Long issueId,
-            @RequestBody IssueLabelsChangeRequest request) {
+            @Validated @RequestBody IssueLabelsChangeRequest request) {
         issueService.changeLabels(issueId, request);
         return ResponseEntity.noContent().build();
     }
