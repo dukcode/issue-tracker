@@ -91,7 +91,7 @@ public class IssueController {
 
     @PatchMapping("/api/v1/issues/{issueId}/milestone")
     public ResponseEntity<Void> changeMilestone(@PathVariable Long issueId,
-            @RequestBody IssueMilestoneChangeRequest request) {
+            @Validated @RequestBody IssueMilestoneChangeRequest request) {
         issueService.changeMilestone(issueId, request);
         return ResponseEntity.noContent().build();
     }

@@ -109,4 +109,13 @@ public class Issue extends BaseTimeEntity {
     public void changStatus(IssueStatus status) {
         this.status = status;
     }
+
+    public void updateMilestone(Milestone milestone) {
+        if (milestone == null) {
+            deleteMilestone();
+            return;
+        }
+
+        this.milestone = milestone;
+    }
 }

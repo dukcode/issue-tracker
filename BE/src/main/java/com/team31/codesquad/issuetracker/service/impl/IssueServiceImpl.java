@@ -65,7 +65,7 @@ public class IssueServiceImpl implements IssueService {
         User author = getAuthor(loginName);
         List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
-        Milestone milestone = getMilestone(request);
+        Milestone milestone = getMilestone(request.getMilestoneId());
 
         Issue issue = Issue.createIssue(request.getTitle(), author,
                 assignedUsers, issueLabels, milestone);
@@ -85,8 +85,7 @@ public class IssueServiceImpl implements IssueService {
                         "존재하지 않는 user 입니다. loginName = " + loginName));
     }
 
-    private Milestone getMilestone(IssueCreateRequest request) {
-        Long milestoneId = request.getMilestoneId();
+    private Milestone getMilestone(Long milestoneId) {
         if (milestoneId == null) {
             return null;
         }
@@ -173,9 +172,15 @@ public class IssueServiceImpl implements IssueService {
         issue.updateAssignedUsers(assignedUsers);
     }
 
+    @Transactional
     @Override
     public void changeMilestone(Long issueId, IssueMilestoneChangeRequest request) {
+        Issue issue = issueRepository.findById(issueId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        Milestone milestone = getMilestone(request.getMilestoneId());
 
+        issue.updateMilestone(milestone);
     }
 
     @Override
