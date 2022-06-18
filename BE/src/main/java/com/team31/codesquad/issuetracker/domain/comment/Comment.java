@@ -5,6 +5,7 @@ import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -29,17 +30,43 @@ public class Comment extends BaseTimeEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "issue_id")
+    @JoinColumn(name = "issue_id", nullable = false)
     private Issue issue;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     private User author;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
-    @OneToMany(mappedBy = "comment")
-    private List<Reaction> reaction = new ArrayList<>();
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
+    private List<Reaction> reactions = new ArrayList<>();
 
+
+    public Comment(Issue issue, User author, String content) {
+        this.issue = issue;
+        this.author = author;
+        this.content = content;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
+
+    public void validateIssue(Long issueId) {
+        if (!issueId.equals(getIssue().getId())) {
+            throw new IllegalArgumentException("해당 이슈의 코멘트가 아닙니다.");
+        }
+    }
+
+    public void validateAuthor(String loginName) {
+        if (!loginName.equals(getAuthor().getLoginName())) {
+            throw new IllegalArgumentException("작성자만 접근이 가능합니다.");
+        }
+    }
+
+    public void update(String content) {
+        this.content = content;
+    }
 }

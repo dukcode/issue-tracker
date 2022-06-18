@@ -1,5 +1,6 @@
 package com.team31.codesquad.issuetracker.service.impl;
 
+import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneRepository;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
@@ -60,7 +61,14 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Transactional
     @Override
     public void deleteMilestone(Long milestoneId) {
-        milestoneRepository.deleteById(milestoneId);
+        Milestone milestone = milestoneRepository.findById(milestoneId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "해당 마일스톤이 존재하지 않습니다. id = " + milestoneId));
+        milestone.getIssues()
+                .forEach(Issue::deleteMilestone);
+
+        milestoneRepository.delete(milestone);
+
     }
 
     @Transactional
@@ -69,7 +77,7 @@ public class MilestoneServiceImpl implements MilestoneService {
         milestoneRepository.findByTitle(request.getTitle()).ifPresent(
                 findLabel -> {
                     if (!Objects.equals(findLabel.getId(), milestoneId)) {
-                        throw new IllegalArgumentException("중복된 이름의 레이블이 존재합니다.");
+                        throw new IllegalArgumentException("중복된 이름의 마일스톤이 존재합니다.");
                     }
                 });
 
@@ -85,7 +93,7 @@ public class MilestoneServiceImpl implements MilestoneService {
     public void changeStatus(Long milestoneId, MilestoneStatusChangeRequest request) {
         Milestone milestone = milestoneRepository.findById(milestoneId)
                 .orElseThrow(() -> new IllegalArgumentException(
-                        "해당 레이블이 존재하지 않습니다. id = " + milestoneId));
+                        "해당 마일스톤이 존재하지 않습니다. id = " + milestoneId));
 
         milestone.changeStatus(request.getStatus());
     }

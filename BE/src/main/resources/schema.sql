@@ -1,7 +1,7 @@
 CREATE TABLE users
 (
-    user_id       BIGINT NOT NULL AUTO_INCREMENT,
-    login_name    VARCHAR(255) UNIQUE,
+    user_id       BIGINT       NOT NULL AUTO_INCREMENT,
+    login_name    VARCHAR(255) NOT NULL UNIQUE,
     name          VARCHAR(255),
     email         VARCHAR(255),
     profile_image VARCHAR(255),
@@ -12,11 +12,11 @@ CREATE TABLE users
 
 CREATE TABLE milestone
 (
-    milestone_id  BIGINT NOT NULL AUTO_INCREMENT,
-    description   VARCHAR(255) UNIQUE,
-    title         VARCHAR(255),
+    milestone_id  BIGINT       NOT NULL AUTO_INCREMENT,
+    title         VARCHAR(255) NOT NULL UNIQUE,
+    status        VARCHAR(255) NOT NULL,
+    description   VARCHAR(255),
     due_date      DATE,
-    status        VARCHAR(255),
     create_date   DATETIME,
     modified_date DATETIME,
     PRIMARY KEY (milestone_id)
@@ -26,9 +26,9 @@ CREATE TABLE label
 (
     label_id      BIGINT       NOT NULL AUTO_INCREMENT,
     name          VARCHAR(255) NOT NULL UNIQUE,
-    description   VARCHAR(255),
     label_color   VARCHAR(255) NOT NULL,
     text_color    VARCHAR(255) NOT NULL,
+    description   VARCHAR(255),
     create_date   DATETIME,
     modified_date DATETIME,
     PRIMARY KEY (label_id)
@@ -36,11 +36,11 @@ CREATE TABLE label
 
 CREATE TABLE issue
 (
-    issue_id      BIGINT NOT NULL AUTO_INCREMENT,
-    author_id     BIGINT,
+    issue_id      BIGINT       NOT NULL AUTO_INCREMENT,
+    author_id     BIGINT       NOT NULL,
     milestone_id  BIGINT,
-    title         VARCHAR(500),
-    status        VARCHAR(255),
+    title         VARCHAR(500) NOT NULL,
+    status        VARCHAR(255) NOT NULL,
     create_date   DATETIME,
     modified_date DATETIME,
     PRIMARY KEY (issue_id),
@@ -64,9 +64,9 @@ CREATE TABLE assigned_user
 CREATE TABLE comment
 (
     comment_id    BIGINT NOT NULL AUTO_INCREMENT,
-    author_id     BIGINT,
-    issue_id      BIGINT,
-    content       TEXT,
+    author_id     BIGINT NOT NULL,
+    issue_id      BIGINT NOT NULL,
+    content       TEXT   NOT NULL,
     create_date   DATETIME,
     modified_date DATETIME,
     PRIMARY KEY (comment_id),
@@ -88,10 +88,10 @@ CREATE TABLE issue_label
 
 CREATE TABLE reaction
 (
-    reaction_id    BIGINT NOT NULL AUTO_INCREMENT,
+    reaction_id    BIGINT       NOT NULL AUTO_INCREMENT,
     comment_id     BIGINT,
     user_id        BIGINT,
-    reaction_emoji VARCHAR(255),
+    reaction_emoji VARCHAR(255) NOT NULL,
     create_date    DATETIME,
     modified_date  DATETIME,
     PRIMARY KEY (reaction_id),
