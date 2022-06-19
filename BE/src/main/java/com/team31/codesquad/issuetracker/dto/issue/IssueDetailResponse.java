@@ -1,5 +1,6 @@
 package com.team31.codesquad.issuetracker.dto.issue;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabel;
 import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
@@ -21,15 +22,32 @@ import lombok.Getter;
 public class IssueDetailResponse {
 
     private Long id;
+
     private IssueStatus status;
+
     private String title;
+
     private UserResponse author;
+
     private List<UserResponse> assignees;
+
     private List<LabelResponse> labels;
+
     private MilestoneResponse milestone;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modifiedDate;
+
     private CountResult<List<CommentResponse>> comments;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime statusChangedAt;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private UserResponse statusChangeUser;
 
     public IssueDetailResponse(Issue issue) {
         this.id = issue.getId();
@@ -53,5 +71,7 @@ public class IssueDetailResponse {
                 .map(CommentResponse::new)
                 .collect(Collectors.toList());
         this.comments = new CountResult<>(commentResponses.size(), commentResponses);
+        this.statusChangedAt = issue.getStatusChangedAt();
+        this.statusChangeUser = new UserResponse(issue.getStatusChangeUser());
     }
 }

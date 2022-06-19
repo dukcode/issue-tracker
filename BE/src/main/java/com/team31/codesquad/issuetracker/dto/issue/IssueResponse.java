@@ -1,5 +1,6 @@
 package com.team31.codesquad.issuetracker.dto.issue;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabel;
 import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
@@ -18,12 +19,21 @@ import lombok.Getter;
 public class IssueResponse {
 
     private Long id;
+
     private IssueStatus status;
+
     private String title;
+
     private UserResponse author;
+
     private List<LabelResponse> labels;
+
     private MilestoneResponse milestone;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createDate;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime modifiedDate;
 
     public IssueResponse(Issue issue) {
