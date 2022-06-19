@@ -13,11 +13,11 @@ import {
 	AddBox,
 	FilePresent,
 } from "@mui/icons-material";
+import { ColorsType } from "../Styles/theme";
 
 type TResultButton = {
-	colorset: string;
+	colorset: keyof ColorsType;
 	size: number;
-	hover?: string;
 };
 
 type TIcons = {
@@ -36,22 +36,17 @@ const muiIcons: TIcons = {
 	AddBox,
 	FilePresent,
 };
+
 const muiKeys = Object.keys(muiIcons);
 
 const getIcon = (buttonType: SvgIconComponent) => {
 	const resultButton = styled(buttonType)<TResultButton>`
 		&& {
-			${({ theme: { colors }, colorset, size, hover }) => css`
+			${({ theme: { colors }, colorset, size }) => css`
 				color: ${colors[colorset]};
 				width: ${size}px;
 				height: ${size}px;
 				cursor: pointer;
-				${hover &&
-				css`
-					:hover {
-						color: ${colors[`${colorset}dark`]};
-					}
-				`}
 			`}
 		}
 	`;

@@ -109,14 +109,27 @@ const height = {
 	issueHeader: "64px",
 };
 
+const getTextColor = (targetColor: string) => {
+	const originColor = targetColor.substring(1);
+	const rgb = parseInt(originColor, 16);
+	const r = (rgb >> 16) & 0xff;
+	const g = (rgb >> 8) & 0xff;
+	const b = (rgb >> 0) & 0xff;
+	const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+
+	return luma > 127.5 ? "#000000" : "#ffffff"; //
+};
+
 const theme = {
 	colors,
 	fonts,
 	width,
 	height,
+	getTextColor,
 };
 
 type ThemeType = typeof theme;
+type ColorsType = typeof colors;
 
-export type { ThemeType };
+export type { ThemeType, ColorsType };
 export default theme;
