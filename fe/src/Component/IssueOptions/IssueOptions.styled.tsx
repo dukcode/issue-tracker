@@ -14,7 +14,6 @@ export const StyledNewIssueOption = styled.div`
 	${({ theme: { colors, fonts } }) => css`
 		${fonts.textSmall};
 		cursor: pointer;
-		width: 300px;
 		display: flex;
 		height: 100px;
 		border-bottom: solid 1px ${colors.line};
