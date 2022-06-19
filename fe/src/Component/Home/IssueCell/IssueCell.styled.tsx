@@ -54,19 +54,19 @@ export const Title = styled.div`
 	${({ theme: { colors } }) =>
 		css`
 			color: ${colors.titleActive};
-		`}
-	width: 100%;
-	height: 32px;
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	font-weight: 700;
-	font-size: 18px;
-	line-height: 32px;
+			height: 32px;
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-weight: 700;
+			font-size: 18px;
+			line-height: 32px;
+			margin-right: 8px;
 
-	svg {
-		margin-top: -3px;
-	}
+			svg {
+				margin-top: -3px;
+			}
+		`}
 `;
 
 export const IssueNumber = styled.div`

@@ -2,6 +2,7 @@ import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
 import user2 from "Img/user2.jpeg";
 import UserImg from "Component/UserImg";
+import Label from "Component/Label";
 import {
 	StyledIssueCell,
 	IssueCellLeft,
@@ -39,6 +40,7 @@ const IssueCell = ({ id, title, author, timeStamp, mileStone }: TIssueItem) => {
 							<ErrorOutline colorset="blue" size={18} />
 							{title}
 						</Title>
+						<Label />
 					</IssueInfoTop>
 					<IssueInfoBottom>
 						<IssueNumber>#{id}</IssueNumber>
