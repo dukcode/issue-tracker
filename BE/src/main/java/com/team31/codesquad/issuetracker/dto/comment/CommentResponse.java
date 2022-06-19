@@ -4,6 +4,7 @@ import com.team31.codesquad.issuetracker.domain.comment.Comment;
 import com.team31.codesquad.issuetracker.domain.comment.Reaction;
 import com.team31.codesquad.issuetracker.domain.comment.ReactionEmoji;
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -19,6 +20,8 @@ public class CommentResponse {
     private UserResponse author;
     private String content;
     private Map<ReactionEmoji, Long> reactions;
+    private LocalDateTime createDate;
+    private LocalDateTime modifiedDate;
 
     public CommentResponse(Comment comment) {
         this.id = comment.getId();
@@ -28,5 +31,7 @@ public class CommentResponse {
         this.reactions = comment.getReactions().stream()
                 .map(Reaction::getReactionEmoji)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        this.createDate = comment.getCreateDate();
+        this.modifiedDate = comment.getModifiedDate();
     }
 }

@@ -110,9 +110,12 @@ public class MockIssueService implements IssueService {
         reactions3.put(ReactionEmoji.THUMBS_DOWN, 1L);
         reactions3.put(ReactionEmoji.HEART, 30L);
 
-        CommentResponse comment1 = new CommentResponse(1L, false, user1, "첫 번째 코멘트", reactions1);
-        CommentResponse comment2 = new CommentResponse(2L, false, user3, "두 번째 코멘트", reactions2);
-        CommentResponse comment3 = new CommentResponse(3L, false, user2, "세 번째 코멘트", reactions3);
+        CommentResponse comment1 = new CommentResponse(1L, false, user1, "첫 번째 코멘트", reactions1,
+                LocalDateTime.now(), LocalDateTime.now());
+        CommentResponse comment2 = new CommentResponse(2L, false, user3, "두 번째 코멘트", reactions2,
+                LocalDateTime.now(), LocalDateTime.now());
+        CommentResponse comment3 = new CommentResponse(3L, false, user2, "세 번째 코멘트", reactions3,
+                LocalDateTime.now(), LocalDateTime.now());
 
         List<CommentResponse> comments = Arrays.asList(comment1, comment2, comment3);
 
