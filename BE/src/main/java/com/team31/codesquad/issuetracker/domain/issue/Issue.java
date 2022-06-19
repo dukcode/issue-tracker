@@ -142,4 +142,8 @@ public class Issue extends BaseTimeEntity {
             addIssueLabel(issueLabel);
         }
     }
+
+    public void changeTitle(String title) {
+        this.title = title;
+    }
 }

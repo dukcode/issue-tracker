@@ -16,6 +16,7 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueTitleChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
@@ -150,6 +151,11 @@ public class MockIssueService implements IssueService {
     @Override
     public void changeLabels(Long issueId, IssueLabelsChangeRequest request) {
         return;
+    }
+
+    @Override
+    public void changeTitle(Long issueId, IssueTitleChangeRequest request) {
+
     }
 
 }
