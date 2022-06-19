@@ -15,12 +15,14 @@ import lombok.Getter;
 public class CommentResponse {
 
     private Long id;
+    private boolean systemMessage;
     private UserResponse author;
     private String content;
     private Map<ReactionEmoji, Long> reactions;
 
     public CommentResponse(Comment comment) {
         this.id = comment.getId();
+        this.systemMessage = comment.getSystemMessage();
         this.author = new UserResponse(comment.getAuthor());
         this.content = comment.getContent();
         this.reactions = comment.getReactions().stream()

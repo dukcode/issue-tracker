@@ -22,9 +22,9 @@ public interface IssueService {
 
     IssueDetailResponse getIssue(Long issueId);
 
-    void changeStatus(Long issueId, IssueStatusChangeRequest request);
+    void changeStatus(Long issueId, IssueStatusChangeRequest request, String loginName);
 
-    void changIssuesStatus(MultiIssueStatusChangeRequest request);
+    void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName);
 
     void changeAssignee(Long issueId, IssueAssigneesChangeRequest request);
 
