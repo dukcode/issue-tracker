@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, DefaultTheme, StyledComponent } from "styled-components";
 
 import {
 	SvgIconComponent,
@@ -50,8 +50,8 @@ const getIcon = (buttonType: SvgIconComponent) => {
 	return resultButton;
 };
 
-const icons: { [key in string]: any } = {};
-// 타입 재설정 필요
+const icons: { [key in string]: StyledComponent<SvgIconComponent, DefaultTheme, TResultButton> } =
+	{};
 
 muiKeys.forEach((key) => {
 	icons[key] = getIcon(muiIcons[key]);
