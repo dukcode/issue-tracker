@@ -10,11 +10,18 @@ import {
 	ClosedIssue,
 	StyledCheckbox,
 } from "./Home.styled";
-import FilterCategoryList from "./FilterCategoryList/FilterCategoryList";
-import IssueCells from "./IssueCells/IssueCells";
+import FilterCategoryList from "./FilterCategoryList";
+import IssueCell from "./IssueCell";
 
-import type { listItem } from "./FilterCategoryList/FilterCategoryList";
-import type { TIssueItem } from "./IssueCells/IssueCells";
+import type { listItem } from "./FilterCategoryList";
+
+type TIssueItem = {
+	id: number;
+	title: string;
+	author: string;
+	timeStamp: string; // TODO: timestamp 형식
+	mileStone: string;
+};
 
 const filterCategoryItems: listItem[] = [
 	{ id: 1, category: "담당자" },
@@ -53,6 +60,18 @@ const issueCellItems: TIssueItem[] = [
 const Home = () => {
 	const OPENED_ISSUE = "열린 이슈";
 	const CLOSED_ISSUE = "닫힌 이슈";
+	const issueCells = issueCellItems
+		.reverse()
+		.map((item: TIssueItem) => (
+			<IssueCell
+				key={item.id}
+				id={item.id}
+				title={item.title}
+				author={item.author}
+				timeStamp={item.timeStamp}
+				mileStone={item.mileStone}
+			/>
+		));
 
 	return (
 		<>
@@ -74,7 +93,7 @@ const Home = () => {
 					</IssueHeaderLeft>
 					<FilterCategoryList listItems={filterCategoryItems} />
 				</IssueHeader>
-				<IssueCells issueItems={issueCellItems} />
+				{issueCells}
 			</IssueContainer>
 		</>
 	);

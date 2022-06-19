@@ -76,13 +76,11 @@ const fonts = {
 		"line-height": "20px",
 	},
 	logotypeLarge: {
-		// "font-style": "italic",
 		"font-size": "56px",
 		"line-height": "72px",
 		"letter-spacing": "-0.04em",
 	},
 	logotypeRegular: {
-		// "font-style": "italic",
 		"font-weight": "500",
 		"font-size": "32px",
 		"line-height": "40px",
