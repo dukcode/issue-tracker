@@ -8,7 +8,7 @@ import {
 	StyledNewIssueContent,
 	StyledNewIssueTitle,
 	StyledNewIssueDesc,
-} from "./NewIssue.styled";
+} from "./NewIssueContent.styled";
 
 const defaultIssueTitle = "제목";
 const defaultIssueDesc = "코멘트를 입력하세요";
@@ -21,7 +21,7 @@ const NewIssueContent = () => {
 
 	return (
 		<StyledNewIssueContentWrapper>
-			<UserImg img={user} />
+			<UserImg img={user} size="medium" />
 			<StyledNewIssueContent>
 				<StyledNewIssueTitle>
 					<input value={issueTitle} />

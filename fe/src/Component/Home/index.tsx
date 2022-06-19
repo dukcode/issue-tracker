@@ -14,7 +14,7 @@ import FilterCategoryList from "./FilterCategoryList/FilterCategoryList";
 import IssueCells from "./IssueCells/IssueCells";
 
 import type { listItem } from "./FilterCategoryList/FilterCategoryList";
-import type { issueItem } from "./IssueCells/IssueCells";
+import type { TIssueItem } from "./IssueCells/IssueCells";
 
 const filterCategoryItems: listItem[] = [
 	{ id: 1, category: "담당자" },
@@ -26,7 +26,7 @@ const filterCategoryItems: listItem[] = [
 const { ErrorOutline, Inventory } = icons;
 
 // TODO: label 추가해야 함
-const issueCellItems: issueItem[] = [
+const issueCellItems: TIssueItem[] = [
 	{
 		id: 1,
 		title: "FE 이슈트래커 개발",
