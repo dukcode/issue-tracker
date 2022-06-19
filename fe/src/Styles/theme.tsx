@@ -112,12 +112,12 @@ const height = {
 const getTextColor = (targetColor: string) => {
 	const originColor = targetColor.substring(1);
 	const rgb = parseInt(originColor, 16);
-	const r = (rgb >> 16) & 0xff;
-	const g = (rgb >> 8) & 0xff;
-	const b = (rgb >> 0) & 0xff;
+	const r = (rgb >> 16) & 0xff; // eslint-disable-line no-bitwise
+	const g = (rgb >> 8) & 0xff; // eslint-disable-line no-bitwise
+	const b = (rgb >> 0) & 0xff; // eslint-disable-line no-bitwise
 	const luma = 0.2126 * r + 0.7152 * g + 0.0722 * b;
 
-	return luma > 127.5 ? "#000000" : "#ffffff"; //
+	return luma > 127.5 ? "#000000" : "#ffffff";
 };
 
 const theme = {

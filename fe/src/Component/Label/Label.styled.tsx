@@ -5,15 +5,15 @@ type TStyledLabelProps = {
 };
 
 export const StyledLabel = styled.div<TStyledLabelProps>`
-	${({ theme: { colors, fonts }, color }) => css`
-		${fonts.textXSamll};
+	${({ theme: { fonts, getTextColor }, color }) => css`
+		${fonts.linkXSmall};
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
 		background-color: ${color};
-		color: ${colors.offWhite};
+		color: ${getTextColor(color)};
 		border-radius: 30px;
-		padding: 4px 16px;
+		padding: 4px 10px;
 	`}
 `;
 

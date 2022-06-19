@@ -1,9 +1,12 @@
 import { StyledLabel } from "./Label.styled";
 
-const color = "#2a67ad";
+type TLabelProps = {
+	color: string;
+	name: string;
+};
 
-const Label = () => {
-	return <StyledLabel color={color}>documentation</StyledLabel>;
+const Label = ({ color, name }: TLabelProps) => {
+	return <StyledLabel color={color}>{name}</StyledLabel>;
 };
 
 export default Label;

@@ -34,7 +34,7 @@ export const IssueInfoTop = styled.div`
 export const IssueInfoBottom = styled.div`
 	${({ theme: { colors, fonts } }) =>
 		css`
-			${fonts.testSmall};
+			${fonts.textSmall};
 			color: ${colors.label};
 		`}
 	font-weight: 400;
@@ -89,4 +89,10 @@ export const MileStone = styled.div`
 
 export const StyledCheckbox = styled.div`
 	margin-top: -5px;
+`;
+
+export const StyledLabelsWrapper = styled.div`
+	display: flex;
+	gap: 4px;
+	align-items: center;
 `;
