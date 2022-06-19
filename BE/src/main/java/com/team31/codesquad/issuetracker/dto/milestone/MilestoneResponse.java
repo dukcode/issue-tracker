@@ -1,5 +1,6 @@
 package com.team31.codesquad.issuetracker.dto.milestone;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
@@ -12,11 +13,18 @@ import lombok.Getter;
 public class MilestoneResponse {
 
     private Long id;
+
     private String title;
+
     private String description;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd", timezone = "Asia/Seoul")
     private LocalDate dueDate;
+
     private MilestoneStatus status;
+
     private Long countOpen;
+
     private Long countClosed;
 
     public MilestoneResponse(Milestone entity) {

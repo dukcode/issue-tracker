@@ -5,6 +5,7 @@ import com.team31.codesquad.issuetracker.domain.comment.Comment;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.user.AssignedUser;
 import com.team31.codesquad.issuetracker.domain.user.User;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
@@ -19,6 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,6 +59,12 @@ public class Issue extends BaseTimeEntity {
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<Comment> comments = new ArrayList<>();
 
+    private LocalDateTime statusChangedAt;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "status_change_user_id")
+    private User statusChangeUser;
+
     public static Issue createIssue(String title, User author, List<AssignedUser> assignedUsers,
             List<IssueLabel> issueLabels, Milestone milestone) {
         Issue issue = new Issue();
@@ -70,6 +78,8 @@ public class Issue extends BaseTimeEntity {
             issue.addIssueLabel(issueLabel);
         }
         issue.milestone = milestone;
+        issue.statusChangedAt = LocalDateTime.now();
+        issue.statusChangeUser = author;
 
         return issue;
     }
@@ -106,8 +116,15 @@ public class Issue extends BaseTimeEntity {
         this.milestone = null;
     }
 
-    public void changStatus(IssueStatus status) {
+    public void changStatus(IssueStatus status, User statusChangeUser) {
+        if (this.status.equals(status)) {
+            return;
+        }
         this.status = status;
+        this.statusChangeUser = statusChangeUser;
+        this.statusChangedAt = LocalDateTime.now();
+        Comment comment = Comment.createStatusChangeComment(this, status, statusChangeUser);
+        addComment(comment);
     }
 
     public void updateMilestone(Milestone milestone) {
@@ -124,5 +141,9 @@ public class Issue extends BaseTimeEntity {
         for (IssueLabel issueLabel : issueLabels) {
             addIssueLabel(issueLabel);
         }
+    }
+
+    public void changeTitle(String title) {
+        this.title = title;
     }
 }

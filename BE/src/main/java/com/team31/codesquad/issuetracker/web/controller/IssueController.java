@@ -10,6 +10,7 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueTitleChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -80,8 +81,9 @@ public class IssueController {
             description = "단건 Issue의 status를 변경한다.")
     @PatchMapping("/api/v1/issues/{issueId}/status")
     public ResponseEntity<Void> changeStatus(@PathVariable Long issueId,
-            @Validated @RequestBody IssueStatusChangeRequest request) {
-        issueService.changeStatus(issueId, request);
+            @Validated @RequestBody IssueStatusChangeRequest request,
+            @LoginName String loginName) {
+        issueService.changeStatus(issueId, request, loginName);
         return ResponseEntity.noContent().build();
     }
 
@@ -90,8 +92,9 @@ public class IssueController {
             description = "Issue들의 status들을 일괄 변경한다.")
     @PatchMapping("/api/v1/issues")
     public ResponseEntity<Void> changeIssuesStatus(
-            @Validated @RequestBody MultiIssueStatusChangeRequest request) {
-        issueService.changIssuesStatus(request);
+            @Validated @RequestBody MultiIssueStatusChangeRequest request,
+            @LoginName String loginName) {
+        issueService.changIssuesStatus(request, loginName);
         return ResponseEntity.noContent().build();
     }
 
@@ -102,6 +105,16 @@ public class IssueController {
     public ResponseEntity<Void> changeAssignee(@PathVariable Long issueId,
             @Validated @RequestBody IssueAssigneesChangeRequest request) {
         issueService.changeAssignee(issueId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue title 변경",
+            description = "Issue의 title을 변경한다.")
+    @PatchMapping("/api/v1/issues/{issueId}/title")
+    public ResponseEntity<Void> changeTitle(@PathVariable Long issueId,
+            @Validated @RequestBody IssueTitleChangeRequest request) {
+        issueService.changeTitle(issueId, request);
         return ResponseEntity.noContent().build();
     }
 

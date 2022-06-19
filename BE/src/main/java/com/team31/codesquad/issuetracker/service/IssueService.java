@@ -9,6 +9,7 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueTitleChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import java.util.List;
 
@@ -22,9 +23,9 @@ public interface IssueService {
 
     IssueDetailResponse getIssue(Long issueId);
 
-    void changeStatus(Long issueId, IssueStatusChangeRequest request);
+    void changeStatus(Long issueId, IssueStatusChangeRequest request, String loginName);
 
-    void changIssuesStatus(MultiIssueStatusChangeRequest request);
+    void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName);
 
     void changeAssignee(Long issueId, IssueAssigneesChangeRequest request);
 
@@ -32,4 +33,5 @@ public interface IssueService {
 
     void changeLabels(Long issueId, IssueLabelsChangeRequest request);
 
+    void changeTitle(Long issueId, IssueTitleChangeRequest request);
 }

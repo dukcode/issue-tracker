@@ -2,6 +2,7 @@ package com.team31.codesquad.issuetracker.domain.comment;
 
 import com.team31.codesquad.issuetracker.domain.BaseTimeEntity;
 import com.team31.codesquad.issuetracker.domain.issue.Issue;
+import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,9 @@ import lombok.NoArgsConstructor;
 @Entity
 public class Comment extends BaseTimeEntity {
 
+    public static final String ISSUE_OPEN_MESSAGE = "이슈가 열렸습니다.";
+    public static final String ISSUE_CLOSED_MESSAGE = "이슈가 닫혔습니다.";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "comment_id")
@@ -43,11 +47,26 @@ public class Comment extends BaseTimeEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL)
     private List<Reaction> reactions = new ArrayList<>();
 
+    private Boolean systemMessage;
+
 
     public Comment(Issue issue, User author, String content) {
         this.issue = issue;
         this.author = author;
         this.content = content;
+        this.systemMessage = false;
+    }
+
+    public static Comment createStatusChangeComment(Issue issue,
+            IssueStatus status, User statusChangeUser) {
+        Comment comment = new Comment();
+        comment.issue = issue;
+        comment.author = statusChangeUser;
+        comment.content =
+                status.equals(IssueStatus.OPEN) ? ISSUE_OPEN_MESSAGE : ISSUE_CLOSED_MESSAGE;
+        comment.systemMessage = true;
+
+        return comment;
     }
 
     public void setIssue(Issue issue) {
