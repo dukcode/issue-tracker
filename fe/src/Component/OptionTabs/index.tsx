@@ -40,7 +40,7 @@ const OptionTabs = () => {
 		<StyledOptionTabs>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
 			<Link to="new-issue">
-				<Button content={ADD_ISSUE} />
+				<Button content={ADD_ISSUE} icon="AddBox" />
 			</Link>
 		</StyledOptionTabs>
 	);

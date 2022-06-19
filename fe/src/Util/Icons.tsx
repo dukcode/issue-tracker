@@ -13,7 +13,7 @@ import {
 	AddBox,
 	FilePresent,
 } from "@mui/icons-material";
-import { ColorsType } from "../Styles/theme";
+import { ColorsType } from "Styles/theme";
 
 type TResultButton = {
 	colorset: keyof ColorsType;
