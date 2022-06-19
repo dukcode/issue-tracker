@@ -13,18 +13,9 @@ import {
 	AddBox,
 	FilePresent,
 } from "@mui/icons-material";
-import { ColorsType } from "Styles/theme";
+import { TKeysColors } from "Styles/theme";
 
-type TResultButton = {
-	colorset: keyof ColorsType;
-	size: number;
-};
-
-type TIcons = {
-	[key in string]: any;
-};
-
-const muiIcons: TIcons = {
+const muiIcons = {
 	GitHub,
 	ErrorOutline,
 	Inventory,
@@ -37,7 +28,13 @@ const muiIcons: TIcons = {
 	FilePresent,
 };
 
-const muiKeys = Object.keys(muiIcons);
+type TResultButton = {
+	colorset: TKeysColors;
+	size: number;
+};
+type TKeysIcons = keyof typeof muiIcons;
+
+const muiKeys = Object.keys(muiIcons) as TKeysIcons[];
 
 const getIcon = (buttonType: SvgIconComponent) => {
 	const resultButton = styled(buttonType)<TResultButton>`
@@ -53,10 +50,12 @@ const getIcon = (buttonType: SvgIconComponent) => {
 	return resultButton;
 };
 
-const icons: TIcons = {};
+const icons: { [key in string]: any } = {};
+// 타입 재설정 필요
 
 muiKeys.forEach((key) => {
 	icons[key] = getIcon(muiIcons[key]);
 });
 
 export default icons;
+export type { TKeysIcons };

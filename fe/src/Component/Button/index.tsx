@@ -1,8 +1,7 @@
-import icons from "Util/Icons";
+import icons, { TKeysIcons } from "Util/Icons";
 import StyledAddIssue from "./Button.styled";
 
-type TIcons = typeof icons;
-type TButtonProps = { content: string; icon: keyof TIcons };
+type TButtonProps = { content: string; icon: TKeysIcons };
 
 const Button = ({ content, icon }: TButtonProps) => {
 	const Icon = icons[icon];
