@@ -23,6 +23,7 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueTitleChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import java.util.ArrayList;
@@ -131,6 +132,15 @@ public class IssueServiceImpl implements IssueService {
                         "존재하지 않는 issue 입니다. issueId = " + issueId));
         User statusChangeUser = getAuthor(loginName);
         issue.changStatus(request.getStatus(), statusChangeUser);
+    }
+
+    @Transactional
+    @Override
+    public void changeTitle(Long issueId, IssueTitleChangeRequest request) {
+        Issue issue = issueRepository.findById(issueId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        issue.changeTitle(request.getTitle());
     }
 
     @Transactional

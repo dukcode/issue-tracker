@@ -10,6 +10,7 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.issue.IssueTitleChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -104,6 +105,16 @@ public class IssueController {
     public ResponseEntity<Void> changeAssignee(@PathVariable Long issueId,
             @Validated @RequestBody IssueAssigneesChangeRequest request) {
         issueService.changeAssignee(issueId, request);
+        return ResponseEntity.noContent().build();
+    }
+
+    @Tag(name = "Issue")
+    @Operation(summary = "Issue title 변경",
+            description = "Issue의 title을 변경한다.")
+    @PatchMapping("/api/v1/issues/{issueId}/title")
+    public ResponseEntity<Void> changeTitle(@PathVariable Long issueId,
+            @Validated @RequestBody IssueTitleChangeRequest request) {
+        issueService.changeTitle(issueId, request);
         return ResponseEntity.noContent().build();
     }
 
