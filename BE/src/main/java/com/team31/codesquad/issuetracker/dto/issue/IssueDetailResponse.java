@@ -30,6 +30,8 @@ public class IssueDetailResponse {
     private LocalDateTime createDate;
     private LocalDateTime modifiedDate;
     private CountResult<List<CommentResponse>> comments;
+    private LocalDateTime statusChangedAt;
+    private UserResponse statusChangeUser;
 
     public IssueDetailResponse(Issue issue) {
         this.id = issue.getId();
@@ -53,5 +55,7 @@ public class IssueDetailResponse {
                 .map(CommentResponse::new)
                 .collect(Collectors.toList());
         this.comments = new CountResult<>(commentResponses.size(), commentResponses);
+        this.statusChangedAt = issue.getStatusChangedAt();
+        this.statusChangeUser = new UserResponse(issue.getStatusChangeUser());
     }
 }
