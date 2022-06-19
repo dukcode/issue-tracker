@@ -36,16 +36,19 @@ CREATE TABLE label
 
 CREATE TABLE issue
 (
-    issue_id      BIGINT       NOT NULL AUTO_INCREMENT,
-    author_id     BIGINT       NOT NULL,
-    milestone_id  BIGINT,
-    title         VARCHAR(500) NOT NULL,
-    status        VARCHAR(255) NOT NULL,
-    create_date   DATETIME,
-    modified_date DATETIME,
+    issue_id              BIGINT       NOT NULL AUTO_INCREMENT,
+    author_id             BIGINT       NOT NULL,
+    milestone_id          BIGINT,
+    status_change_user_id BIGINT,
+    title                 VARCHAR(500) NOT NULL,
+    status                VARCHAR(255) NOT NULL,
+    create_date           DATETIME,
+    modified_date         DATETIME,
+    status_changed_at     DATETIME,
     PRIMARY KEY (issue_id),
     FOREIGN KEY (author_id) REFERENCES users (user_id),
-    FOREIGN KEY (milestone_id) REFERENCES milestone (milestone_id)
+    FOREIGN KEY (milestone_id) REFERENCES milestone (milestone_id),
+    FOREIGN KEY (status_change_user_id) REFERENCES users (user_id)
 );
 
 CREATE TABLE assigned_user
@@ -63,12 +66,13 @@ CREATE TABLE assigned_user
 
 CREATE TABLE comment
 (
-    comment_id    BIGINT NOT NULL AUTO_INCREMENT,
-    author_id     BIGINT NOT NULL,
-    issue_id      BIGINT NOT NULL,
-    content       TEXT   NOT NULL,
-    create_date   DATETIME,
-    modified_date DATETIME,
+    comment_id     BIGINT NOT NULL AUTO_INCREMENT,
+    author_id      BIGINT NOT NULL,
+    issue_id       BIGINT NOT NULL,
+    content        TEXT   NOT NULL,
+    create_date    DATETIME,
+    modified_date  DATETIME,
+    system_message BIT,
     PRIMARY KEY (comment_id),
     FOREIGN KEY (author_id) REFERENCES users (user_id),
     FOREIGN KEY (issue_id) REFERENCES issue (issue_id)
