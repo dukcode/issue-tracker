@@ -1,6 +1,8 @@
 package com.team31.codesquad.issuetracker.dto.comment;
 
+import com.team31.codesquad.issuetracker.domain.comment.ReactionEmoji;
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,5 +13,6 @@ public class CommentResponse {
     private Long id;
     private UserResponse author;
     private String content;
+    private Map<ReactionEmoji, Integer> reactions;
 
 }

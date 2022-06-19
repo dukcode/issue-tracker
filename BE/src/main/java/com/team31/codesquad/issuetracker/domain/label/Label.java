@@ -22,13 +22,31 @@ public class Label extends BaseTimeEntity {
     @Column(name = "label_id")
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String name;
 
     private String description;
 
+    @Column(nullable = false)
     private String labelColor;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TextColor textColor;
 
+    public Label(String name, String description, String labelColor,
+            TextColor textColor) {
+        this.name = name;
+        this.description = description;
+        this.labelColor = labelColor;
+        this.textColor = textColor;
+    }
+
+    public void update(String name, String description, String labelColor,
+            TextColor textColor) {
+        this.name = name;
+        this.description = description;
+        this.labelColor = labelColor;
+        this.textColor = textColor;
+    }
 }

@@ -1,5 +1,6 @@
-package com.team31.codesquad.issuetracker.web;
+package com.team31.codesquad.issuetracker.web.controller;
 
+import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginName;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
@@ -11,6 +12,7 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
+import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -100,4 +102,18 @@ public class IssueController {
         return ResponseEntity.noContent().build();
     }
 
+    @PostMapping("/api/v1/issues/{issueId}/comments/{commentId}/reactions")
+    public ResponseEntity<Long> createReaction(
+            @PathVariable Long issueId, @PathVariable Long commentId,
+            @LoginName String loginName, @RequestBody ReactionCreateRequest request) {
+        Long createdReactionId = issueService.createReaction(issueId, commentId, loginName,
+                request);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdReactionId);
+    }
+
+    @DeleteMapping("/api/v1/issues/comments/reactions/{reactionId}")
+    public ResponseEntity<Void> deleteReaction(@PathVariable Long reactionId) {
+        issueService.deleteReaction(reactionId);
+        return ResponseEntity.noContent().build();
+    }
 }

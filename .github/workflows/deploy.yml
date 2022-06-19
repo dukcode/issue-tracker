@@ -28,14 +28,23 @@ jobs:
           ls
           echo "${{ secrets.APPLICATION_PROD_DB_YML }}" > ./application-prod-db.yml
       shell: bash
-
-    - name: make application-oauth2.yml
+      
+    - name: make application-jwt.yml
       if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일
       run: |
           cd ./BE/src/main/resources
-          touch ./application-oauth2.yml
+          touch ./application-jwt.yml
           ls
-          echo "${{ secrets.APPLICATION_OAUTH2_YML }}" > ./application-oauth2.yml
+          echo "${{ secrets.APPLICATION_JWT_YML }}" > ./application-jwt.yml
+      shell: bash
+      
+    - name: make application-prod-oauth2.yml
+      if: contains(github.ref, 'main') # branch가 main 일 때, 나머지는 위와 동일
+      run: |
+          cd ./BE/src/main/resources
+          touch ./application-prod-oauth2.yml
+          ls
+          echo "${{ secrets.APPLICATION_PROD_OAUTH2_YML }}" > ./application-prod-oauth2.yml
       shell: bash
 
     ## gradle build

@@ -10,14 +10,20 @@ spring:
       "local":
         - common
         - local-db
+        - local-oauth2
+        - jwt
       "prod1":
         - common
         - prod1
         - prod-db
+        - prod-oauth2
+        - jwt
       "prod2":
         - common
         - prod2
         - prod-db
+        - prod-oauth2
+        - jwt
 
 ---
 
@@ -34,10 +40,10 @@ spring:
       on-profile: local-db
 
   datasource:
-    url: jdbc:h2:tcp://localhost/~/study/codesquad/team_project/issuetracker;MODE=MYSQL
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
+    url: jdbc:mysql://localhost:3306/issuetracker
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
     hibernate:

@@ -27,16 +27,35 @@ public class Milestone extends BaseTimeEntity {
     @Column(name = "milestone_id")
     private Long id;
 
+    @Column(nullable = false, unique = true)
     private String title;
 
     private String description;
 
     private LocalDate dueDate;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private MilestoneStatus status;
+
     @OneToMany(mappedBy = "milestone")
     private List<Issue> issues = new ArrayList<>();
 
-    @Enumerated(EnumType.STRING)
-    private MilestoneStatus status;
+    public Milestone(String title, String description, LocalDate dueDate,
+            MilestoneStatus status) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+        this.status = status;
+    }
 
+    public void update(String title, String description, LocalDate dueDate) {
+        this.title = title;
+        this.description = description;
+        this.dueDate = dueDate;
+    }
+
+    public void changeStatus(MilestoneStatus status) {
+        this.status = status;
+    }
 }

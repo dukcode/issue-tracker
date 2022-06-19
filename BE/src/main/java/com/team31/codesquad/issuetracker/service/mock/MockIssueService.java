@@ -1,6 +1,7 @@
 package com.team31.codesquad.issuetracker.service.mock;
 
 
+import com.team31.codesquad.issuetracker.domain.comment.ReactionEmoji;
 import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.domain.label.TextColor;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
@@ -19,12 +20,15 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
+import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
 import com.team31.codesquad.issuetracker.dto.user.UserResponse;
 import com.team31.codesquad.issuetracker.service.IssueService;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -47,11 +51,11 @@ public class MockIssueService implements IssueService {
                 TextColor.DARK);
 
         MilestoneResponse milestone1 = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3, 4);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3L, 4L);
         MilestoneResponse milestone2 = new MilestoneResponse(2L, "마일스톤 제목2", "마일스톤 설명2",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 5, 10);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 5L, 10L);
         MilestoneResponse milestone3 = new MilestoneResponse(3L, "마일스톤 제목3", "마일스톤 설명3",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 1, 1);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 1L, 1L);
 
         IssueResponse issueResponse1 = new IssueResponse(1L, IssueStatus.OPEN, "이슈 제목 1", user1,
                 Arrays.asList(label1, label2), milestone1, LocalDateTime.now(),
@@ -63,12 +67,12 @@ public class MockIssueService implements IssueService {
                 LocalDateTime.now(), LocalDateTime.now());
 
         if (query.contains("is:closed")) {
-            return new OpenClosedCountResult<>(2, 1, List.of(issueResponse3));
+            return new OpenClosedCountResult<>(2L, 1L, List.of(issueResponse3));
         }
 
         List<IssueResponse> issueResponses = Arrays.asList(issueResponse1,
                 issueResponse2);
-        return new OpenClosedCountResult<>(2, 1, issueResponses);
+        return new OpenClosedCountResult<>(2L, 1L, issueResponses);
     }
 
     @Override
@@ -97,11 +101,20 @@ public class MockIssueService implements IssueService {
                 TextColor.LIGHT);
 
         MilestoneResponse milestone = new MilestoneResponse(1L, "마일스톤 제목1", "마일스톤 설명1",
-                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3, 10);
+                LocalDate.of(2022, 7, 1), MilestoneStatus.OPEN, 3L, 10L);
 
-        CommentResponse comment1 = new CommentResponse(1L, user1, "첫 번째 코멘트");
-        CommentResponse comment2 = new CommentResponse(2L, user3, "두 번째 코멘트");
-        CommentResponse comment3 = new CommentResponse(3L, user2, "세 번째 코멘트");
+        Map<ReactionEmoji, Integer> reactions1 = new HashMap<>();
+        reactions1.put(ReactionEmoji.THUMBS_UP, 2);
+        Map<ReactionEmoji, Integer> reactions2 = new HashMap<>();
+        reactions2.put(ReactionEmoji.EYES, 2);
+        reactions2.put(ReactionEmoji.LAUGH, 5);
+        Map<ReactionEmoji, Integer> reactions3 = new HashMap<>();
+        reactions3.put(ReactionEmoji.THUMBS_DOWN, 1);
+        reactions3.put(ReactionEmoji.HEART, 30);
+
+        CommentResponse comment1 = new CommentResponse(1L, user1, "첫 번째 코멘트", reactions1);
+        CommentResponse comment2 = new CommentResponse(2L, user3, "두 번째 코멘트", reactions2);
+        CommentResponse comment3 = new CommentResponse(3L, user2, "세 번째 코멘트", reactions3);
 
         List<CommentResponse> comments = Arrays.asList(comment1, comment2, comment3);
 
@@ -138,6 +151,17 @@ public class MockIssueService implements IssueService {
 
     @Override
     public void changeLabels(Long issueId, IssueLabelsChangeRequest request) {
+        return;
+    }
+
+    @Override
+    public Long createReaction(Long issueId, Long commentId, String loginName,
+            ReactionCreateRequest request) {
+        return 5L;
+    }
+
+    @Override
+    public void deleteReaction(Long reactionId) {
         return;
     }
 }
