@@ -117,6 +117,9 @@ public class Issue extends BaseTimeEntity {
     }
 
     public void changStatus(IssueStatus status, User statusChangeUser) {
+        if (this.status.equals(status)) {
+            return;
+        }
         this.status = status;
         this.statusChangeUser = statusChangeUser;
         this.statusChangedAt = LocalDateTime.now();
