@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import Header from "Pages/Main/Header";
 import StyledMain from "./Main.styled";
 
@@ -35,9 +35,11 @@ const Main = () => {
 			await client.get("/labels");
 			setOutlet(<Outlet />);
 		} catch (error) {
-			const e = error as AxiosError;
-			console.error(e); // eslint-disable-line no-console
-			navigate("/login");
+			if (axios.isAxiosError(error)) {
+				const status = error.response?.status as number;
+				if (status >= 300 || !status) navigate("/login");
+			}
+			console.error(error); // eslint-disable-line no-console
 		}
 	};
 

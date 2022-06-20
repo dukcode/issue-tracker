@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 import { StyledLoading, StyledLoadingMention, StyledLoadingAnimation } from "./Loading.styled";
 
@@ -38,9 +38,11 @@ const Loading = () => {
 
 			navigate("/");
 		} catch (error) {
-			const e = error as AxiosError;
-			const status = e.response?.status;
-			if (status === 500) navigate("/login");
+			if (axios.isAxiosError(error)) {
+				const status = error.response?.status;
+				if (status === 500) navigate("/login");
+			}
+			console.error(error); // eslint-disable-line no-console
 		}
 	};
 
