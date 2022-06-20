@@ -1,6 +1,6 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import Header from "Component/Header";
+import Header from "Pages/Main/Header";
 import StyledMain from "./Main.styled";
 
 const USER_INFO = "userInfo";
