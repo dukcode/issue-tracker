@@ -25,7 +25,7 @@ const Login = () => {
 			<a href={loginUrl}>
 				<StyledLoginButton>
 					<StyledLoginMention>
-						<GitHub colorset="white" size={18} />
+						<GitHub colorset="offWhite" size={18} />
 						{GITHUB_LOGIN}
 					</StyledLoginMention>
 				</StyledLoginButton>

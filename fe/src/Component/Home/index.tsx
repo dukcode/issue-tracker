@@ -61,6 +61,7 @@ const Home = () => {
 	const OPENED_ISSUE = "열린 이슈";
 	const CLOSED_ISSUE = "닫힌 이슈";
 	const issueCells = issueCellItems
+		.slice(0)
 		.reverse()
 		.map((item: TIssueItem) => (
 			<IssueCell
