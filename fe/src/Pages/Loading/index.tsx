@@ -12,7 +12,7 @@ const USER_INFO = "userInfo";
 
 const Loading = () => {
 	const [cookies, setCookie] = useCookies([USER_INFO]);
-	const isLogout = Object.keys(cookies).length === 0 && cookies.constructor === Object;
+	const isLogin = Object.keys(cookies).length;
 
 	const { search } = useLocation();
 	const navigate = useNavigate();
@@ -30,11 +30,10 @@ const Loading = () => {
 			const response: TTokenResponse = await client.get("");
 			const { profileImage } = response.data;
 			const { accessToken } = response.data;
-			setCookie(
-				USER_INFO,
-				{ profileImage, accessToken },
-				{ path: "/", expires: new Date(2040, 11, 11) }
-			);
+			const date = new Date();
+			date.setHours(date.getHours() + 1);
+
+			setCookie(USER_INFO, { profileImage, accessToken }, { path: "/", expires: date });
 
 			navigate("/");
 		} catch (error) {
@@ -47,10 +46,10 @@ const Loading = () => {
 	};
 
 	useEffect(() => {
-		if (isLogout) {
-			getToken();
-		} else {
+		if (isLogin) {
 			navigate("/");
+		} else {
+			getToken();
 		}
 	}, []);
 
