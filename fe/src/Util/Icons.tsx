@@ -1,4 +1,4 @@
-import styled, { css } from "styled-components";
+import styled, { css, DefaultTheme, StyledComponent } from "styled-components";
 
 import {
 	SvgIconComponent,
@@ -13,18 +13,9 @@ import {
 	AddBox,
 	FilePresent,
 } from "@mui/icons-material";
+import { TKeysColors } from "Styles/theme";
 
-type TResultButton = {
-	colorset: string;
-	size: number;
-	hover?: string;
-};
-
-type TIcons = {
-	[key in string]: any;
-};
-
-const muiIcons: TIcons = {
+const muiIcons = {
 	GitHub,
 	ErrorOutline,
 	Inventory,
@@ -36,32 +27,35 @@ const muiIcons: TIcons = {
 	AddBox,
 	FilePresent,
 };
-const muiKeys = Object.keys(muiIcons);
+
+type TResultButton = {
+	colorset: TKeysColors;
+	size: number;
+};
+type TKeysIcons = keyof typeof muiIcons;
+
+const muiKeys = Object.keys(muiIcons) as TKeysIcons[];
 
 const getIcon = (buttonType: SvgIconComponent) => {
 	const resultButton = styled(buttonType)<TResultButton>`
 		&& {
-			${({ theme: { colors }, colorset, size, hover }) => css`
+			${({ theme: { colors }, colorset, size }) => css`
 				color: ${colors[colorset]};
 				width: ${size}px;
 				height: ${size}px;
 				cursor: pointer;
-				${hover &&
-				css`
-					:hover {
-						color: ${colors[`${colorset}dark`]};
-					}
-				`}
 			`}
 		}
 	`;
 	return resultButton;
 };
 
-const icons: TIcons = {};
+const icons: { [key in string]: StyledComponent<SvgIconComponent, DefaultTheme, TResultButton> } =
+	{};
 
 muiKeys.forEach((key) => {
 	icons[key] = getIcon(muiIcons[key]);
 });
 
 export default icons;
+export type { TKeysIcons };

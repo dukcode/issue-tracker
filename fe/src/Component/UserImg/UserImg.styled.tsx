@@ -18,6 +18,7 @@ const StyledUserImgWrapper = styled.div<TSizeProp>`
 	border-radius: 50%;
 	overflow: hidden;
 	position: relative;
+	box-sizing: content-box;
 	${({ theme: { colors }, size }) => css`
 		width: ${imgSizes[size]};
 		height: ${imgSizes[size]};

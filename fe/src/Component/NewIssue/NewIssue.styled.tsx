@@ -22,6 +22,13 @@ export const StyledNewIssueMain = styled.div`
 	justify-content: space-between;
 	gap: 20px;
 
+	> :nth-child(1) {
+		flex: 8;
+	}
+	> :nth-child(2) {
+		flex: 3;
+	}
+
 	${({ theme: { colors } }) => css`
 		border-bottom: solid 1px ${colors.line};
 	`}
