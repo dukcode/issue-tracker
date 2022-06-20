@@ -2,6 +2,7 @@ import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
 import user2 from "Img/user2.jpeg";
 import UserImg from "Component/UserImg";
+import Label from "Component/Label";
 import {
 	StyledIssueCell,
 	IssueCellLeft,
@@ -14,6 +15,7 @@ import {
 	AuthorTimeStamp,
 	MileStone,
 	StyledCheckbox,
+	StyledLabelsWrapper,
 } from "./IssueCell.styled";
 
 const { ErrorOutline, EmojiFlags } = icons;
@@ -26,7 +28,16 @@ type TIssueItem = {
 	mileStone: string;
 };
 
+const labelsInfo = [
+	{ id: 1, name: "docs", color: "#ba874c" },
+	{ id: 2, name: "feat", color: "#2a578e" },
+];
+
 const IssueCell = ({ id, title, author, timeStamp, mileStone }: TIssueItem) => {
+	const labels = labelsInfo.map(({ id: lableId, name, color }) => (
+		<Label key={lableId} name={name} color={color} />
+	));
+
 	return (
 		<StyledIssueCell>
 			<IssueCellLeft>
@@ -39,6 +50,7 @@ const IssueCell = ({ id, title, author, timeStamp, mileStone }: TIssueItem) => {
 							<ErrorOutline colorset="blue" size={18} />
 							{title}
 						</Title>
+						<StyledLabelsWrapper>{labels}</StyledLabelsWrapper>
 					</IssueInfoTop>
 					<IssueInfoBottom>
 						<IssueNumber>#{id}</IssueNumber>

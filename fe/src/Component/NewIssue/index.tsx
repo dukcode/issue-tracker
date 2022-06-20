@@ -1,13 +1,12 @@
+import NewIssueOptions from "Component/IssueOptions";
+import IssueHeader from "Component/IssueHeader";
 import NewIssueContent from "./NewIssueContent";
-import NewIssueOptions from "./NewIssueOptions";
-import { StyledNewIssue, StyledNewIssueHeader, StyledNewIssueMain } from "./NewIssue.styled";
-
-const WRITE_NEW_ISSUE = "WRITE NEW ISSUE";
+import { StyledNewIssue, StyledNewIssueMain } from "./NewIssue.styled";
 
 const NewIssue = () => {
 	return (
 		<StyledNewIssue>
-			<StyledNewIssueHeader>{WRITE_NEW_ISSUE}</StyledNewIssueHeader>
+			<IssueHeader />
 			<StyledNewIssueMain>
 				<NewIssueContent />
 				<NewIssueOptions />

@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 
 import icons from "Util/Icons";
-import { StyledOptionTabs, StyledTabsLabelMilestone, StyledAddIssue } from "./OptionsTabs.styled";
+import Button from "Component/Button";
+import { StyledOptionTabs, StyledTabsLabelMilestone } from "./OptionsTabs.styled";
 
-const { BookmarksOutlined, DirectionsOutlined, AddBox } = icons;
+const { BookmarksOutlined, DirectionsOutlined } = icons;
 const LABEL = "레이블";
 const MILESTONE = "마일스톤";
 const ADD_ISSUE = "이슈 작성";
@@ -39,10 +40,7 @@ const OptionTabs = () => {
 		<StyledOptionTabs>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
 			<Link to="new-issue">
-				<StyledAddIssue>
-					<AddBox colorset="offWhite" size={20} />
-					{ADD_ISSUE}
-				</StyledAddIssue>
+				<Button content={ADD_ISSUE} icon="AddBox" />
 			</Link>
 		</StyledOptionTabs>
 	);

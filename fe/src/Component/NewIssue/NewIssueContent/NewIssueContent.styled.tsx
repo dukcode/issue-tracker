@@ -6,7 +6,7 @@ export const StyledNewIssueContentWrapper = styled.div`
 `;
 
 export const StyledNewIssueContent = styled.div`
-	width: 750px;
+	width: 100%;
 `;
 
 export const StyledNewIssueTitle = styled.div`
@@ -39,7 +39,6 @@ export const StyledNewIssueDesc = styled.div`
 			${fonts.textSmall};
 			background-color: ${colors.inputBackground};
 			color: ${colors.placeholder};
-			width: 95%;
 			box-sizing: border-box;
 			margin: 10px 20px;
 			flex-grow: 1;

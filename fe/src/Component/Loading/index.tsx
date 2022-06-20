@@ -35,6 +35,7 @@ const Loading = () => {
 				{ profileImage, accessToken },
 				{ path: "/", expires: new Date(2040, 11, 11) }
 			);
+
 			navigate("/");
 		} catch (error) {
 			const e = error as AxiosError;

@@ -1,7 +1,6 @@
 import { createGlobalStyle, css } from "styled-components";
-import type { ThemeType } from "./theme";
 
-const Normalize = createGlobalStyle<{ theme: ThemeType }>`
+const Normalize = createGlobalStyle`
 	${({ theme: { fonts, width, colors } }) => css`
 		.App {
 			${fonts.main};
