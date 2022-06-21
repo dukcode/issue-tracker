@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import Header from "Pages/Main/Header";
-import StyledMain from "./Main.styled";
 
-const USER_INFO = "userInfo";
+import labelsApi from "Api/labelsApi";
+import Header from "Pages/Main/Header";
+import useCheckCookie from "Hooks";
+import StyledMain from "./Main.styled";
 
 const Loading = () => {
 	return <div>로딩입니다</div>;
@@ -13,38 +12,26 @@ const Loading = () => {
 
 const Main = () => {
 	const [outlet, setOutlet] = useState(<Loading />);
-	const [cookies] = useCookies([USER_INFO]);
 	const navigate = useNavigate();
+	const cookie = useCheckCookie();
 
-	const checkCookies = async () => {
-		const hasCookie = !(Object.keys(cookies).length === 0);
-		if (!hasCookie) navigate("/login");
+	const checkLabels = async () => {
+		if (!cookie) navigate("/login");
 
-		// const token = cookies.userInfo.accessToken;
-		const token = "dukcode";
-		const baseURL = `${process.env.REACT_APP_API}`;
-		const client = axios.create({
-			baseURL,
-			headers: {
-				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
-		});
+		const { accessToken } = cookie;
+		const labelsResponse = await labelsApi.getLabels(accessToken);
+		const { data, status } = labelsResponse;
 
-		try {
-			await client.get("/labels");
+		if (status !== 200) {
+			navigate("/login");
+		} else {
+			console.log(data);
 			setOutlet(<Outlet />);
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				const status = error.response?.status as number;
-				if (status >= 300 || !status) navigate("/login");
-			}
-			console.error(error); // eslint-disable-line no-console
 		}
 	};
 
 	useEffect(() => {
-		checkCookies();
+		checkLabels();
 	}, []);
 
 	return (
