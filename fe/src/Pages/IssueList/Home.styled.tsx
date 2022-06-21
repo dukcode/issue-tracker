@@ -6,12 +6,11 @@ const StyledCheckbox = styled.div`
 `;
 
 const IssueContainer = styled.div`
-	${({ theme: { colors, width, height } }) =>
+	${({ theme: { colors, width } }) =>
 		css`
 			margin-top: 20px;
 			background: ${colors.line};
 			${width.main};
-			height: ${height.issueContainer};
 			border-radius: 16px;
 		`}
 `;
