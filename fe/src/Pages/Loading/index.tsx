@@ -1,55 +1,38 @@
 import { useEffect } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCookies } from "react-cookie";
-import axios from "axios";
+import tokenApi from "Api/tokenApi";
 
 import { StyledLoading, StyledLoadingMention, StyledLoadingAnimation } from "./Loading.styled";
 
-type TTokenResponse = { data: { profileImage: string; accessToken: string } };
-
 const LOADING = "LOADING";
 const USER_INFO = "userInfo";
+const CODE = "code";
 
 const Loading = () => {
 	const [cookies, setCookie] = useCookies([USER_INFO]);
+	const [searchParams] = useSearchParams();
 	const isLogin = Object.keys(cookies).length;
-
-	const { search } = useLocation();
+	const code = searchParams.get(CODE);
 	const navigate = useNavigate();
 
-	const getToken = async () => {
-		const baseURL = `${process.env.REACT_APP_LOGIN_SERVER}${search}`;
-		const client = axios.create({
-			baseURL,
-			headers: {
-				"Content-Type": "application/json",
-			},
-		});
+	const getCookie = async () => {
+		const response = await tokenApi.getTokenResponse(code);
+		const { data, status } = response;
+		if (status !== 200) navigate("/login");
 
-		try {
-			const response: TTokenResponse = await client.get("");
-			const { profileImage } = response.data;
-			const { accessToken } = response.data;
-			const date = new Date();
-			date.setHours(date.getHours() + 1);
-
-			setCookie(USER_INFO, { profileImage, accessToken }, { path: "/", expires: date });
-
-			navigate("/");
-		} catch (error) {
-			if (axios.isAxiosError(error)) {
-				const status = error.response?.status;
-				if (status === 500) navigate("/login");
-			}
-			console.error(error); // eslint-disable-line no-console
-		}
+		const { profileImage, accessToken } = data;
+		const date = new Date();
+		date.setHours(date.getHours() + 1);
+		setCookie(USER_INFO, { profileImage, accessToken }, { path: "/", expires: date });
+		navigate("/");
 	};
 
 	useEffect(() => {
 		if (isLogin) {
 			navigate("/");
 		} else {
-			getToken();
+			getCookie();
 		}
 	}, []);
 
