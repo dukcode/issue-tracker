@@ -126,8 +126,8 @@ const theme = {
 	getTextColor,
 };
 
-type ThemeType = typeof theme;
+type TTheme = typeof theme;
 type TKeysColors = keyof typeof colors;
 
-export type { ThemeType, TKeysColors };
+export type { TTheme, TKeysColors };
 export default theme;

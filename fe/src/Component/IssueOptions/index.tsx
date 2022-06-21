@@ -13,7 +13,7 @@ const NewIssueOptions = () => {
 		return (
 			<StyledNewIssueOption>
 				<div key={id}>{name}</div>
-				<AddBox size={25} />
+				<AddBox size={25} colorset="line" />
 			</StyledNewIssueOption>
 		);
 	});

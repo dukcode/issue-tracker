@@ -14,7 +14,10 @@ const ISSUE_TRACKER = "ISSUE TRACKER";
 
 const Login = () => {
 	const { GitHub } = icons;
-	const loginUrl = process.env.REACT_APP_GITHUB_LOGIN;
+	const loginUrl = process.env.REACT_APP_GITHUB_LOGIN as string;
+	const handleButtonClick = () => {
+		window.location.href = loginUrl;
+	};
 
 	return (
 		<StyledLogin>
@@ -22,14 +25,13 @@ const Login = () => {
 				<img src={warning} alt="logo" width={250} />
 			</StyledLoginImg>
 			<StyledLoginTitle>{ISSUE_TRACKER}</StyledLoginTitle>
-			<a href={loginUrl}>
-				<StyledLoginButton>
-					<StyledLoginMention>
-						<GitHub colorset="white" size={18} />
-						{GITHUB_LOGIN}
-					</StyledLoginMention>
-				</StyledLoginButton>
-			</a>
+
+			<StyledLoginButton onClick={handleButtonClick}>
+				<StyledLoginMention>
+					<GitHub colorset="offWhite" size={18} />
+					{GITHUB_LOGIN}
+				</StyledLoginMention>
+			</StyledLoginButton>
 		</StyledLogin>
 	);
 };
