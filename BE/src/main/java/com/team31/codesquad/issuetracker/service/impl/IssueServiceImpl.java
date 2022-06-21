@@ -33,7 +33,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -54,7 +53,6 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public OpenClosedCountResult<List<IssueResponse>> findAll(Integer page, String query) {
-        setDefaultValue(page, query);
 
         // TODO: 페이징 및 검색 조건 쿼리 구현
 
@@ -78,16 +76,6 @@ public class IssueServiceImpl implements IssueService {
                 countAll - issueResponses.size(),
                 (long) issueResponses.size()
                 , issueResponses);
-    }
-
-    private void setDefaultValue(Integer page, String query) {
-        if (page == null) {
-            page = DEFAULT_PAGE;
-        }
-
-        if (!StringUtils.hasText(query)) {
-            query = DEFAULT_QUERY;
-        }
     }
 
     @Transactional
