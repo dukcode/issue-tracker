@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 import icons from "Util/Icons";
 import { StyledFilterBar, StyledFilterSelector, StyledFilterInputArea } from "./FilterBar.styled";
@@ -11,6 +11,19 @@ const defaultInputValue = "is:open";
 const FilterBar = () => {
 	const [inputValue, setInputValue] = useState(defaultInputValue);
 	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
+
+	const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+		const { value } = event.target;
+		setInputValue(value);
+	};
+
+	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		const tester = { q: inputValue };
+		const params = new URLSearchParams(tester);
+		navigate(`/?${params.toString()}`);
+	};
 
 	useEffect(() => {
 		const q = searchParams.get("q");
@@ -23,9 +36,9 @@ const FilterBar = () => {
 				<div>{FILTER}</div>
 				<KeyboardArrowDown colorset="label" size={20} />
 			</StyledFilterSelector>
-			<StyledFilterInputArea>
+			<StyledFilterInputArea onSubmit={handleSubmit}>
 				<Search colorset="placeholder" size={20} />
-				<input value={inputValue} />
+				<input value={inputValue} onChange={handleInput} />
 			</StyledFilterInputArea>
 		</StyledFilterBar>
 	);

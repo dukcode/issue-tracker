@@ -29,7 +29,7 @@ const StyledFilterSelector = styled.div`
 	}
 `;
 
-const StyledFilterInputArea = styled.div`
+const StyledFilterInputArea = styled.form`
 	${({ theme: { colors, fonts } }) => css`
 		padding-left: 10px;
 		background-color: ${colors.inputBackground};
