@@ -15,16 +15,13 @@ const Loading = () => {
 	const code = searchParams.get(CODE);
 
 	const getCookie = async () => {
-		if (!cookieUserInfo) {
-			navigate("/login");
-			return;
-		}
+		const { accessToken: token, setCookie, key } = cookieUserInfo;
+		if (token) navigate("/");
 
 		const response = await tokenApi.getTokenResponse(code);
 		const { data, status } = response;
 		if (status !== 200) navigate("/login");
 
-		const { setCookie, key } = cookieUserInfo;
 		const { profileImage, accessToken } = data;
 		const date = new Date();
 		date.setHours(date.getHours() + 1);

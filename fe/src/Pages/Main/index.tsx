@@ -5,23 +5,20 @@ import labelsApi from "Api/labelsApi";
 import Header from "Pages/Main/Header";
 import useCookieUserInfo from "Hooks";
 import StyledMain from "./Main.styled";
-
-const Loading = () => {
-	return <div>로딩입니다</div>;
-};
+import MainLoading from "./MainLoading";
 
 const Main = () => {
-	const [outlet, setOutlet] = useState(<Loading />);
+	const [outlet, setOutlet] = useState(<MainLoading />);
 	const navigate = useNavigate();
 	const cookieUserInfo = useCookieUserInfo();
 
 	const checkLabels = async () => {
-		if (!cookieUserInfo) {
+		const { accessToken } = cookieUserInfo;
+		if (!accessToken) {
 			navigate("/login");
 			return;
 		}
 
-		const { accessToken } = cookieUserInfo;
 		const labelsResponse = await labelsApi.getLabels(accessToken);
 		const { data, status } = labelsResponse;
 
