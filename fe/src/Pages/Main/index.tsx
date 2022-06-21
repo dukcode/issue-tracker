@@ -3,7 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 
 import labelsApi from "Api/labelsApi";
 import Header from "Pages/Main/Header";
-import useCheckCookie from "Hooks";
+import useCookieUserInfo from "Hooks";
 import StyledMain from "./Main.styled";
 
 const Loading = () => {
@@ -13,12 +13,15 @@ const Loading = () => {
 const Main = () => {
 	const [outlet, setOutlet] = useState(<Loading />);
 	const navigate = useNavigate();
-	const cookie = useCheckCookie();
+	const cookieUserInfo = useCookieUserInfo();
 
 	const checkLabels = async () => {
-		if (!cookie) navigate("/login");
+		if (!cookieUserInfo) {
+			navigate("/login");
+			return;
+		}
 
-		const { accessToken } = cookie;
+		const { accessToken } = cookieUserInfo;
 		const labelsResponse = await labelsApi.getLabels(accessToken);
 		const { data, status } = labelsResponse;
 
