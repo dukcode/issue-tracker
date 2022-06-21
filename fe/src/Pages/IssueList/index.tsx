@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 
 import issueListApi from "Api/issueListApi";
@@ -29,21 +29,32 @@ const filterCategoryItems: listItem[] = [
 const { ErrorOutline, Inventory } = icons;
 const OPENED_ISSUE = "열린 이슈";
 const CLOSED_ISSUE = "닫힌 이슈";
+const OPEN = "open";
+const CLOSED = "closed";
+const getOptionString = (option: string) => `is:${option}`;
 
 const Home = () => {
 	const [issueCells, setIssueCells] = useState([]);
 	const navigate = useNavigate();
 	const cookieUserInfo = useCookieUserInfo();
+	const [searchParams] = useSearchParams();
+
+	const handleClickIssueOption = (option: string) => {
+		const tester = { q: getOptionString(option) };
+		const params = new URLSearchParams(tester);
+		navigate(`/?${params.toString()}`);
+	};
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
+		const q = searchParams.get("q");
 
 		if (!accessToken) {
 			navigate("/login");
 			return;
 		}
 
-		const issueListResponse = await issueListApi.getIssueList(accessToken);
+		const issueListResponse = await issueListApi.getIssueList(accessToken, q);
 		const {
 			data: { data },
 		} = issueListResponse;
@@ -65,7 +76,7 @@ const Home = () => {
 
 	useEffect(() => {
 		getIssueList();
-	}, []);
+	}, [searchParams]);
 
 	return (
 		<>
@@ -77,10 +88,10 @@ const Home = () => {
 							<Checkbox size="small" color="default" />
 						</StyledCheckbox>
 						<IssueCategory>
-							<OpenedIssue>
+							<OpenedIssue onClick={() => handleClickIssueOption(OPEN)}>
 								<ErrorOutline colorset="titleActive" size={18} /> {OPENED_ISSUE}
 							</OpenedIssue>
-							<ClosedIssue>
+							<ClosedIssue onClick={() => handleClickIssueOption(CLOSED)}>
 								<Inventory colorset="titleActive" size={18} /> {CLOSED_ISSUE}
 							</ClosedIssue>
 						</IssueCategory>
