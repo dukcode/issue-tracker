@@ -38,6 +38,9 @@ const Home = () => {
 	const navigate = useNavigate();
 	const cookieUserInfo = useCookieUserInfo();
 	const [searchParams] = useSearchParams();
+	const q = searchParams.get("q");
+	const isClosed = q === getOptionString(CLOSED);
+	console.log(isClosed);
 
 	const handleClickIssueOption = (option: string) => {
 		const tester = { q: getOptionString(option) };
@@ -47,7 +50,6 @@ const Home = () => {
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
-		const q = searchParams.get("q");
 
 		if (!accessToken) {
 			navigate("/login");
@@ -88,11 +90,12 @@ const Home = () => {
 							<Checkbox size="small" color="default" />
 						</StyledCheckbox>
 						<IssueCategory>
-							<OpenedIssue onClick={() => handleClickIssueOption(OPEN)}>
-								<ErrorOutline colorset="titleActive" size={18} /> {OPENED_ISSUE}
+							<OpenedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(OPEN)}>
+								<ErrorOutline colorset={!isClosed ? "titleActive" : "label"} size={18} />{" "}
+								{OPENED_ISSUE}
 							</OpenedIssue>
-							<ClosedIssue onClick={() => handleClickIssueOption(CLOSED)}>
-								<Inventory colorset="titleActive" size={18} /> {CLOSED_ISSUE}
+							<ClosedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(CLOSED)}>
+								<Inventory colorset={isClosed ? "titleActive" : "label"} size={18} /> {CLOSED_ISSUE}
 							</ClosedIssue>
 						</IssueCategory>
 					</IssueHeaderLeft>

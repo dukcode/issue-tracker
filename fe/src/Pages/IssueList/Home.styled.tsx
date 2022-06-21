@@ -1,5 +1,9 @@
 import styled, { css } from "styled-components";
 
+type TStyledIssueOption = {
+	isClosed: boolean;
+};
+
 const StyledCheckbox = styled.div`
 	display: flex;
 	align-items: center;
@@ -40,10 +44,14 @@ const IssueCategory = styled.div`
 	gap: 25px;
 `;
 
-const OpenedIssue = styled.button`
-	${({ theme: { colors } }) =>
+const OpenedIssue = styled.button<TStyledIssueOption>`
+	${({ theme: { colors }, isClosed }) =>
 		css`
 			color: ${colors.titleActive};
+			${isClosed &&
+			css`
+				color: ${colors.label};
+			`}
 		`}
 	width: 85px;
 	height: 28px;
@@ -59,10 +67,14 @@ const OpenedIssue = styled.button`
 	}
 `;
 
-const ClosedIssue = styled.button`
-	${({ theme: { colors } }) =>
+const ClosedIssue = styled.button<TStyledIssueOption>`
+	${({ theme: { colors }, isClosed }) =>
 		css`
 			color: ${colors.titleActive};
+			${!isClosed &&
+			css`
+				color: ${colors.label};
+			`}
 		`}
 	width: 85px;
 	height: 28px;
