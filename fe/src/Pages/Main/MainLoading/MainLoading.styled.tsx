@@ -5,7 +5,7 @@ export const StyledLoading = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	width: 100%;
-	height: 300px;
+	height: 200px;
 `;
 
 export const StyledLoadingAnimation = styled.div`
@@ -13,7 +13,7 @@ export const StyledLoadingAnimation = styled.div`
 		margin: 0 auto;
 		border: solid 15px;
 		border-radius: 50%;
-		border-color: ${colors.label} transparent transparent transparent;
+		border-color: ${colors.line} transparent transparent transparent;
 		width: 100px;
 		height: 100px;
 		animation: spinning 1s infinite;

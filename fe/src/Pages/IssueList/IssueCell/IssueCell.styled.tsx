@@ -4,8 +4,6 @@ export const StyledIssueCell = styled.div`
 	${({ theme: { colors, width } }) =>
 		css`
 			background: ${colors.offWhite};
-			border-left: 1px solid ${colors.line};
-			border-right: 1px solid ${colors.line};
 			border-bottom: 1px solid ${colors.line};
 			${width.main};
 		`}
@@ -15,6 +13,7 @@ export const StyledIssueCell = styled.div`
 
 	:last-child {
 		border-radius: 0px 0px 16px 16px;
+		border-bottom: none;
 	}
 `;
 

@@ -13,7 +13,8 @@ const IssueContainer = styled.div`
 	${({ theme: { colors, width } }) =>
 		css`
 			margin-top: 20px;
-			background: ${colors.line};
+			background-color: ${colors.offWhite};
+			border: solid 1px ${colors.line};
 			${width.main};
 			border-radius: 16px;
 		`}
@@ -25,7 +26,7 @@ const IssueHeader = styled.div`
 			background: ${colors.background};
 			${width.main};
 			height: ${height.issueHeader};
-			border: 1px solid ${colors.line};
+			border-bottom: 1px solid ${colors.line};
 			border-radius: 16px 16px 0px 0px;
 		`}
 	display: flex;

@@ -20,8 +20,8 @@ const FilterBar = () => {
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const tester = { q: inputValue };
-		const params = new URLSearchParams(tester);
+		const query = { q: inputValue };
+		const params = new URLSearchParams(query);
 		navigate(`/?${params.toString()}`);
 	};
 
