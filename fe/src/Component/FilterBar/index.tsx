@@ -1,14 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 
 import icons from "Util/Icons";
 import { StyledFilterBar, StyledFilterSelector, StyledFilterInputArea } from "./FilterBar.styled";
 
 const FILTER = "필터";
 const { KeyboardArrowDown, Search } = icons;
-const defaultInputValue = "is:issue is:open";
+const defaultInputValue = "is:open";
 
 const FilterBar = () => {
-	const [inputValue] = useState(defaultInputValue);
+	const [inputValue, setInputValue] = useState(defaultInputValue);
+	const [searchParams] = useSearchParams();
+
+	useEffect(() => {
+		const q = searchParams.get("q");
+		if (q) setInputValue(q);
+	}, [searchParams]);
 
 	return (
 		<StyledFilterBar>
