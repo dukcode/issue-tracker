@@ -1,10 +1,10 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import NotFound from "Component/NotFound";
-import Main from "Component/Main";
-import Home from "Component/Home";
-import Login from "Component/Login";
-import NewIssue from "Component/NewIssue";
-import Loading from "Component/Loading";
+import NotFound from "Pages/NotFound";
+import Main from "Pages/Main";
+import Home from "Pages/IssueList";
+import Login from "Pages/Login";
+import NewIssue from "Pages/NewIssue";
+import Loading from "Pages/Loading";
 
 const Router = () => {
 	return (

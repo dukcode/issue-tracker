@@ -29,7 +29,7 @@ const NewIssueContent = () => {
 				<StyledNewIssueDesc>
 					<textarea value={issueDesc} />
 					<div>
-						<FilePresent size={16} />
+						<FilePresent colorset="label" size={16} />
 						{ADD_FILE}
 					</div>
 				</StyledNewIssueDesc>
