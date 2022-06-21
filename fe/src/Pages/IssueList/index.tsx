@@ -6,6 +6,7 @@ import issueListApi from "Api/issueListApi";
 import useCookieUserInfo from "Hooks";
 import icons from "Util/Icons";
 import OptionsBox from "Component/OptionsBox";
+import MainLoading from "Pages/Main/MainLoading";
 import {
 	IssueContainer,
 	IssueHeader,
@@ -35,10 +36,10 @@ const countsDefault = { openCount: 0, closedCount: 0 };
 const getOptionString = (option: string) => `is:${option}`;
 
 const Home = () => {
-	const [issueCells, setIssueCells] = useState([]);
 	const [counts, setCounts] = useState(countsDefault);
-	const navigate = useNavigate();
+	const [issueCells, setIssueCells] = useState(<MainLoading />);
 	const cookieUserInfo = useCookieUserInfo();
+	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
 	const isClosed = q === getOptionString(CLOSED);
@@ -51,7 +52,6 @@ const Home = () => {
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
-
 		if (!accessToken) {
 			navigate("/login");
 			return;
@@ -60,8 +60,12 @@ const Home = () => {
 		const issueListResponse = await issueListApi.getIssueList(accessToken, q);
 		const {
 			data: { data, openCount, closedCount },
+			status,
 		} = issueListResponse;
-		setCounts({ openCount, closedCount });
+		if (status !== 200) {
+			navigate("/login");
+			return;
+		}
 
 		const newIssueCells = data
 			.reverse()
@@ -75,10 +79,13 @@ const Home = () => {
 					mileStone={item.milestone.title}
 				/>
 			));
+
 		setIssueCells(newIssueCells);
+		setCounts({ openCount, closedCount });
 	};
 
 	useEffect(() => {
+		setIssueCells(<MainLoading />);
 		getIssueList();
 	}, [searchParams]);
 
@@ -97,7 +104,7 @@ const Home = () => {
 								{`${OPENED_ISSUE} (${counts.openCount})`}
 							</OpenedIssue>
 							<ClosedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(CLOSED)}>
-								<Inventory colorset={isClosed ? "titleActive" : "label"} size={18} />{" "}
+								<Inventory colorset={isClosed ? "titleActive" : "label"} size={18} />
 								{`${CLOSED_ISSUE} (${counts.closedCount})`}
 							</ClosedIssue>
 						</IssueCategory>
