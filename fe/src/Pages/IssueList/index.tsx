@@ -31,16 +31,17 @@ const OPENED_ISSUE = "열린 이슈";
 const CLOSED_ISSUE = "닫힌 이슈";
 const OPEN = "open";
 const CLOSED = "closed";
+const countsDefault = { openCount: 0, closedCount: 0 };
 const getOptionString = (option: string) => `is:${option}`;
 
 const Home = () => {
 	const [issueCells, setIssueCells] = useState([]);
+	const [counts, setCounts] = useState(countsDefault);
 	const navigate = useNavigate();
 	const cookieUserInfo = useCookieUserInfo();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
 	const isClosed = q === getOptionString(CLOSED);
-	console.log(isClosed);
 
 	const handleClickIssueOption = (option: string) => {
 		const tester = { q: getOptionString(option) };
@@ -58,8 +59,9 @@ const Home = () => {
 
 		const issueListResponse = await issueListApi.getIssueList(accessToken, q);
 		const {
-			data: { data },
+			data: { data, openCount, closedCount },
 		} = issueListResponse;
+		setCounts({ openCount, closedCount });
 
 		const newIssueCells = data
 			.reverse()
@@ -91,11 +93,12 @@ const Home = () => {
 						</StyledCheckbox>
 						<IssueCategory>
 							<OpenedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(OPEN)}>
-								<ErrorOutline colorset={!isClosed ? "titleActive" : "label"} size={18} />{" "}
-								{OPENED_ISSUE}
+								<ErrorOutline colorset={!isClosed ? "titleActive" : "label"} size={18} />
+								{`${OPENED_ISSUE} (${counts.openCount})`}
 							</OpenedIssue>
 							<ClosedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(CLOSED)}>
-								<Inventory colorset={isClosed ? "titleActive" : "label"} size={18} /> {CLOSED_ISSUE}
+								<Inventory colorset={isClosed ? "titleActive" : "label"} size={18} />{" "}
+								{`${CLOSED_ISSUE} (${counts.closedCount})`}
 							</ClosedIssue>
 						</IssueCategory>
 					</IssueHeaderLeft>

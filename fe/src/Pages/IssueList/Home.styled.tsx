@@ -53,7 +53,7 @@ const OpenedIssue = styled.button<TStyledIssueOption>`
 				color: ${colors.label};
 			`}
 		`}
-	width: 85px;
+	width: 110px;
 	height: 28px;
 	font-weight: 700;
 	font-size: 16px;
@@ -76,7 +76,7 @@ const ClosedIssue = styled.button<TStyledIssueOption>`
 				color: ${colors.label};
 			`}
 		`}
-	width: 85px;
+	width: 110px;
 	height: 28px;
 	font-weight: 700;
 	font-size: 16px;
