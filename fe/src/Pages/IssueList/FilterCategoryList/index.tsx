@@ -6,19 +6,23 @@ type listItem = {
 	category: string;
 };
 
-type filterCategoryListType = {
-	listItems: listItem[];
-};
-
 const { KeyboardArrowDown } = icons;
 
-const FilterCategoryList = ({ listItems }: filterCategoryListType) => {
-	const categoryList = listItems.map((item: listItem) => (
+const filterCategoryItems: listItem[] = [
+	{ id: 1, category: "담당자" },
+	{ id: 2, category: "레이블" },
+	{ id: 3, category: "마일스톤" },
+	{ id: 4, category: "작성자" },
+];
+
+const FilterCategoryList = () => {
+	const categoryList = filterCategoryItems.map((item: listItem) => (
 		<li key={item.id}>
 			<div>{item.category}</div>
 			<KeyboardArrowDown colorset="label" size={18} />
 		</li>
 	));
+
 	return <FilterCategory>{categoryList}</FilterCategory>;
 };
 

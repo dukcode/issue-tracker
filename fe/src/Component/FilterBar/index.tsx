@@ -1,3 +1,4 @@
+import Popup from "Component/Popup";
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
@@ -32,10 +33,12 @@ const FilterBar = () => {
 
 	return (
 		<StyledFilterBar>
-			<StyledFilterSelector>
-				<div>{FILTER}</div>
-				<KeyboardArrowDown colorset="label" size={20} />
-			</StyledFilterSelector>
+			<Popup>
+				<StyledFilterSelector>
+					<div>{FILTER}</div>
+					<KeyboardArrowDown colorset="label" size={20} />
+				</StyledFilterSelector>
+			</Popup>
 			<StyledFilterInputArea onSubmit={handleSubmit}>
 				<Search colorset="placeholder" size={20} />
 				<input value={inputValue} onChange={handleInput} />
