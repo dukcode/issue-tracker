@@ -78,6 +78,7 @@ const Home = () => {
 					timeStamp={item.createDate}
 					mileStone={item.milestone.title}
 					profileImage={item.author.profileImage}
+					labels={item.labels}
 				/>
 			));
 
@@ -101,11 +102,11 @@ const Home = () => {
 						</StyledCheckbox>
 						<IssueCategory>
 							<OpenedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(OPEN)}>
-								<ErrorOutline colorset={!isClosed ? "titleActive" : "label"} size={18} />
+								<ErrorOutline colorset={!isClosed ? "titleActive" : "placeholder"} size={18} />
 								{`${OPENED_ISSUE} (${counts.openCount})`}
 							</OpenedIssue>
 							<ClosedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(CLOSED)}>
-								<Inventory colorset={isClosed ? "titleActive" : "label"} size={18} />
+								<Inventory colorset={isClosed ? "titleActive" : "placeholder"} size={18} />
 								{`${CLOSED_ISSUE} (${counts.closedCount})`}
 							</ClosedIssue>
 						</IssueCategory>
