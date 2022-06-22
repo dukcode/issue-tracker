@@ -46,49 +46,69 @@ const IssueCategory = styled.div`
 `;
 
 const OpenedIssue = styled.button<TStyledIssueOption>`
-	${({ theme: { colors }, isClosed }) =>
+	${({ theme: { colors, fonts }, isClosed }) =>
 		css`
 			color: ${colors.titleActive};
+
+			${fonts.linkMedium};
 			${isClosed &&
 			css`
-				color: ${colors.label};
+				${fonts.textMedium};
+				color: ${colors.placeholder};
+				:hover {
+					color: ${colors.body};
+					svg {
+						color: ${colors.body};
+					}
+				}
 			`}
-		`}
-	width: 110px;
-	height: 28px;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 28px;
-	display: flex;
-	align-items: center;
-	gap: 3px;
 
-	svg {
-		margin-top: -3px;
-	}
+			width: 110px;
+			height: 28px;
+			font-weight: 700;
+			font-size: 16px;
+			line-height: 28px;
+			display: flex;
+			align-items: center;
+			gap: 3px;
+
+			svg {
+				margin-top: -3px;
+			}
+		`}
 `;
 
 const ClosedIssue = styled.button<TStyledIssueOption>`
-	${({ theme: { colors }, isClosed }) =>
+	${({ theme: { colors, fonts }, isClosed }) =>
 		css`
 			color: ${colors.titleActive};
+
+			${fonts.linkMedium};
 			${!isClosed &&
 			css`
-				color: ${colors.label};
+				${fonts.textMedium};
+				color: ${colors.placeholder};
+				:hover {
+					color: ${colors.body};
+					svg {
+						color: ${colors.body};
+					}
+				}
 			`}
-		`}
-	width: 110px;
-	height: 28px;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 28px;
-	display: flex;
-	align-items: center;
-	gap: 3px;
 
-	svg {
-		margin-top: -3px;
-	}
+			width: 110px;
+			height: 28px;
+			font-weight: 700;
+			font-size: 16px;
+			line-height: 28px;
+			display: flex;
+			align-items: center;
+			gap: 3px;
+
+			svg {
+				margin-top: -3px;
+			}
+		`}
 `;
 
 const IssueHeaderLeft = styled.div`
