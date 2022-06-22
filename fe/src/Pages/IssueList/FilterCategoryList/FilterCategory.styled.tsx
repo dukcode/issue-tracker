@@ -26,7 +26,6 @@ const FilterCategory = styled.div`
 			margin-top: -4px;
 		}
 	}
-	margin-right: 20px;
 `;
 
 export default FilterCategory;

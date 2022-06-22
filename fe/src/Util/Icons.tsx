@@ -58,4 +58,4 @@ muiKeys.forEach((key) => {
 });
 
 export default icons;
-export type { TKeysIcons };
+export type { TKeysIcons, TResultButton };
