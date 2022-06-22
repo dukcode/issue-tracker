@@ -1,14 +1,7 @@
 import icons from "Util/Icons";
 import { StyledIssueListContentHeader, StyledIssueOptions } from "./IssueListContentHeader.styled";
 import IssueOption from "../IssueOption";
-import FilterCategoryList, { listItem } from "../../FilterCategoryList";
-
-const filterCategoryItems: listItem[] = [
-	{ id: 1, category: "담당자" },
-	{ id: 2, category: "레이블" },
-	{ id: 3, category: "마일스톤" },
-	{ id: 4, category: "작성자" },
-];
+import FilterCategoryList from "../../FilterCategoryList";
 
 const { ErrorOutline, Inventory } = icons;
 const issueOptionsData = [
@@ -37,7 +30,7 @@ const IssueListContentHeader = ({ counts }: TIssueListContentHeader) => {
 	return (
 		<StyledIssueListContentHeader>
 			<StyledIssueOptions>{IssueOptions}</StyledIssueOptions>
-			<FilterCategoryList listItems={filterCategoryItems} />
+			<FilterCategoryList />
 		</StyledIssueListContentHeader>
 	);
 };

@@ -10,7 +10,7 @@ export const StyledIssueListContentHeader = styled.div`
 			border-radius: 16px 16px 0px 0px;
 		`}
 
-	padding: 18px 36px;
+	padding: 15px 30px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
