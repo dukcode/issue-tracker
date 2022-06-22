@@ -1,21 +1,13 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
-
 import issueListApi from "Api/issueListApi";
 import useCookieUserInfo from "Hooks";
 import icons from "Util/Icons";
 import OptionsBox from "Component/OptionsBox";
 import MainLoading from "Pages/Main/MainLoading";
-import {
-	IssueContainer,
-	IssueHeader,
-	IssueHeaderLeft,
-	IssueCategory,
-	OpenedIssue,
-	ClosedIssue,
-	StyledCheckbox,
-} from "./Home.styled";
+import ContentContainer from "Component/ContentContainer";
+import { IssueCategory, OpenedIssue, ClosedIssue, StyledCheckbox } from "./Home.styled";
 import FilterCategoryList, { listItem } from "./FilterCategoryList";
 import IssueCell from "./IssueCell";
 import TIssueData from "./mockData";
@@ -91,30 +83,34 @@ const Home = () => {
 		getIssueList();
 	}, [searchParams]);
 
+	const headerLeftComponents = (
+		<>
+			<StyledCheckbox>
+				<Checkbox size="small" color="default" />
+			</StyledCheckbox>
+			<IssueCategory>
+				<OpenedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(OPEN)}>
+					<ErrorOutline colorset={!isClosed ? "titleActive" : "placeholder"} size={18} />
+					{`${OPENED_ISSUE} (${counts.openCount})`}
+				</OpenedIssue>
+				<ClosedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(CLOSED)}>
+					<Inventory colorset={isClosed ? "titleActive" : "placeholder"} size={18} />
+					{`${CLOSED_ISSUE} (${counts.closedCount})`}
+				</ClosedIssue>
+			</IssueCategory>
+		</>
+	);
+
+	const headerRightComponents = <FilterCategoryList listItems={filterCategoryItems} />;
+
 	return (
 		<>
 			<OptionsBox />
-			<IssueContainer>
-				<IssueHeader>
-					<IssueHeaderLeft>
-						<StyledCheckbox>
-							<Checkbox size="small" color="default" />
-						</StyledCheckbox>
-						<IssueCategory>
-							<OpenedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(OPEN)}>
-								<ErrorOutline colorset={!isClosed ? "titleActive" : "placeholder"} size={18} />
-								{`${OPENED_ISSUE} (${counts.openCount})`}
-							</OpenedIssue>
-							<ClosedIssue isClosed={isClosed} onClick={() => handleClickIssueOption(CLOSED)}>
-								<Inventory colorset={isClosed ? "titleActive" : "placeholder"} size={18} />
-								{`${CLOSED_ISSUE} (${counts.closedCount})`}
-							</ClosedIssue>
-						</IssueCategory>
-					</IssueHeaderLeft>
-					<FilterCategoryList listItems={filterCategoryItems} />
-				</IssueHeader>
-				{issueCells}
-			</IssueContainer>
+			<ContentContainer
+				headerLeftComponents={headerLeftComponents}
+				headerRightComponents={headerRightComponents}
+				content={issueCells}
+			/>
 		</>
 	);
 };
