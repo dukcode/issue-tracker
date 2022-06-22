@@ -33,7 +33,7 @@ const FilterBar = () => {
 
 	return (
 		<StyledFilterBar>
-			<Popup>
+			<Popup isLeft={true}>
 				<StyledFilterSelector>
 					<div>{FILTER}</div>
 					<KeyboardArrowDown colorset="label" size={20} />

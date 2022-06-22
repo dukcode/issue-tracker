@@ -7,10 +7,10 @@ const StyledContent = styled.div`
 		background-color: ${colors.offWhite};
 		border: solid 1px ${colors.line};
 		border-radius: 16px;
-		overflow: hidden;
 
 		> :first-child {
 			background-color: ${colors.background};
+			border-radius: 16px 16px 0px 0px;
 		}
 
 		> div:not(:last-child) {

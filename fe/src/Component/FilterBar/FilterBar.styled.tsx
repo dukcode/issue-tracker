@@ -6,7 +6,7 @@ const StyledFilterBar = styled.div`
 		border-radius: 10px;
 		height: 40px;
 		display: flex;
-		/* overflow: hidden; */
+
 		> :first-child {
 			border-right: solid 1px ${colors.line};
 		}
@@ -41,6 +41,7 @@ const StyledFilterInputArea = styled.form`
 		color: ${colors.placeholder};
 		gap: 5px;
 		overflow: hidden;
+		border-radius: 0px 10px 10px 0px;
 
 		input {
 			${fonts.textSmall};

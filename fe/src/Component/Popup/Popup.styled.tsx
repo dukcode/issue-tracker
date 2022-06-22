@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
-export const StyledPopup = styled.div`
-	${({ theme: { colors, fonts } }) => css`
+export const StyledPopup = styled.div<{ isLeft: boolean }>`
+	${({ theme: { colors, fonts }, isLeft }) => css`
 		width: 300px;
 		display: block;
 		position: absolute;
@@ -11,6 +11,11 @@ export const StyledPopup = styled.div`
 		border-radius: 20px;
 		box-shadow: 0px 4px 8px -4px ${colors.body};
 		overflow: hidden;
+
+		${!isLeft &&
+		css`
+			right: 0;
+		`}
 
 		svg {
 			margin-top: -2px;

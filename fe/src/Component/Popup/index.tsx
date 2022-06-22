@@ -32,7 +32,7 @@ const Content = ({ name }: TContentProps) => {
 
 const contents = contentsData.map(({ id, name }) => <Content key={id} name={name} />);
 
-const Popup = ({ children }: { children: ReactNode }) => {
+const Popup = ({ children, isLeft = true }: { children: ReactNode; isLeft: boolean }) => {
 	const popup = useRef<HTMLDivElement>(null);
 	const button = useRef<HTMLDivElement>(null);
 	const [isOpened, setIsOpened] = useState(false);
@@ -69,7 +69,7 @@ const Popup = ({ children }: { children: ReactNode }) => {
 				{children}
 			</div>
 			{isOpened && (
-				<StyledPopup ref={popup}>
+				<StyledPopup ref={popup} isLeft={isLeft}>
 					<div>{title}</div>
 					{contents}
 				</StyledPopup>
