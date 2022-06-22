@@ -1,6 +1,5 @@
 import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
-import user2 from "Img/user2.jpeg";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
 import {
@@ -26,6 +25,7 @@ type TIssueItem = {
 	author: string;
 	timeStamp: string; // TODO: timestamp 형식
 	mileStone: string;
+	profileImage: string;
 };
 
 const labelsInfo = [
@@ -33,7 +33,7 @@ const labelsInfo = [
 	{ id: 2, name: "feat", color: "#2a578e" },
 ];
 
-const IssueCell = ({ id, title, author, timeStamp, mileStone }: TIssueItem) => {
+const IssueCell = ({ id, title, author, timeStamp, mileStone, profileImage }: TIssueItem) => {
 	const labels = labelsInfo.map(({ id: lableId, name, color }) => (
 		<Label key={lableId} name={name} color={color} />
 	));
@@ -64,7 +64,7 @@ const IssueCell = ({ id, title, author, timeStamp, mileStone }: TIssueItem) => {
 				</IssueInfo>
 			</IssueCellLeft>
 			<IssueCellRight>
-				<UserImg img={user2} size="small" />
+				<UserImg img={profileImage} size="small" />
 			</IssueCellRight>
 		</StyledIssueCell>
 	);

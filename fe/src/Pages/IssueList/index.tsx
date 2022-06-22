@@ -77,6 +77,7 @@ const Home = () => {
 					author={item.author.loginName}
 					timeStamp={item.createDate}
 					mileStone={item.milestone.title}
+					profileImage={item.author.profileImage}
 				/>
 			));
 
