@@ -40,9 +40,8 @@ const Popup = ({ children }: { children: ReactNode }) => {
 	const handleClickOutside = ({ target }: MouseEvent) => {
 		const clickedTarget = target as Node;
 
-		if (!popup.current) return;
 		if (button.current?.contains(clickedTarget)) return;
-		if (isOpened && !popup.current.contains(clickedTarget)) setIsOpened(false);
+		if (isOpened && !popup.current?.contains(clickedTarget)) setIsOpened(false);
 	};
 
 	const handleClickButton = () => {

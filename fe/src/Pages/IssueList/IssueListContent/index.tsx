@@ -5,8 +5,8 @@ import useCookieUserInfo from "Hooks";
 import MainLoading from "Pages/Main/MainLoading";
 import IssueCell from "Pages/IssueList/IssueCell";
 import TIssueData from "Pages/IssueList/mockData";
+import StyledContent from "Component/StyledContent";
 import IssueListContentHeader from "./IssueListContentHeader";
-import StyledIssueListContent from "./IssueListContent.styled";
 
 const countsDefault = { openCount: 0, closedCount: 0 };
 
@@ -61,10 +61,10 @@ const IssueListContent = () => {
 	}, [searchParams]);
 
 	return (
-		<StyledIssueListContent>
+		<StyledContent>
 			<IssueListContentHeader counts={counts} />
 			{issueCells}
-		</StyledIssueListContent>
+		</StyledContent>
 	);
 };
 
