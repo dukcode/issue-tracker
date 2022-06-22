@@ -4,9 +4,9 @@ const baseURL = `${process.env.REACT_APP_API}/labels`;
 const client = axios.create({ baseURL });
 
 const labelsApi = {
-	getLabels: async (token: string) => {
+	getLabels: async (token: string, isCount = false) => {
 		const response = await client
-			.get("", {
+			.get(`${isCount && "count"}`, {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,

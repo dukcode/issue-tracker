@@ -42,18 +42,14 @@ const OptionTabs = () => {
 	});
 
 	const getLabelMilestoneCount = async () => {
-		const milestoneResponse = await milestoneApi.getMilestone(accessToken);
-		const labelResponse = await labelsApi.getLabels(accessToken);
+		const milestoneResponse = await milestoneApi.getMilestoneCount(accessToken, true);
+		const labelResponse = await labelsApi.getLabels(accessToken, true);
 
-		const {
-			data: { openCount },
-		} = milestoneResponse;
-		const {
-			data: { count },
-		} = labelResponse;
+		const { data: milestoneData } = milestoneResponse;
+		const { data: labelData } = labelResponse;
 
-		setMilestoneCount(openCount);
-		setLabelCount(count);
+		setMilestoneCount(milestoneData);
+		setLabelCount(labelData);
 	};
 
 	useEffect(() => {
