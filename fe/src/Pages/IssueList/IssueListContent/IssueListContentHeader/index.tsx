@@ -1,7 +1,11 @@
 import { Dispatch, SetStateAction } from "react";
 import icons from "Util/Icons";
 import { Checkbox } from "@mui/material";
-import { StyledIssueListContentHeader, StyledIssueOptions } from "./IssueListContentHeader.styled";
+import {
+	StyledIssueListContentHeader,
+	StyledIssueOptions,
+	StyledCheckedIssuesCountInfo,
+} from "./IssueListContentHeader.styled";
 import IssueOption from "../IssueOption";
 import FilterCategoryList from "./FilterCategoryList";
 
@@ -15,9 +19,17 @@ type TIssueListContentHeader = {
 	counts: { openCount: number; closedCount: number };
 	allChecked: boolean;
 	setAllChecked: Dispatch<SetStateAction<boolean>>;
+	checkedIssues: Set<unknown>;
 };
 
-const IssueListContentHeader = ({ counts, allChecked, setAllChecked }: TIssueListContentHeader) => {
+const IssueListContentHeader = ({
+	counts,
+	allChecked,
+	setAllChecked,
+	checkedIssues,
+}: TIssueListContentHeader) => {
+	const checkedIssuesCount = checkedIssues.size;
+
 	const IssueOptions = issueOptionsData.map(({ id, Icon, isOpened, name, option }) => {
 		return (
 			<IssueOption
@@ -31,9 +43,15 @@ const IssueListContentHeader = ({ counts, allChecked, setAllChecked }: TIssueLis
 		);
 	});
 
+	const checkedIssuesCountInfo = (
+		<StyledCheckedIssuesCountInfo>{checkedIssuesCount}개 이슈 선택</StyledCheckedIssuesCountInfo>
+	);
+
 	const handleMultipleCheckbox = () => {
 		setAllChecked(!allChecked);
 	};
+
+	const isChecked = !!checkedIssuesCount;
 
 	return (
 		<StyledIssueListContentHeader>
@@ -44,7 +62,7 @@ const IssueListContentHeader = ({ counts, allChecked, setAllChecked }: TIssueLis
 					onChange={handleMultipleCheckbox}
 					checked={allChecked}
 				/>
-				{IssueOptions}
+				{isChecked ? checkedIssuesCountInfo : IssueOptions}
 			</StyledIssueOptions>
 			<FilterCategoryList />
 		</StyledIssueListContentHeader>
