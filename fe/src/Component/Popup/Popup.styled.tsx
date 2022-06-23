@@ -1,9 +1,8 @@
 import styled, { css } from "styled-components";
 
-export const StyledPopup = styled.div<{ isLeft: boolean }>`
-	${({ theme: { colors, fonts }, isLeft }) => css`
+export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
+	${({ theme: { colors, fonts }, isLeft, isOpened }) => css`
 		width: 300px;
-		display: block;
 		position: absolute;
 		margin-top: 10px;
 		margin-left: -1px;
@@ -11,6 +10,13 @@ export const StyledPopup = styled.div<{ isLeft: boolean }>`
 		border-radius: 20px;
 		box-shadow: 0px 4px 8px -4px ${colors.body};
 		overflow: hidden;
+		display: none;
+		animation: fadein 0.5s forwards;
+
+		${!isOpened &&
+		css`
+			animation: fadeout 0.5s forwards;
+		`}
 
 		${!isLeft &&
 		css`

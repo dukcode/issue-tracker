@@ -39,10 +39,15 @@ const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: T
 	const handleClickButton = () => {
 		setIsOpened(!isOpened);
 		if (setOption) setOption(!isOpened);
+		if (popup.current && !isOpened) popup.current.style.display = "block";
 	};
 
 	const handleKeyupButton = ({ key }: { key: string }) => {
 		if (key === "f") handleClickButton();
+	};
+
+	const handleAnimationEnd = () => {
+		if (popup.current && !isOpened) popup.current.style.display = "none";
 	};
 
 	useEffect(() => {
@@ -61,12 +66,15 @@ const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: T
 			>
 				{children}
 			</div>
-			{isOpened && (
-				<StyledPopup ref={popup} isLeft={isLeft}>
-					<div>{title}</div>
-					{contents}
-				</StyledPopup>
-			)}
+			<StyledPopup
+				ref={popup}
+				isLeft={isLeft}
+				isOpened={isOpened}
+				onAnimationEnd={handleAnimationEnd}
+			>
+				<div>{title}</div>
+				{contents}
+			</StyledPopup>
 		</StyledPopupWrapper>
 	);
 };
