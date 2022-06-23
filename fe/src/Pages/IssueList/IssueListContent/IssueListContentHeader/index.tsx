@@ -1,7 +1,7 @@
 import icons from "Util/Icons";
 import { StyledIssueListContentHeader, StyledIssueOptions } from "./IssueListContentHeader.styled";
 import IssueOption from "../IssueOption";
-import FilterCategoryList from "../../FilterCategoryList";
+import FilterCategoryList from "./FilterCategoryList";
 
 const { ErrorOutline, Inventory } = icons;
 const issueOptionsData = [
