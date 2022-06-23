@@ -1,4 +1,4 @@
-import { ReactNode, useState, useRef, useEffect } from "react";
+import { ReactNode, useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { StyledPopup, StyledPopupWrapper } from "./Popup.styled";
 import PopupContent, { TContentProps } from "./PopupContent";
 
@@ -11,9 +11,14 @@ type TPopupProps = {
 	isLeft: boolean;
 	title: string;
 	contents: TPopupContentProps[];
+	setOption?: Dispatch<SetStateAction<boolean>>;
 };
 
-const Popup = ({ children, isLeft, title, contents: contentsData }: TPopupProps) => {
+const defaultPopupProps = {
+	setOption: undefined,
+};
+
+const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: TPopupProps) => {
 	const contents = contentsData.map(({ id, name, image, imageType }) => (
 		<PopupContent key={id} name={name} image={image} imageType={imageType} />
 	));
@@ -25,11 +30,15 @@ const Popup = ({ children, isLeft, title, contents: contentsData }: TPopupProps)
 		const clickedTarget = target as Node;
 
 		if (button.current?.contains(clickedTarget)) return;
-		if (isOpened && !popup.current?.contains(clickedTarget)) setIsOpened(false);
+		if (isOpened && !popup.current?.contains(clickedTarget)) {
+			setIsOpened(false);
+			if (setOption) setOption(false);
+		}
 	};
 
 	const handleClickButton = () => {
 		setIsOpened(!isOpened);
+		if (setOption) setOption(!isOpened);
 	};
 
 	const handleKeyupButton = ({ key }: { key: string }) => {
@@ -61,6 +70,8 @@ const Popup = ({ children, isLeft, title, contents: contentsData }: TPopupProps)
 		</StyledPopupWrapper>
 	);
 };
+
+Popup.defaultProps = defaultPopupProps;
 
 export default Popup;
 export type { TPopupContentProps };

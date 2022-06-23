@@ -21,10 +21,11 @@ type listItem = {
 	getPopupContents: (data: any) => TPopupContentProps[];
 };
 
-const { KeyboardArrowDown } = icons;
+const { KeyboardArrowDown, KeyboardArrowUp } = icons;
 
 const FilterCategory = ({ item }: { item: listItem }) => {
 	const [popupContents, setPopupContents] = useState(item.popupContents);
+	const [isDown, setIsDown] = useState(false);
 	const [isUpdated, setIsUpdated] = useState(false);
 	const { accessToken } = useCookieUserInfo();
 
@@ -40,10 +41,19 @@ const FilterCategory = ({ item }: { item: listItem }) => {
 	};
 
 	return (
-		<Popup isLeft={item.isLeft} contents={popupContents} title={`${item.title} 필터`}>
+		<Popup
+			isLeft={item.isLeft}
+			contents={popupContents}
+			title={`${item.title} 필터`}
+			setOption={setIsDown}
+		>
 			<StyledFilterCategory key={item.id} type="button" onMouseEnter={handleMouseEnter}>
 				<div>{item.title}</div>
-				<KeyboardArrowDown colorset="label" size={18} />
+				{isDown ? (
+					<KeyboardArrowDown colorset="label" size={18} />
+				) : (
+					<KeyboardArrowUp colorset="label" size={18} />
+				)}
 			</StyledFilterCategory>
 		</Popup>
 	);

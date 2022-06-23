@@ -5,7 +5,7 @@ import { TPopupContentProps } from "Component/Popup";
 import StyledFilterCategory from "./FilterCategory.styled";
 import FilterCategory from "./FilterCategory";
 
-type listItem = {
+type TFilterCategoryItem = {
 	id: number;
 	title: string;
 	isLeft: boolean;
@@ -66,16 +66,14 @@ const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[]
 };
 
 const getContentsByUsers = (data: TUsersData[]): TPopupContentProps[] => {
-	const newContents: TPopupContentProps[] = data.map(
-		({ id, loginName, profileImage }: TUsersData) => {
-			return {
-				id,
-				name: loginName,
-				image: profileImage,
-				imageType: "image",
-			};
-		}
-	);
+	const newContents = data.map(({ id, loginName, profileImage }: TUsersData) => {
+		return {
+			id,
+			name: loginName,
+			image: profileImage,
+			imageType: "image" as "image",
+		};
+	});
 	return newContents;
 };
 
@@ -90,7 +88,7 @@ const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContent
 	return newContents;
 };
 
-const filterCategoryItems: listItem[] = [
+const filterCategoryItems: TFilterCategoryItem[] = [
 	{
 		id: 1,
 		title: "담당자",
@@ -126,10 +124,12 @@ const filterCategoryItems: listItem[] = [
 ];
 
 const FilterCategoryList = () => {
-	const categoryList = filterCategoryItems.map((item: listItem) => <FilterCategory item={item} />);
+	const categoryList = filterCategoryItems.map((item: TFilterCategoryItem) => (
+		<FilterCategory item={item} />
+	));
 
 	return <StyledFilterCategory>{categoryList}</StyledFilterCategory>;
 };
 
-export type { listItem };
+export type { TFilterCategoryItem as listItem };
 export default FilterCategoryList;

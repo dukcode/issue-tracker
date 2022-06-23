@@ -6,7 +6,7 @@ import icons from "Util/Icons";
 import { StyledFilterBar, StyledFilterSelector, StyledFilterInputArea } from "./FilterBar.styled";
 
 const FILTER = "필터";
-const { KeyboardArrowDown, Search } = icons;
+const { KeyboardArrowDown, KeyboardArrowUp, Search } = icons;
 const defaultInputValue = "is:open";
 const popupTitle = "이슈 필터";
 const popupContents: TPopupContentProps[] = [
@@ -18,6 +18,7 @@ const popupContents: TPopupContentProps[] = [
 ];
 
 const FilterBar = () => {
+	const [isDown, setIsDown] = useState(false);
 	const [inputValue, setInputValue] = useState(defaultInputValue);
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
@@ -41,10 +42,14 @@ const FilterBar = () => {
 
 	return (
 		<StyledFilterBar>
-			<Popup isLeft={true} title={popupTitle} contents={popupContents}>
+			<Popup isLeft={true} title={popupTitle} contents={popupContents} setOption={setIsDown}>
 				<StyledFilterSelector>
 					<div>{FILTER}</div>
-					<KeyboardArrowDown colorset="label" size={20} />
+					{isDown ? (
+						<KeyboardArrowDown colorset="label" size={20} />
+					) : (
+						<KeyboardArrowUp colorset="label" size={20} />
+					)}
 				</StyledFilterSelector>
 			</Popup>
 			<StyledFilterInputArea onSubmit={handleSubmit}>
