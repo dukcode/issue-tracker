@@ -6,11 +6,14 @@ const StyledFilterBar = styled.div`
 		border-radius: 10px;
 		height: 40px;
 		display: flex;
-		overflow: hidden;
+
+		> :first-child {
+			border-right: solid 1px ${colors.line};
+		}
 	`}
 `;
 
-const StyledFilterSelector = styled.div`
+const StyledFilterSelector = styled.button`
 	cursor: pointer;
 	width: 130px;
 	padding: 4px;
@@ -21,7 +24,6 @@ const StyledFilterSelector = styled.div`
 	${({ theme: { colors, fonts } }) => css`
 		${fonts.textSmall};
 		color: ${colors.label};
-		border-right: solid 1px ${colors.line};
 	`}
 
 	svg {
@@ -29,7 +31,7 @@ const StyledFilterSelector = styled.div`
 	}
 `;
 
-const StyledFilterInputArea = styled.div`
+const StyledFilterInputArea = styled.form`
 	${({ theme: { colors, fonts } }) => css`
 		padding-left: 10px;
 		background-color: ${colors.inputBackground};
@@ -38,6 +40,8 @@ const StyledFilterInputArea = styled.div`
 		align-items: center;
 		color: ${colors.placeholder};
 		gap: 5px;
+		overflow: hidden;
+		border-radius: 0px 10px 10px 0px;
 
 		input {
 			${fonts.textSmall};

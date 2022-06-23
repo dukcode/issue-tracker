@@ -1,6 +1,8 @@
+import Moment from "react-moment";
+import "moment/locale/ko";
+
 import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
-import user2 from "Img/user2.jpeg";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
 import {
@@ -20,23 +22,37 @@ import {
 
 const { ErrorOutline, EmojiFlags } = icons;
 
+type TLabel = {
+	id: number;
+	name: string;
+	description: string;
+	labelColor: string;
+	textColor: string;
+};
+
 type TIssueItem = {
 	id: number;
 	title: string;
 	author: string;
 	timeStamp: string; // TODO: timestamp 형식
 	mileStone: string;
+	profileImage: string;
+	labels: TLabel[];
 };
 
-const labelsInfo = [
-	{ id: 1, name: "docs", color: "#ba874c" },
-	{ id: 2, name: "feat", color: "#2a578e" },
-];
-
-const IssueCell = ({ id, title, author, timeStamp, mileStone }: TIssueItem) => {
-	const labels = labelsInfo.map(({ id: lableId, name, color }) => (
-		<Label key={lableId} name={name} color={color} />
+const IssueCell = ({
+	id,
+	title,
+	author,
+	timeStamp,
+	mileStone,
+	profileImage,
+	labels: labelsInfo,
+}: TIssueItem) => {
+	const labels = labelsInfo.map(({ id: lableId, name, labelColor }) => (
+		<Label key={lableId} name={name} color={labelColor} />
 	));
+	const editedTime = <Moment fromNow>{timeStamp}</Moment>;
 
 	return (
 		<StyledIssueCell>
@@ -55,16 +71,17 @@ const IssueCell = ({ id, title, author, timeStamp, mileStone }: TIssueItem) => {
 					<IssueInfoBottom>
 						<IssueNumber>#{id}</IssueNumber>
 						<AuthorTimeStamp>
-							이 이슈가 {timeStamp} 전, {author}님에 의해 작성되었습니다
+							이 이슈가 {editedTime}, {author}님에 의해 작성되었습니다.
 						</AuthorTimeStamp>
 						<MileStone>
-							<EmojiFlags colorset="label" size={18} /> {mileStone}
+							<EmojiFlags colorset="label" size={18} />
+							{mileStone}
 						</MileStone>
 					</IssueInfoBottom>
 				</IssueInfo>
 			</IssueCellLeft>
 			<IssueCellRight>
-				<UserImg img={user2} size="small" />
+				<UserImg img={profileImage} size="small" />
 			</IssueCellRight>
 		</StyledIssueCell>
 	);
