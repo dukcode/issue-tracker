@@ -1,5 +1,7 @@
+import { useEffect } from "react";
 import icons from "Util/Icons";
-// import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useCookieUserInfo from "Hooks";
 import warning from "Img/warning.png";
 import {
 	StyledLogin,
@@ -14,10 +16,17 @@ const ISSUE_TRACKER = "ISSUE TRACKER";
 
 const Login = () => {
 	const { GitHub } = icons;
+	const { accessToken } = useCookieUserInfo();
+	const navigate = useNavigate();
 	const loginUrl = process.env.REACT_APP_GITHUB_LOGIN as string;
+
 	const handleButtonClick = () => {
 		window.location.href = loginUrl;
 	};
+
+	useEffect(() => {
+		if (accessToken) navigate("/");
+	}, []);
 
 	return (
 		<StyledLogin>

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import user from "Img/user.jpeg";
+import useCookieUserInfo from "Hooks";
 import UserImg from "Component/UserImg";
 import warning from "Img/warning.png";
 import { StyledHeader, StyledHeaderLogo } from "./Header.styled";
@@ -8,6 +8,9 @@ import { StyledHeader, StyledHeaderLogo } from "./Header.styled";
 const ISSUE_TRACKER = "ISSUE TRACKER";
 
 const Header = () => {
+	const { profileImage } = useCookieUserInfo();
+	const profile = profileImage || warning;
+
 	return (
 		<StyledHeader>
 			<Link to="/">
@@ -16,7 +19,7 @@ const Header = () => {
 					{ISSUE_TRACKER}
 				</StyledHeaderLogo>
 			</Link>
-			<UserImg img={user} size="medium" />
+			<UserImg img={profile} size="medium" />
 		</StyledHeader>
 	);
 };
