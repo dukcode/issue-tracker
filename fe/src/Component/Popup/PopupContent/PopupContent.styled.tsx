@@ -22,6 +22,6 @@ export const StyledPopupContent = styled.div<TStyledContentProps>`
 
 export const StyledPopupName = styled.div`
 	display: flex;
-	gap: 4px;
+	gap: 10px;
 	align-items: center;
 `;

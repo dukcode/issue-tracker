@@ -33,29 +33,39 @@ type TLabelResponseData = {
 	data: TLabelData[];
 };
 
+type TMilestoneData = {
+	id: number;
+	title: string;
+};
+
+type TMilestoneResponseData = {
+	openCount: number;
+	closedCount: number;
+	data: TMilestoneData[];
+};
+
 type TUsersData = {
 	id: number;
 	loginName: string;
 	name: string;
-	email: null | null;
 	profileImage: string;
 };
 
 const defaultPopupContents: TPopupContentProps[] = [];
 
-const getContentsByLabels = ({ data }: TLabelResponseData) => {
-	const newContents: TPopupContentProps[] = data.map(({ id, name, labelColor }: TLabelData) => {
+const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[] => {
+	const newContents = data.map(({ id, name, labelColor }: TLabelData) => {
 		return {
 			id,
 			name,
 			image: labelColor,
-			imageType: "color",
+			imageType: "color" as "color",
 		};
 	});
 	return newContents;
 };
 
-const getContentsByUsers = (data: TUsersData[]) => {
+const getContentsByUsers = (data: TUsersData[]): TPopupContentProps[] => {
 	const newContents: TPopupContentProps[] = data.map(
 		({ id, loginName, profileImage }: TUsersData) => {
 			return {
@@ -66,6 +76,17 @@ const getContentsByUsers = (data: TUsersData[]) => {
 			};
 		}
 	);
+	return newContents;
+};
+
+const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContentProps[] => {
+	const newContents = data.map(({ id, title }: TMilestoneData) => {
+		return {
+			id,
+			name: title,
+		};
+	});
+
 	return newContents;
 };
 
@@ -91,8 +112,8 @@ const filterCategoryItems: listItem[] = [
 		title: "마일스톤",
 		isLeft: false,
 		popupContents: defaultPopupContents,
-		getData: labelsApi.getLabels,
-		getPopupContents: getContentsByLabels,
+		getData: milestoneApi.getMilestone,
+		getPopupContents: getContentsByMilestone,
 	},
 	{
 		id: 4,
