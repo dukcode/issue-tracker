@@ -6,7 +6,7 @@ const client = axios.create({ baseURL });
 const milestoneApi = {
 	getMilestoneCount: async (token: string, isCount = false) => {
 		const response = await client
-			.get(`${isCount && "count"}`, {
+			.get(`${isCount ? "count" : ""}`, {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,

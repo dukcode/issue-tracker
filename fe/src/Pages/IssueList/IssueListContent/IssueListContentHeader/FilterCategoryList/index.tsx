@@ -1,7 +1,6 @@
 import { AxiosResponse } from "axios";
 
-import labelsApi from "Api/labelsApi";
-import usersApi from "Api/usersApi";
+import { labelsApi, usersApi, milestoneApi } from "Api";
 import { TPopupContentProps } from "Component/Popup";
 import StyledFilterCategory from "./FilterCategory.styled";
 import FilterCategory from "./FilterCategory";
