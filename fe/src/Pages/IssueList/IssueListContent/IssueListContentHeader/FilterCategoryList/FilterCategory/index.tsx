@@ -4,6 +4,7 @@ import icons from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import { useState } from "react";
 import useCookieUserInfo from "Hooks";
+import StyledFilterCategory from "./FilterCategory.styled";
 
 type listItem = {
 	id: number;
@@ -40,10 +41,10 @@ const FilterCategory = ({ item }: { item: listItem }) => {
 
 	return (
 		<Popup isLeft={item.isLeft} contents={popupContents} title={`${item.title} 필터`}>
-			<button key={item.id} type="button" onMouseEnter={handleMouseEnter}>
+			<StyledFilterCategory key={item.id} type="button" onMouseEnter={handleMouseEnter}>
 				<div>{item.title}</div>
 				<KeyboardArrowDown colorset="label" size={18} />
-			</button>
+			</StyledFilterCategory>
 		</Popup>
 	);
 };
