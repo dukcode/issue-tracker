@@ -28,8 +28,7 @@ const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: T
 
 	const handleClickOutside = ({ target }: MouseEvent) => {
 		const clickedTarget = target as Node;
-
-		if (button.current?.contains(clickedTarget)) return;
+		if (button.current?.contains(clickedTarget)) return; // handleClickButton과 중복 방지
 		if (isOpened && !popup.current?.contains(clickedTarget)) {
 			setIsOpened(false);
 			if (setOption) setOption(false);
