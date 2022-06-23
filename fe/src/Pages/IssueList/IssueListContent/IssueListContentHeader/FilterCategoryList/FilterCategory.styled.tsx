@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const FilterCategory = styled.div`
+const StyledFilterCategory = styled.div`
 	display: flex;
 	justify-content: space-around;
 	width: 357px;
@@ -28,4 +28,4 @@ const FilterCategory = styled.div`
 		`}
 `;
 
-export default FilterCategory;
+export default StyledFilterCategory;

@@ -1,24 +1,17 @@
-import icons from "Util/Icons";
-import Popup from "Component/Popup";
-import FilterCategory from "./FilterCategory.styled";
+import testImg from "Img/user.jpeg";
+import testImg2 from "Img/user2.jpeg";
+import { TPopupContentProps } from "Component/Popup";
+import StyledFilterCategory from "./FilterCategory.styled";
+import FilterCategory from "./FilterCategory";
 
 type listItem = {
 	id: number;
-	category: string;
+	title: string;
 	isLeft: boolean;
+	popupContents: TPopupContentProps[];
 };
 
-const { KeyboardArrowDown } = icons;
-
-const filterCategoryItems: listItem[] = [
-	{ id: 1, category: "담당자", isLeft: true },
-	{ id: 2, category: "레이블", isLeft: true },
-	{ id: 3, category: "마일스톤", isLeft: false },
-	{ id: 4, category: "작성자", isLeft: false },
-];
-
-const popupTitle = "이슈 필터";
-const popupContents = [
+const examplePopupContents = [
 	{ id: 1, name: "열린 이슈" },
 	{ id: 2, name: "내가 작성한 이슈" },
 	{ id: 3, name: "나에게 할당된 이슈" },
@@ -26,17 +19,23 @@ const popupContents = [
 	{ id: 5, name: "닫힌 이슈" },
 ];
 
-const FilterCategoryList = () => {
-	const categoryList = filterCategoryItems.map((item: listItem) => (
-		<Popup isLeft={item.isLeft} contents={popupContents} title={popupTitle}>
-			<button key={item.id} type="button">
-				<div>{item.category}</div>
-				<KeyboardArrowDown colorset="label" size={18} />
-			</button>
-		</Popup>
-	));
+const managerPopupContents: TPopupContentProps[] = [
+	{ id: 1, name: "담당자가 없는 이슈" },
+	{ id: 2, name: "JinJeon", image: testImg, imageType: "image" },
+	{ id: 3, name: "Maeve", image: testImg2, imageType: "image" },
+];
 
-	return <FilterCategory>{categoryList}</FilterCategory>;
+const filterCategoryItems: listItem[] = [
+	{ id: 1, title: "담당자", isLeft: true, popupContents: managerPopupContents },
+	{ id: 2, title: "레이블", isLeft: true, popupContents: examplePopupContents },
+	{ id: 3, title: "마일스톤", isLeft: false, popupContents: examplePopupContents },
+	{ id: 4, title: "작성자", isLeft: false, popupContents: examplePopupContents },
+];
+
+const FilterCategoryList = () => {
+	const categoryList = filterCategoryItems.map((item: listItem) => <FilterCategory item={item} />);
+
+	return <StyledFilterCategory>{categoryList}</StyledFilterCategory>;
 };
 
 export type { listItem };
