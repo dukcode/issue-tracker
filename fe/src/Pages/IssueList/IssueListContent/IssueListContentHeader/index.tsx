@@ -1,4 +1,6 @@
+import { Dispatch, SetStateAction } from "react";
 import icons from "Util/Icons";
+import { Checkbox } from "@mui/material";
 import { StyledIssueListContentHeader, StyledIssueOptions } from "./IssueListContentHeader.styled";
 import IssueOption from "../IssueOption";
 import FilterCategoryList from "./FilterCategoryList";
@@ -11,9 +13,11 @@ const issueOptionsData = [
 
 type TIssueListContentHeader = {
 	counts: { openCount: number; closedCount: number };
+	allChecked: boolean;
+	setAllChecked: Dispatch<SetStateAction<boolean>>;
 };
 
-const IssueListContentHeader = ({ counts }: TIssueListContentHeader) => {
+const IssueListContentHeader = ({ counts, allChecked, setAllChecked }: TIssueListContentHeader) => {
 	const IssueOptions = issueOptionsData.map(({ id, Icon, isOpened, name, option }) => {
 		return (
 			<IssueOption
@@ -27,9 +31,21 @@ const IssueListContentHeader = ({ counts }: TIssueListContentHeader) => {
 		);
 	});
 
+	const handleMultipleCheckbox = () => {
+		setAllChecked(!allChecked);
+	};
+
 	return (
 		<StyledIssueListContentHeader>
-			<StyledIssueOptions>{IssueOptions}</StyledIssueOptions>
+			<StyledIssueOptions>
+				<Checkbox
+					size="small"
+					color="default"
+					onChange={handleMultipleCheckbox}
+					checked={allChecked}
+				/>
+				{IssueOptions}
+			</StyledIssueOptions>
 			<FilterCategoryList />
 		</StyledIssueListContentHeader>
 	);

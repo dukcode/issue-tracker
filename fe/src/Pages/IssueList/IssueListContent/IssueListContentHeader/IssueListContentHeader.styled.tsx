@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const StyledIssueListContentHeader = styled.div`
-	padding: 15px 30px;
+	padding: 15px 30px 15px 20px;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

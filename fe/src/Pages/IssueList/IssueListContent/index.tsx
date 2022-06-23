@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import issueListApi from "Api/issueListApi";
 import useCookieUserInfo from "Hooks";
@@ -10,20 +10,17 @@ import IssueListContentHeader from "./IssueListContentHeader";
 
 const countsDefault = { openCount: 0, closedCount: 0 };
 
-const getNewIssueCells = (data: TIssueData[]) =>
+type TGetNewIssueCells = {
+	data: TIssueData[];
+	allChecked: boolean;
+	setAllChecked: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const getNewIssueCells = ({ data, allChecked, setAllChecked }: TGetNewIssueCells) =>
 	data
 		.reverse()
 		.map((item: TIssueData) => (
-			<IssueCell
-				key={item.id}
-				id={item.id}
-				title={item.title}
-				author={item.author.loginName}
-				timeStamp={item.createDate}
-				mileStone={item.milestone.title}
-				profileImage={item.author.profileImage}
-				labels={item.labels}
-			/>
+			<IssueCell key={item.id} item={item} allChecked={allChecked} setAllChecked={setAllChecked} />
 		));
 
 const IssueListContent = () => {
@@ -33,6 +30,7 @@ const IssueListContent = () => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
+	const [allChecked, setAllChecked] = useState(false);
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
@@ -51,7 +49,7 @@ const IssueListContent = () => {
 			return;
 		}
 
-		setIssueCells(getNewIssueCells(data));
+		setIssueCells(getNewIssueCells({ data, allChecked, setAllChecked }));
 		setCounts({ openCount, closedCount });
 	};
 
@@ -60,9 +58,17 @@ const IssueListContent = () => {
 		getIssueList();
 	}, [searchParams]);
 
+	useEffect(() => {
+		getIssueList();
+	}, [allChecked]);
+
 	return (
 		<StyledContent>
-			<IssueListContentHeader counts={counts} />
+			<IssueListContentHeader
+				counts={counts}
+				allChecked={allChecked}
+				setAllChecked={setAllChecked}
+			/>
 			{issueCells}
 		</StyledContent>
 	);
