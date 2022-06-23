@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import issueListApi from "Api/issueListApi";
 import useCookieUserInfo from "Hooks";
@@ -14,13 +14,29 @@ type TGetNewIssueCells = {
 	data: TIssueData[];
 	allChecked: boolean;
 	setAllChecked: React.Dispatch<React.SetStateAction<boolean>>;
+	checkedIssues: Set<unknown>;
+	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
 };
 
-const getNewIssueCells = ({ data, allChecked, setAllChecked }: TGetNewIssueCells) =>
+const getNewIssueCells = ({
+	data,
+	allChecked,
+	setAllChecked,
+	checkedIssues,
+	setCheckedIssues,
+}: TGetNewIssueCells) =>
 	data
 		.reverse()
 		.map((item: TIssueData) => (
-			<IssueCell key={item.id} item={item} allChecked={allChecked} setAllChecked={setAllChecked} />
+			<IssueCell
+				dataSize={data.length}
+				key={item.id}
+				item={item}
+				allChecked={allChecked}
+				setAllChecked={setAllChecked}
+				checkedIssues={checkedIssues}
+				setCheckedIssues={setCheckedIssues}
+			/>
 		));
 
 const IssueListContent = () => {
@@ -31,6 +47,7 @@ const IssueListContent = () => {
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
 	const [allChecked, setAllChecked] = useState(false);
+	const [checkedIssues, setCheckedIssues] = useState(new Set());
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
@@ -49,18 +66,30 @@ const IssueListContent = () => {
 			return;
 		}
 
-		setIssueCells(getNewIssueCells({ data, allChecked, setAllChecked }));
+		setIssueCells(
+			getNewIssueCells({ data, allChecked, setAllChecked, checkedIssues, setCheckedIssues })
+		);
 		setCounts({ openCount, closedCount });
 	};
 
 	useEffect(() => {
 		setIssueCells([<MainLoading key="1" />]);
 		getIssueList();
+		// console.log(checkedIssues);
+
+		checkedIssues.clear();
+		setCheckedIssues(checkedIssues);
 	}, [searchParams]);
 
 	useEffect(() => {
 		getIssueList();
 	}, [allChecked]);
+
+	useEffect(() => {
+		// 여긴 왜 안 먹지 -> 해결 됨
+		console.log("not here", checkedIssues.size);
+		if (checkedIssues.size === 3) setAllChecked(true);
+	}, [checkedIssues]);
 
 	return (
 		<StyledContent>
@@ -68,6 +97,7 @@ const IssueListContent = () => {
 				counts={counts}
 				allChecked={allChecked}
 				setAllChecked={setAllChecked}
+				checkedIssues={checkedIssues}
 			/>
 			{issueCells}
 		</StyledContent>
