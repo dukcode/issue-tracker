@@ -31,9 +31,7 @@ const FilterCategory = ({ item }: { item: listItem }) => {
 		if (isUpdated) return;
 
 		const response = await item.getData(accessToken);
-		const {
-			data: { data },
-		} = response;
+		const { data } = response;
 		const newPopupContents = item.getPopupContents(data);
 
 		setPopupContents(newPopupContents);

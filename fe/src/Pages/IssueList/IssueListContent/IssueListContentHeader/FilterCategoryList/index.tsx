@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 
 import labelsApi from "Api/labelsApi";
+import usersApi from "Api/usersApi";
 import { TPopupContentProps } from "Component/Popup";
 import StyledFilterCategory from "./FilterCategory.styled";
 import FilterCategory from "./FilterCategory";
@@ -28,17 +29,22 @@ type TLabelData = {
 	textColor: string;
 };
 
-const examplePopupContents = [
-	{ id: 1, name: "열린 이슈" },
-	{ id: 2, name: "내가 작성한 이슈" },
-	{ id: 3, name: "나에게 할당된 이슈" },
-	{ id: 4, name: "내가 댓글을 남긴 이슈" },
-	{ id: 5, name: "닫힌 이슈" },
-];
+type TLabelResponseData = {
+	count: number;
+	data: TLabelData[];
+};
+
+type TUsersData = {
+	id: number;
+	loginName: string;
+	name: string;
+	email: null | null;
+	profileImage: string;
+};
 
 const defaultPopupContents: TPopupContentProps[] = [];
 
-const getContentsByLabels = (data: TLabelData[]) => {
+const getContentsByLabels = ({ data }: TLabelResponseData) => {
 	const newContents: TPopupContentProps[] = data.map(({ id, name, labelColor }: TLabelData) => {
 		return {
 			id,
@@ -50,20 +56,34 @@ const getContentsByLabels = (data: TLabelData[]) => {
 	return newContents;
 };
 
+const getContentsByUsers = (data: TUsersData[]) => {
+	const newContents: TPopupContentProps[] = data.map(
+		({ id, loginName, profileImage }: TUsersData) => {
+			return {
+				id,
+				name: loginName,
+				image: profileImage,
+				imageType: "image",
+			};
+		}
+	);
+	return newContents;
+};
+
 const filterCategoryItems: listItem[] = [
 	{
 		id: 1,
 		title: "담당자",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: labelsApi.getLabels,
-		getPopupContents: getContentsByLabels,
+		getData: usersApi.getUsers,
+		getPopupContents: getContentsByUsers,
 	},
 	{
 		id: 2,
 		title: "레이블",
 		isLeft: true,
-		popupContents: examplePopupContents,
+		popupContents: defaultPopupContents,
 		getData: labelsApi.getLabels,
 		getPopupContents: getContentsByLabels,
 	},
@@ -71,7 +91,7 @@ const filterCategoryItems: listItem[] = [
 		id: 3,
 		title: "마일스톤",
 		isLeft: false,
-		popupContents: examplePopupContents,
+		popupContents: defaultPopupContents,
 		getData: labelsApi.getLabels,
 		getPopupContents: getContentsByLabels,
 	},
@@ -79,9 +99,9 @@ const filterCategoryItems: listItem[] = [
 		id: 4,
 		title: "작성자",
 		isLeft: false,
-		popupContents: examplePopupContents,
-		getData: labelsApi.getLabels,
-		getPopupContents: getContentsByLabels,
+		popupContents: defaultPopupContents,
+		getData: usersApi.getUsers,
+		getPopupContents: getContentsByUsers,
 	},
 ];
 
