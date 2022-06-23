@@ -1,5 +1,6 @@
-import testImg from "Img/user.jpeg";
-import testImg2 from "Img/user2.jpeg";
+import { AxiosResponse } from "axios";
+
+import labelsApi from "Api/labelsApi";
 import { TPopupContentProps } from "Component/Popup";
 import StyledFilterCategory from "./FilterCategory.styled";
 import FilterCategory from "./FilterCategory";
@@ -9,6 +10,22 @@ type listItem = {
 	title: string;
 	isLeft: boolean;
 	popupContents: TPopupContentProps[];
+	getData: (token: string) => Promise<
+		| AxiosResponse<any, any>
+		| {
+				data: Error;
+				status: null;
+		  }
+	>;
+	getPopupContents: (data: any) => TPopupContentProps[];
+};
+
+type TLabelData = {
+	id: number;
+	name: string;
+	description: string;
+	labelColor: string;
+	textColor: string;
 };
 
 const examplePopupContents = [
@@ -19,17 +36,53 @@ const examplePopupContents = [
 	{ id: 5, name: "닫힌 이슈" },
 ];
 
-const managerPopupContents: TPopupContentProps[] = [
-	{ id: 1, name: "담당자가 없는 이슈" },
-	{ id: 2, name: "JinJeon", image: testImg, imageType: "image" },
-	{ id: 3, name: "Maeve", image: testImg2, imageType: "image" },
-];
+const defaultPopupContents: TPopupContentProps[] = [];
+
+const getContentsByLabels = (data: TLabelData[]) => {
+	const newContents: TPopupContentProps[] = data.map(({ id, name, labelColor }: TLabelData) => {
+		return {
+			id,
+			name,
+			image: labelColor,
+			imageType: "color",
+		};
+	});
+	return newContents;
+};
 
 const filterCategoryItems: listItem[] = [
-	{ id: 1, title: "담당자", isLeft: true, popupContents: managerPopupContents },
-	{ id: 2, title: "레이블", isLeft: true, popupContents: examplePopupContents },
-	{ id: 3, title: "마일스톤", isLeft: false, popupContents: examplePopupContents },
-	{ id: 4, title: "작성자", isLeft: false, popupContents: examplePopupContents },
+	{
+		id: 1,
+		title: "담당자",
+		isLeft: true,
+		popupContents: defaultPopupContents,
+		getData: labelsApi.getLabels,
+		getPopupContents: getContentsByLabels,
+	},
+	{
+		id: 2,
+		title: "레이블",
+		isLeft: true,
+		popupContents: examplePopupContents,
+		getData: labelsApi.getLabels,
+		getPopupContents: getContentsByLabels,
+	},
+	{
+		id: 3,
+		title: "마일스톤",
+		isLeft: false,
+		popupContents: examplePopupContents,
+		getData: labelsApi.getLabels,
+		getPopupContents: getContentsByLabels,
+	},
+	{
+		id: 4,
+		title: "작성자",
+		isLeft: false,
+		popupContents: examplePopupContents,
+		getData: labelsApi.getLabels,
+		getPopupContents: getContentsByLabels,
+	},
 ];
 
 const FilterCategoryList = () => {
