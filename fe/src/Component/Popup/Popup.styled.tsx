@@ -46,23 +46,3 @@ export const StyledPopupWrapper = styled.div`
 	z-index: 2;
 	position: relative;
 `;
-
-type TStyledContentProps = {
-	checked: boolean;
-};
-
-export const StyledContent = styled.div<TStyledContentProps>`
-	${({ checked, theme: { colors } }) => css`
-		color: ${colors.label};
-
-		${checked &&
-		css`
-			font-weight: 700;
-			color: ${colors.titleActive};
-		`}
-
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	`}
-`;
