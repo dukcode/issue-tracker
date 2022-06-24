@@ -68,7 +68,9 @@ public class IssueServiceImpl implements IssueService {
                         .map(IssueResponse::new).collect(Collectors.toList());
 
         long countAll = issueQueryRepository.countAllByCondition(condition.getAuthorLoginName(),
-                condition.getAssigneeLoginName(), condition.getLabelNames());
+                condition.getAssigneeLoginName(), condition.getLabelNames(),
+                condition.getMilestoneName());
+
         IssueStatus status = condition.getStatus();
         if (status.equals(IssueStatus.OPEN)) {
             return new OpenClosedCountResult<>((long) issueResponses.size(),

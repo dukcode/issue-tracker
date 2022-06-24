@@ -35,14 +35,22 @@ public class IssueQueryRepository {
                 .leftJoin(assignedUser.assignee, user).fetchJoin()
                 .where(statusEq(condition.getStatus()),
                         authorEq(condition.getAuthorLoginName()),
+                        milestoneEq(condition.getMilestoneName()),
                         labelIn(condition.getLabelNames()),
                         assigneeEq(condition.getAssigneeLoginName()))
                 .distinct()
                 .fetch();
     }
 
+    private BooleanExpression milestoneEq(String milestoneName) {
+        if (!StringUtils.hasText(milestoneName)) {
+            return null;
+        }
+        return milestone.title.eq(milestoneName);
+    }
+
     public Long countAllByCondition(String authorLoginName,
-            String assigneeLoginName, List<String> labelNames) {
+            String assigneeLoginName, List<String> labelNames, String milestoneName) {
         return queryFactory
                 .select(issue.countDistinct())
                 .from(issue)
@@ -55,6 +63,7 @@ public class IssueQueryRepository {
                 .where(
                         authorEq(authorLoginName),
                         labelIn(labelNames),
+                        milestoneEq(milestoneName),
                         assigneeEq(assigneeLoginName))
                 .fetchOne();
     }
