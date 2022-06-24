@@ -8,6 +8,24 @@ const Normalize = createGlobalStyle`
 			box-sizing: border-box;
 			width: 100vw;
 			height: 100vh;
+
+			@keyframes fadein {
+				from {
+					opacity: 0;
+				}
+				to {
+					opacity: 1;
+				}
+			}
+
+			@keyframes fadeout {
+				from {
+					opacity: 1;
+				}
+				to {
+					opacity: 0;
+				}
+			}
 		}
 
 		body {
