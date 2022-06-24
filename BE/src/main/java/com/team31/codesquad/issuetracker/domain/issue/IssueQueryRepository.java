@@ -39,6 +39,8 @@ public class IssueQueryRepository {
                         labelIn(condition.getLabelNames()),
                         assigneeEq(condition.getAssigneeLoginName()))
                 .distinct()
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 
@@ -49,8 +51,8 @@ public class IssueQueryRepository {
         return milestone.title.eq(milestoneName);
     }
 
-    public Long countAllByCondition(String authorLoginName,
-            String assigneeLoginName, List<String> labelNames, String milestoneName) {
+    public Long countAllByConditionAndStatus(IssueSearchCondition condition,
+            IssueStatus status) {
         return queryFactory
                 .select(issue.countDistinct())
                 .from(issue)
@@ -60,11 +62,11 @@ public class IssueQueryRepository {
                 .leftJoin(issueLabel.label, label)
                 .leftJoin(issue.assignees, assignedUser)
                 .leftJoin(assignedUser.assignee, user)
-                .where(
-                        authorEq(authorLoginName),
-                        labelIn(labelNames),
-                        milestoneEq(milestoneName),
-                        assigneeEq(assigneeLoginName))
+                .where(statusEq(status),
+                        authorEq(condition.getAuthorLoginName()),
+                        labelIn(condition.getLabelNames()),
+                        milestoneEq(condition.getMilestoneName()),
+                        assigneeEq(condition.getAssigneeLoginName()))
                 .fetchOne();
     }
 

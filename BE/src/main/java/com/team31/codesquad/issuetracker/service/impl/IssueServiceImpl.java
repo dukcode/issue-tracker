@@ -58,7 +58,6 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public OpenClosedCountResult<List<IssueResponse>> findAll(Integer page, String query) {
 
-        // TODO: 페이징 및 검색 조건 쿼리 구현
         IssueSearchCondition condition = IssueSearchCondition.create(query);
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
 
@@ -67,21 +66,11 @@ public class IssueServiceImpl implements IssueService {
                         .stream()
                         .map(IssueResponse::new).collect(Collectors.toList());
 
-        long countAll = issueQueryRepository.countAllByCondition(condition.getAuthorLoginName(),
-                condition.getAssigneeLoginName(), condition.getLabelNames(),
-                condition.getMilestoneName());
-
-        IssueStatus status = condition.getStatus();
-        if (status.equals(IssueStatus.OPEN)) {
-            return new OpenClosedCountResult<>((long) issueResponses.size(),
-                    countAll - issueResponses.size()
-                    , issueResponses);
-        }
-
-        return new OpenClosedCountResult<>(
-                countAll - issueResponses.size(),
-                (long) issueResponses.size()
-                , issueResponses);
+        long countOpen = issueQueryRepository.countAllByConditionAndStatus(condition,
+                IssueStatus.OPEN);
+        long countClosed = issueQueryRepository.countAllByConditionAndStatus(condition,
+                IssueStatus.CLOSED);
+        return new OpenClosedCountResult<>(countOpen, countClosed, issueResponses);
     }
 
     @Transactional
