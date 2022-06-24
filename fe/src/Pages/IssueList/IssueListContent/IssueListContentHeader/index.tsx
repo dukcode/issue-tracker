@@ -29,6 +29,7 @@ const IssueListContentHeader = ({
 	checkedIssues,
 }: TIssueListContentHeader) => {
 	const checkedIssuesCount = checkedIssues.size;
+	const isChecked = !!checkedIssuesCount;
 
 	const IssueOptions = issueOptionsData.map(({ id, Icon, isOpened, name, option }) => {
 		return (
@@ -50,8 +51,6 @@ const IssueListContentHeader = ({
 	const handleMultipleCheckbox = () => {
 		setAllChecked(!allChecked);
 	};
-
-	const isChecked = !!checkedIssuesCount;
 
 	return (
 		<StyledIssueListContentHeader>

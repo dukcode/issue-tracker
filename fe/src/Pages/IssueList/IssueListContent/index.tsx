@@ -13,17 +13,17 @@ const countsDefault = { openCount: 0, closedCount: 0 };
 type TGetNewIssueCells = {
 	data: TIssueData[];
 	allChecked: boolean;
-	setAllChecked: React.Dispatch<React.SetStateAction<boolean>>;
-	checkedIssues: Set<unknown>;
+	setAllChecked: Dispatch<SetStateAction<boolean>>;
 	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
+	setCheckedIssuesCount: Dispatch<SetStateAction<number>>;
 };
 
 const getNewIssueCells = ({
 	data,
 	allChecked,
 	setAllChecked,
-	checkedIssues,
 	setCheckedIssues,
+	setCheckedIssuesCount,
 }: TGetNewIssueCells) =>
 	data
 		.reverse()
@@ -34,8 +34,8 @@ const getNewIssueCells = ({
 				item={item}
 				allChecked={allChecked}
 				setAllChecked={setAllChecked}
-				checkedIssues={checkedIssues}
 				setCheckedIssues={setCheckedIssues}
+				setCheckedIssuesCount={setCheckedIssuesCount}
 			/>
 		));
 
@@ -48,6 +48,7 @@ const IssueListContent = () => {
 	const q = searchParams.get("q");
 	const [allChecked, setAllChecked] = useState(false);
 	const [checkedIssues, setCheckedIssues] = useState(new Set());
+	const [checkedIssuesCount, setCheckedIssuesCount] = useState(0);
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
@@ -67,7 +68,13 @@ const IssueListContent = () => {
 		}
 
 		setIssueCells(
-			getNewIssueCells({ data, allChecked, setAllChecked, checkedIssues, setCheckedIssues })
+			getNewIssueCells({
+				data,
+				allChecked,
+				setAllChecked,
+				setCheckedIssues,
+				setCheckedIssuesCount,
+			})
 		);
 		setCounts({ openCount, closedCount });
 	};
@@ -75,8 +82,6 @@ const IssueListContent = () => {
 	useEffect(() => {
 		setIssueCells([<MainLoading key="1" />]);
 		getIssueList();
-		// console.log(checkedIssues);
-
 		checkedIssues.clear();
 		setCheckedIssues(checkedIssues);
 	}, [searchParams]);
@@ -86,9 +91,7 @@ const IssueListContent = () => {
 	}, [allChecked]);
 
 	useEffect(() => {
-		// 여긴 왜 안 먹지 -> 해결 됨
-		console.log("not here", checkedIssues.size);
-		if (checkedIssues.size === 3) setAllChecked(true);
+		if (checkedIssuesCount && checkedIssues.size === checkedIssuesCount) setAllChecked(true);
 	}, [checkedIssues]);
 
 	return (

@@ -28,8 +28,8 @@ type TIssueItem = {
 	item: TIssueData;
 	allChecked: boolean;
 	setAllChecked: Dispatch<SetStateAction<boolean>>;
-	checkedIssues: Set<unknown>;
 	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
+	setCheckedIssuesCount: Dispatch<SetStateAction<number>>;
 };
 
 const IssueCell = ({
@@ -37,8 +37,8 @@ const IssueCell = ({
 	item,
 	allChecked,
 	setAllChecked,
-	checkedIssues,
 	setCheckedIssues,
+	setCheckedIssuesCount,
 }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
 	const { loginName, profileImage } = author;
@@ -49,7 +49,6 @@ const IssueCell = ({
 	const [checked, setChecked] = useState(false);
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setChecked(event.target.checked);
 		if (checked) {
 			setAllChecked(false);
 			setCheckedIssues((prevCheckedIssues) => {
@@ -64,10 +63,10 @@ const IssueCell = ({
 				return newCheckedIssues;
 			});
 		}
+		setChecked(event.target.checked);
 	};
 
 	useEffect(() => {
-		console.log("im all checked");
 		if (allChecked) {
 			setChecked(true);
 			setCheckedIssues((prevCheckedIssues) => {
@@ -79,13 +78,8 @@ const IssueCell = ({
 	}, [allChecked]);
 
 	useEffect(() => {
-		// 데이터 길이와 set 크기 같으면 allChecked = true
-		console.log("asldkfjalsdjkf", dataSize, checkedIssues.size);
-		if (dataSize === checkedIssues.size) {
-			console.log("here");
-			setAllChecked(true);
-		}
-	}, [checked]);
+		setCheckedIssuesCount(dataSize);
+	}, []);
 
 	return (
 		<StyledIssueCell>
