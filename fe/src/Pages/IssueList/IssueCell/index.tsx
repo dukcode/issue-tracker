@@ -26,19 +26,19 @@ const { ErrorOutline, EmojiFlags } = icons;
 type TIssueItem = {
 	dataSize: number;
 	item: TIssueData;
-	allChecked: boolean;
-	setAllChecked: Dispatch<SetStateAction<boolean>>;
+	isAllChecked: boolean;
+	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
 	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
-	setCheckedIssuesCount: Dispatch<SetStateAction<number>>;
+	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
 const IssueCell = ({
 	dataSize,
 	item,
-	allChecked,
-	setAllChecked,
+	isAllChecked,
+	setIsAllChecked,
 	setCheckedIssues,
-	setCheckedIssuesCount,
+	setAllCheckedCount,
 }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
 	const { loginName, profileImage } = author;
@@ -50,7 +50,7 @@ const IssueCell = ({
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		if (checked) {
-			setAllChecked(false);
+			setIsAllChecked(false);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
 				newCheckedIssues.delete(id);
@@ -67,18 +67,20 @@ const IssueCell = ({
 	};
 
 	useEffect(() => {
-		if (allChecked) {
+		if (isAllChecked) {
 			setChecked(true);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
 				newCheckedIssues.add(id);
 				return newCheckedIssues;
 			});
+		} else {
+			setChecked(false);
 		}
-	}, [allChecked]);
+	}, [isAllChecked]);
 
 	useEffect(() => {
-		setCheckedIssuesCount(dataSize);
+		setAllCheckedCount(dataSize);
 	}, []);
 
 	return (

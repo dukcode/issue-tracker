@@ -12,30 +12,30 @@ const countsDefault = { openCount: 0, closedCount: 0 };
 
 type TGetNewIssueCells = {
 	data: TIssueData[];
-	allChecked: boolean;
-	setAllChecked: Dispatch<SetStateAction<boolean>>;
+	isAllChecked: boolean;
+	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
 	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
-	setCheckedIssuesCount: Dispatch<SetStateAction<number>>;
+	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
 const getNewIssueCells = ({
 	data,
-	allChecked,
-	setAllChecked,
+	isAllChecked,
+	setIsAllChecked,
 	setCheckedIssues,
-	setCheckedIssuesCount,
+	setAllCheckedCount,
 }: TGetNewIssueCells) =>
 	data
 		.reverse()
 		.map((item: TIssueData) => (
 			<IssueCell
-				dataSize={data.length}
 				key={item.id}
+				dataSize={data.length}
 				item={item}
-				allChecked={allChecked}
-				setAllChecked={setAllChecked}
+				isAllChecked={isAllChecked}
+				setIsAllChecked={setIsAllChecked}
 				setCheckedIssues={setCheckedIssues}
-				setCheckedIssuesCount={setCheckedIssuesCount}
+				setAllCheckedCount={setAllCheckedCount}
 			/>
 		));
 
@@ -46,9 +46,9 @@ const IssueListContent = () => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
-	const [allChecked, setAllChecked] = useState(false);
+	const [isAllChecked, setIsAllChecked] = useState(false);
 	const [checkedIssues, setCheckedIssues] = useState(new Set());
-	const [checkedIssuesCount, setCheckedIssuesCount] = useState(0);
+	const [allCheckedCount, setAllCheckedCount] = useState(0);
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
@@ -70,10 +70,10 @@ const IssueListContent = () => {
 		setIssueCells(
 			getNewIssueCells({
 				data,
-				allChecked,
-				setAllChecked,
+				isAllChecked,
+				setIsAllChecked,
 				setCheckedIssues,
-				setCheckedIssuesCount,
+				setAllCheckedCount,
 			})
 		);
 		setCounts({ openCount, closedCount });
@@ -88,18 +88,18 @@ const IssueListContent = () => {
 
 	useEffect(() => {
 		getIssueList();
-	}, [allChecked]);
+	}, [isAllChecked]);
 
 	useEffect(() => {
-		if (checkedIssuesCount && checkedIssues.size === checkedIssuesCount) setAllChecked(true);
+		if (allCheckedCount && checkedIssues.size === allCheckedCount) setIsAllChecked(true);
 	}, [checkedIssues]);
 
 	return (
 		<StyledContent>
 			<IssueListContentHeader
 				counts={counts}
-				allChecked={allChecked}
-				setAllChecked={setAllChecked}
+				isAllChecked={isAllChecked}
+				setIsAllChecked={setIsAllChecked}
 				checkedIssues={checkedIssues}
 			/>
 			{issueCells}

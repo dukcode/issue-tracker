@@ -17,15 +17,15 @@ const issueOptionsData = [
 
 type TIssueListContentHeader = {
 	counts: { openCount: number; closedCount: number };
-	allChecked: boolean;
-	setAllChecked: Dispatch<SetStateAction<boolean>>;
+	isAllChecked: boolean;
+	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
 	checkedIssues: Set<unknown>;
 };
 
 const IssueListContentHeader = ({
 	counts,
-	allChecked,
-	setAllChecked,
+	isAllChecked,
+	setIsAllChecked,
 	checkedIssues,
 }: TIssueListContentHeader) => {
 	const checkedIssuesCount = checkedIssues.size;
@@ -49,7 +49,7 @@ const IssueListContentHeader = ({
 	);
 
 	const handleMultipleCheckbox = () => {
-		setAllChecked(!allChecked);
+		setIsAllChecked(!isAllChecked);
 	};
 
 	return (
@@ -59,7 +59,7 @@ const IssueListContentHeader = ({
 					size="small"
 					color="default"
 					onChange={handleMultipleCheckbox}
-					checked={allChecked}
+					checked={isAllChecked}
 				/>
 				{isChecked ? checkedIssuesCountInfo : IssueOptions}
 			</StyledIssueOptions>
