@@ -50,7 +50,7 @@ const IssueCell = ({
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		if (checked) {
-			setIsAllChecked(false);
+			if (!isAllChecked) setIsAllChecked(false);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
 				newCheckedIssues.delete(id);
@@ -76,6 +76,11 @@ const IssueCell = ({
 			});
 		} else {
 			setChecked(false);
+			setCheckedIssues((prevCheckedIssues) => {
+				const newCheckedIssues = new Set(prevCheckedIssues);
+				newCheckedIssues.clear();
+				return newCheckedIssues;
+			});
 		}
 	}, [isAllChecked]);
 

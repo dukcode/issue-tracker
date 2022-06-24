@@ -92,6 +92,7 @@ const IssueListContent = () => {
 
 	useEffect(() => {
 		if (allCheckedCount && checkedIssues.size === allCheckedCount) setIsAllChecked(true);
+		if (checkedIssues.size === 0) setIsAllChecked(false);
 	}, [checkedIssues]);
 
 	return (
