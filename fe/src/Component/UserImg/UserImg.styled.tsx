@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 
 type TSizeProp = {
 	size: "small" | "medium";
+	color: string | undefined;
 };
 
 type TImgSizes = {
@@ -19,7 +20,8 @@ const StyledUserImgWrapper = styled.div<TSizeProp>`
 	overflow: hidden;
 	position: relative;
 	box-sizing: content-box;
-	${({ theme: { colors }, size }) => css`
+	${({ theme: { colors }, color, size }) => css`
+		background-color: ${color};
 		width: ${imgSizes[size]};
 		height: ${imgSizes[size]};
 		border: solid 1px ${colors.line};
@@ -27,9 +29,14 @@ const StyledUserImgWrapper = styled.div<TSizeProp>`
 `;
 
 const StyledUserImg = styled.img<TSizeProp>`
-	${({ size }) => css`
+	${({ size, color }) => css`
+		${color &&
+		css`
+			visibility: hidden;
+		`}
 		position: absolute;
 		width: ${imgSizes[size]};
+		height: ${imgSizes[size]};
 	`}
 `;
 

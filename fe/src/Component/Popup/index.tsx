@@ -1,55 +1,52 @@
-import { ReactNode, useState, ChangeEvent, useRef, useEffect } from "react";
-import { Checkbox } from "@mui/material";
-import { StyledPopup, StyledPopupWrapper, StyledContent } from "./Popup.styled";
+import { ReactNode, useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+import { StyledPopup, StyledPopupWrapper } from "./Popup.styled";
+import PopupContent, { TContentProps } from "./PopupContent";
 
-const title = "이슈 필터";
-const contentsData = [
-	{ id: 1, name: "열린 이슈" },
-	{ id: 2, name: "내가 작성한 이슈" },
-	{ id: 3, name: "나에게 할당된 이슈" },
-	{ id: 4, name: "내가 댓글을 남긴 이슈" },
-	{ id: 5, name: "닫힌 이슈" },
-];
-
-type TContentProps = {
-	name: string;
+type TPopupContentProps = TContentProps & {
+	id: number;
 };
 
-const Content = ({ name }: TContentProps) => {
-	const [checked, setChecked] = useState(false);
-
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		setChecked(event.target.checked);
-	};
-
-	return (
-		<StyledContent checked={checked}>
-			{name}
-			<Checkbox checked={checked} onChange={handleChange} size="small" color="default" />
-		</StyledContent>
-	);
+type TPopupProps = {
+	children: ReactNode;
+	isLeft: boolean;
+	title: string;
+	contents: TPopupContentProps[];
+	setOption?: Dispatch<SetStateAction<boolean>>;
 };
 
-const contents = contentsData.map(({ id, name }) => <Content key={id} name={name} />);
+const defaultPopupProps = {
+	setOption: undefined,
+};
 
-const Popup = ({ children, isLeft = true }: { children: ReactNode; isLeft: boolean }) => {
+const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: TPopupProps) => {
+	const contents = contentsData.map(({ id, name, image, imageType }) => (
+		<PopupContent key={id} name={name} image={image} imageType={imageType} />
+	));
 	const popup = useRef<HTMLDivElement>(null);
 	const button = useRef<HTMLDivElement>(null);
 	const [isOpened, setIsOpened] = useState(false);
 
 	const handleClickOutside = ({ target }: MouseEvent) => {
 		const clickedTarget = target as Node;
-
-		if (button.current?.contains(clickedTarget)) return;
-		if (isOpened && !popup.current?.contains(clickedTarget)) setIsOpened(false);
+		if (button.current?.contains(clickedTarget)) return; // handleClickButton과 중복 방지
+		if (isOpened && !popup.current?.contains(clickedTarget)) {
+			setIsOpened(false);
+			if (setOption) setOption(false);
+		}
 	};
 
 	const handleClickButton = () => {
 		setIsOpened(!isOpened);
+		if (setOption) setOption(!isOpened);
+		if (popup.current && !isOpened) popup.current.style.display = "block";
 	};
 
 	const handleKeyupButton = ({ key }: { key: string }) => {
 		if (key === "f") handleClickButton();
+	};
+
+	const handleAnimationEnd = () => {
+		if (popup.current && !isOpened) popup.current.style.display = "none";
 	};
 
 	useEffect(() => {
@@ -68,14 +65,20 @@ const Popup = ({ children, isLeft = true }: { children: ReactNode; isLeft: boole
 			>
 				{children}
 			</div>
-			{isOpened && (
-				<StyledPopup ref={popup} isLeft={isLeft}>
-					<div>{title}</div>
-					{contents}
-				</StyledPopup>
-			)}
+			<StyledPopup
+				ref={popup}
+				isLeft={isLeft}
+				isOpened={isOpened}
+				onAnimationEnd={handleAnimationEnd}
+			>
+				<div>{title}</div>
+				{contents}
+			</StyledPopup>
 		</StyledPopupWrapper>
 	);
 };
 
+Popup.defaultProps = defaultPopupProps;
+
 export default Popup;
+export type { TPopupContentProps };

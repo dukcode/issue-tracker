@@ -1,17 +1,24 @@
-
 import { StyledUserImg, StyledUserImgWrapper } from "./UserImg.styled";
 
 type TUserImgProps = {
-	img: string;
 	size: "small" | "medium";
+	img?: string;
+	color?: string;
 };
 
-const UserImg = ({ img, size }: TUserImgProps) => {
+const defaultUserImgProps = {
+	img: undefined,
+	color: undefined,
+};
+
+const UserImg = ({ img, size, color }: TUserImgProps) => {
 	return (
-		<StyledUserImgWrapper size={size}>
-			<StyledUserImg src={img} alt="logo" size={size} />
+		<StyledUserImgWrapper size={size} color={color}>
+			<StyledUserImg src={img} alt="logo" size={size} color={color} />
 		</StyledUserImgWrapper>
 	);
 };
+
+UserImg.defaultProps = defaultUserImgProps;
 
 export default UserImg;

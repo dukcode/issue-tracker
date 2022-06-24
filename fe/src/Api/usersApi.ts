@@ -1,18 +1,15 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const baseURL = `${process.env.REACT_APP_API}/milestones`;
+const baseURL = `${process.env.REACT_APP_API}/users`;
 const client = axios.create({ baseURL });
 
-const milestoneApi = {
-	getMilestone: async (token: string, isCount = false) => {
+const usersApi = {
+	getUsers: async (token: string) => {
 		const response = await client
-			.get(`${isCount ? "count" : ""}`, {
+			.get("", {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
-				},
-				params: {
-					status: "OPEN",
 				},
 			})
 			.catch((error: Error | AxiosError) => {
@@ -24,4 +21,4 @@ const milestoneApi = {
 	},
 };
 
-export default milestoneApi;
+export default usersApi;
