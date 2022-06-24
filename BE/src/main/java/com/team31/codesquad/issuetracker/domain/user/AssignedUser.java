@@ -31,4 +31,12 @@ public class AssignedUser extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "assignee_id")
     private User assignee;
+
+    public AssignedUser(User assignee) {
+        this.assignee = assignee;
+    }
+
+    public void setIssue(Issue issue) {
+        this.issue = issue;
+    }
 }

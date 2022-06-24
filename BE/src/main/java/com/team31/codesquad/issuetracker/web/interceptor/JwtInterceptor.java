@@ -5,6 +5,7 @@ import com.team31.codesquad.issuetracker.util.JwtUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -18,6 +19,9 @@ public class JwtInterceptor implements HandlerInterceptor {
 
     @Override public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
             Object handler) throws Exception {
+        if (HttpMethod.OPTIONS.matches(request.getMethod())) {
+            return true;
+        }
         String header = request.getHeader("Authorization");
         if (!StringUtils.hasText(header)) {
             throw new PermissionDeniedException(
