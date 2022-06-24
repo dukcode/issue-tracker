@@ -5,6 +5,7 @@ import com.team31.codesquad.issuetracker.domain.comment.CommentRepository;
 import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabel;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabelRepository;
+import com.team31.codesquad.issuetracker.domain.issue.IssueQueryRepository;
 import com.team31.codesquad.issuetracker.domain.issue.IssueRepository;
 import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.domain.label.LabelRepository;
@@ -22,6 +23,7 @@ import com.team31.codesquad.issuetracker.dto.issue.IssueDetailResponse;
 import com.team31.codesquad.issuetracker.dto.issue.IssueLabelsChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueMilestoneChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueResponse;
+import com.team31.codesquad.issuetracker.dto.issue.IssueSearchCondition;
 import com.team31.codesquad.issuetracker.dto.issue.IssueStatusChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueTitleChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.MultiIssueStatusChangeRequest;
@@ -31,6 +33,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,10 +44,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class IssueServiceImpl implements IssueService {
 
-    public static final int DEFAULT_PAGE = 1;
-    public static final String DEFAULT_QUERY = "is:open";
+    public static final int PAGE_SIZE = 25;
 
     private final IssueRepository issueRepository;
+    private final IssueQueryRepository issueQueryRepository;
     private final UserRepository userRepository;
     private final LabelRepository labelRepository;
     private final MilestoneRepository milestoneRepository;
@@ -55,17 +59,19 @@ public class IssueServiceImpl implements IssueService {
     public OpenClosedCountResult<List<IssueResponse>> findAll(Integer page, String query) {
 
         // TODO: 페이징 및 검색 조건 쿼리 구현
+        IssueSearchCondition condition = IssueSearchCondition.create(query);
+        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
 
         // 임시 로직
-        IssueStatus status = IssueStatus.OPEN;
-        if (query.strip().equals("is:closed")) {
-            status = IssueStatus.CLOSED;
-        }
-        long countAll = issueRepository.count();
-        List<IssueResponse> issueResponses = issueRepository.findAllByStatus(status).stream()
-                .map(IssueResponse::new)
-                .collect(Collectors.toList());
+        List<Issue> allByCondition = issueQueryRepository.findAllByCondition(condition, pageable);
+        System.out.println("allByCondition = " + allByCondition.size());
+        List<IssueResponse> issueResponses =
+                allByCondition
+                        .stream()
+                        .map(IssueResponse::new).collect(Collectors.toList());
 
+        long countAll = issueRepository.count();
+        IssueStatus status = condition.getStatus();
         if (status.equals(IssueStatus.OPEN)) {
             return new OpenClosedCountResult<>((long) issueResponses.size(),
                     countAll - issueResponses.size()

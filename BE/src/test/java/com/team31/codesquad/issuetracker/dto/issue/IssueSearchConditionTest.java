@@ -43,4 +43,13 @@ class IssueSearchConditionTest {
         assertThat(condition.getAssigneeLoginName()).isEqualTo("dukcode1");
         assertThat(condition.getLabelNames()).containsExactly("FE", "feat");
     }
+
+    @Test
+    @DisplayName("검색 조건 스트링에 status가 없어도 OPEN으로 적용한다.")
+    void statusConditionTest3() {
+        IssueSearchCondition condition = IssueSearchCondition.create(
+                "author:dukcode");
+        assertThat(condition.getStatus()).isEqualTo(IssueStatus.OPEN);
+        assertThat(condition.getAuthorLoginName()).isEqualTo("dukcode");
+    }
 }

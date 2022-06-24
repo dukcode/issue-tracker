@@ -7,7 +7,9 @@ import com.team31.codesquad.issuetracker.domain.user.AssignedUser;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +49,7 @@ public class Issue extends BaseTimeEntity {
     private User author;
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
-    private List<AssignedUser> assignees = new ArrayList<>();
+    private Set<AssignedUser> assignees = new HashSet<>();
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<IssueLabel> issueLabels = new ArrayList<>();
@@ -91,7 +93,7 @@ public class Issue extends BaseTimeEntity {
     }
 
     public void updateAssignedUsers(List<AssignedUser> assignedUsers) {
-        this.assignees = new ArrayList<>();
+        this.assignees = new HashSet<>();
         for (AssignedUser assignedUser : assignedUsers) {
             addAssignedUser(assignedUser);
         }

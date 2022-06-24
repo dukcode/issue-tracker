@@ -30,6 +30,7 @@ public class IssueSearchCondition {
     public static IssueSearchCondition create(String q) {
         IssueSearchCondition condition = new IssueSearchCondition();
         condition.status = getMatchIssueStatus(q, statusPattern);
+
         condition.milestoneName = getMatchString(q, milestonePattern);
         condition.authorLoginName = getMatchString(q, authorPattern);
         condition.assigneeLoginName = getMatchString(q, assigneePattern);
@@ -40,7 +41,7 @@ public class IssueSearchCondition {
 
     private static IssueStatus getMatchIssueStatus(String q, Pattern pattern) {
         Matcher match = pattern.matcher(q);
-        IssueStatus status = null;
+        IssueStatus status = IssueStatus.OPEN;
         while (match.find()) {
             try {
                 status = IssueStatus.valueOf(match.group().toUpperCase());
