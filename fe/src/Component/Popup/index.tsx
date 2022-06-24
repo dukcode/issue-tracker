@@ -1,4 +1,4 @@
-import { ReactNode, useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+import React, { ReactNode, useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
 import { StyledPopup, StyledPopupWrapper } from "./Popup.styled";
 import PopupContent, { TContentProps } from "./PopupContent";
 
@@ -35,14 +35,18 @@ const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: T
 		}
 	};
 
-	const handleClickButton = () => {
+	const handleClickButton = (
+		event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
+	) => {
+		event.stopPropagation();
+		document.body.click();
 		setIsOpened(!isOpened);
 		if (setOption) setOption(!isOpened);
 		if (popup.current && !isOpened) popup.current.style.display = "block";
 	};
 
-	const handleKeyupButton = ({ key }: { key: string }) => {
-		if (key === "f") handleClickButton();
+	const handleKeyupButton = (event: React.KeyboardEvent<HTMLDivElement>) => {
+		if (event.key === "f") handleClickButton(event);
 	};
 
 	const handleAnimationEnd = () => {

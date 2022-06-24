@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import issueListApi from "Api/issueListApi";
 import useCookieUserInfo from "Hooks";
@@ -10,19 +10,32 @@ import IssueListContentHeader from "./IssueListContentHeader";
 
 const countsDefault = { openCount: 0, closedCount: 0 };
 
-const getNewIssueCells = (data: TIssueData[]) =>
+type TGetNewIssueCells = {
+	data: TIssueData[];
+	isAllChecked: boolean;
+	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
+	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
+	setAllCheckedCount: Dispatch<SetStateAction<number>>;
+};
+
+const getNewIssueCells = ({
+	data,
+	isAllChecked,
+	setIsAllChecked,
+	setCheckedIssues,
+	setAllCheckedCount,
+}: TGetNewIssueCells) =>
 	data
 		.reverse()
 		.map((item: TIssueData) => (
 			<IssueCell
 				key={item.id}
-				id={item.id}
-				title={item.title}
-				author={item.author.loginName}
-				timeStamp={item.createDate}
-				mileStone={item.milestone.title}
-				profileImage={item.author.profileImage}
-				labels={item.labels}
+				dataSize={data.length}
+				item={item}
+				isAllChecked={isAllChecked}
+				setIsAllChecked={setIsAllChecked}
+				setCheckedIssues={setCheckedIssues}
+				setAllCheckedCount={setAllCheckedCount}
 			/>
 		));
 
@@ -33,6 +46,9 @@ const IssueListContent = () => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
+	const [isAllChecked, setIsAllChecked] = useState(false);
+	const [checkedIssues, setCheckedIssues] = useState(new Set());
+	const [allCheckedCount, setAllCheckedCount] = useState(0);
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
@@ -51,18 +67,42 @@ const IssueListContent = () => {
 			return;
 		}
 
-		setIssueCells(getNewIssueCells(data));
+		setIssueCells(
+			getNewIssueCells({
+				data,
+				isAllChecked,
+				setIsAllChecked,
+				setCheckedIssues,
+				setAllCheckedCount,
+			})
+		);
 		setCounts({ openCount, closedCount });
 	};
 
 	useEffect(() => {
 		setIssueCells([<MainLoading key="1" />]);
 		getIssueList();
+		checkedIssues.clear();
+		setCheckedIssues(checkedIssues);
 	}, [searchParams]);
+
+	useEffect(() => {
+		getIssueList();
+	}, [isAllChecked]);
+
+	useEffect(() => {
+		if (allCheckedCount && checkedIssues.size === allCheckedCount) setIsAllChecked(true);
+		if (checkedIssues.size === 0) setIsAllChecked(false);
+	}, [checkedIssues]);
 
 	return (
 		<StyledContent>
-			<IssueListContentHeader counts={counts} />
+			<IssueListContentHeader
+				counts={counts}
+				isAllChecked={isAllChecked}
+				setIsAllChecked={setIsAllChecked}
+				checkedIssues={checkedIssues}
+			/>
 			{issueCells}
 		</StyledContent>
 	);
