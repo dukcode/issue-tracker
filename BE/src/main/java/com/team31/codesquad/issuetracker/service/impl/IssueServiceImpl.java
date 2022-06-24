@@ -62,15 +62,13 @@ public class IssueServiceImpl implements IssueService {
         IssueSearchCondition condition = IssueSearchCondition.create(query);
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
 
-        // 임시 로직
-        List<Issue> allByCondition = issueQueryRepository.findAllByCondition(condition, pageable);
-        System.out.println("allByCondition = " + allByCondition.size());
         List<IssueResponse> issueResponses =
-                allByCondition
+                issueQueryRepository.findAllByCondition(condition, pageable)
                         .stream()
                         .map(IssueResponse::new).collect(Collectors.toList());
 
-        long countAll = issueRepository.count();
+        long countAll = issueQueryRepository.countAllByCondition(condition.getAuthorLoginName(),
+                condition.getAssigneeLoginName(), condition.getLabelNames());
         IssueStatus status = condition.getStatus();
         if (status.equals(IssueStatus.OPEN)) {
             return new OpenClosedCountResult<>((long) issueResponses.size(),

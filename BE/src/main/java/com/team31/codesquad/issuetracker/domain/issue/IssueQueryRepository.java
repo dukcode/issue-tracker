@@ -41,6 +41,24 @@ public class IssueQueryRepository {
                 .fetch();
     }
 
+    public Long countAllByCondition(String authorLoginName,
+            String assigneeLoginName, List<String> labelNames) {
+        return queryFactory
+                .select(issue.countDistinct())
+                .from(issue)
+                .leftJoin(issue.author, user)
+                .leftJoin(issue.milestone, milestone)
+                .leftJoin(issue.issueLabels, issueLabel)
+                .leftJoin(issueLabel.label, label)
+                .leftJoin(issue.assignees, assignedUser)
+                .leftJoin(assignedUser.assignee, user)
+                .where(
+                        authorEq(authorLoginName),
+                        labelIn(labelNames),
+                        assigneeEq(assigneeLoginName))
+                .fetchOne();
+    }
+
     private BooleanExpression assigneeEq(String assigneeLoginName) {
         if (!StringUtils.hasText(assigneeLoginName)) {
             return null;
