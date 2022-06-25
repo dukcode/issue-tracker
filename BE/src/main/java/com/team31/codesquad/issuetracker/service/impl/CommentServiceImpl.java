@@ -94,12 +94,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public ReactionResponse getReactions(Long issueId, Long commentId, String loginName) {
+    public ReactionResponse getLoginUserReactions(Long commentId, String loginName) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "존재하지 않는 comment 입니다. commentId = " + commentId));
-
-        comment.validateIssue(issueId);
 
         User user = userRepository.findByLoginName(loginName)
                 .orElseThrow(() -> new IllegalArgumentException(

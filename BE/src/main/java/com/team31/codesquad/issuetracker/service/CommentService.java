@@ -19,5 +19,5 @@ public interface CommentService {
     void updateReactions(Long issueId, Long commentId,
             ReactionCreateRequest request, String loginName);
 
-    ReactionResponse getReactions(Long issueId, Long commentId, String loginName);
+    ReactionResponse getLoginUserReactions(Long commentId, String loginName);
 }

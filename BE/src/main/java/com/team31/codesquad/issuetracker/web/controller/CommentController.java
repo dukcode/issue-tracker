@@ -75,10 +75,9 @@ public class CommentController {
     @Tag(name = "Reaction")
     @Operation(summary = "Reaction 목록 조회",
             description = "로그인된 User가 해당 Comment에 남긴 Reaction 목록을 받아온다.")
-    @GetMapping("/api/v1/issues/{issueId}/comments/{commentId}/reactions")
-    public ReactionResponse getReactions(
-            @PathVariable Long issueId, @PathVariable Long commentId,
-            @LoginName String loginName) {
-        return commentService.getReactions(issueId, commentId, loginName);
+    @GetMapping("/api/v1/comments/{commentId}/reactions")
+    public ReactionResponse getLoginUserReactions(
+            @PathVariable Long commentId, @LoginName String loginName) {
+        return commentService.getLoginUserReactions(commentId, loginName);
     }
 }
