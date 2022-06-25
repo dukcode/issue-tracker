@@ -27,7 +27,7 @@ public interface IssueService {
 
     void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName);
 
-    void changeAssignee(Long issueId, IssueAssigneesChangeRequest request);
+    void changeAssignees(Long issueId, IssueAssigneesChangeRequest request);
 
     void changeMilestone(Long issueId, IssueMilestoneChangeRequest request);
 

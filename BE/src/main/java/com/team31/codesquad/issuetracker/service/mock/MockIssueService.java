@@ -139,7 +139,7 @@ public class MockIssueService implements IssueService {
     }
 
     @Override
-    public void changeAssignee(Long issueId, IssueAssigneesChangeRequest request) {
+    public void changeAssignees(Long issueId, IssueAssigneesChangeRequest request) {
         return;
     }
 

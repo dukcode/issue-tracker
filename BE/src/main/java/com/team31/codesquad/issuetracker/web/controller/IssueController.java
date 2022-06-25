@@ -104,7 +104,7 @@ public class IssueController {
     @PatchMapping("/api/v1/issues/{issueId}/assignees")
     public ResponseEntity<Void> changeAssignee(@PathVariable Long issueId,
             @Validated @RequestBody IssueAssigneesChangeRequest request) {
-        issueService.changeAssignee(issueId, request);
+        issueService.changeAssignees(issueId, request);
         return ResponseEntity.noContent().build();
     }
 

@@ -125,7 +125,7 @@ public class IssueServiceImpl implements IssueService {
 
     @Transactional
     @Override
-    public void changeAssignee(Long issueId, IssueAssigneesChangeRequest request) {
+    public void changeAssignees(Long issueId, IssueAssigneesChangeRequest request) {
         Issue issue = findIssueWithExistValidation(issueId);
         assignedUserRepository.deleteAll(issue.getAssignees());
 
