@@ -51,4 +51,8 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 export const StyledPopupWrapper = styled.div`
 	z-index: 2;
 	position: relative;
+
+	svg {
+		pointer-events: none;
+	}
 `;

@@ -35,18 +35,14 @@ const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: T
 		}
 	};
 
-	const handleClickButton = (
-		event: React.MouseEvent<HTMLDivElement> | React.KeyboardEvent<HTMLDivElement>
-	) => {
-		event.stopPropagation();
-		document.body.click();
+	const handleClickButton = () => {
 		setIsOpened(!isOpened);
 		if (setOption) setOption(!isOpened);
 		if (popup.current && !isOpened) popup.current.style.display = "block";
 	};
 
 	const handleKeyupButton = (event: React.KeyboardEvent<HTMLDivElement>) => {
-		if (event.key === "f") handleClickButton(event);
+		if (event.key === "f") handleClickButton();
 	};
 
 	const handleAnimationEnd = () => {
