@@ -18,10 +18,19 @@ const defaultPopupProps = {
 	setOption: undefined,
 };
 
-const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: TPopupProps) => {
-	const contents = contentsData.map(({ id, name, image, imageType }) => (
-		<PopupContent key={id} name={name} image={image} imageType={imageType} />
-	));
+const Popup = ({ children, isLeft, title, contents, setOption }: TPopupProps) => {
+	const contentsList = contents.map(
+		({ id, name, image, imageType, clickEventHandler, isCheckBox }) => (
+			<PopupContent
+				key={id}
+				name={name}
+				image={image}
+				imageType={imageType}
+				clickEventHandler={clickEventHandler}
+				isCheckBox={isCheckBox}
+			/>
+		)
+	);
 	const popup = useRef<HTMLDivElement>(null);
 	const button = useRef<HTMLDivElement>(null);
 	const [isOpened, setIsOpened] = useState(false);
@@ -72,7 +81,7 @@ const Popup = ({ children, isLeft, title, contents: contentsData, setOption }: T
 				onAnimationEnd={handleAnimationEnd}
 			>
 				<div>{title}</div>
-				{contents}
+				{contentsList}
 			</StyledPopup>
 		</StyledPopupWrapper>
 	);

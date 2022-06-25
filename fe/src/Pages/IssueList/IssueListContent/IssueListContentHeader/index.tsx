@@ -8,6 +8,7 @@ import {
 } from "./IssueListContentHeader.styled";
 import IssueOption from "../IssueOption";
 import FilterCategoryList from "./FilterCategoryList";
+import IssueStateEditor from "./IssueStateEditor";
 
 const { ErrorOutline, Inventory } = icons;
 const issueOptionsData = [
@@ -63,7 +64,7 @@ const IssueListContentHeader = ({
 				/>
 				{isChecked ? checkedIssuesCountInfo : IssueOptions}
 			</StyledIssueOptions>
-			<FilterCategoryList />
+			{isChecked ? <IssueStateEditor checkedIssues={checkedIssues} /> : <FilterCategoryList />}
 		</StyledIssueListContentHeader>
 	);
 };

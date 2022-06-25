@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { Checkbox } from "@mui/material";
 import UserImg from "Component/UserImg";
 import { StyledPopupContent, StyledPopupName } from "./PopupContent.styled";
@@ -7,28 +7,38 @@ type TContentProps = {
 	name: string;
 	image?: string;
 	imageType?: "image" | "color";
+	isCheckBox?: boolean;
+	clickEventHandler?: (event: React.MouseEvent) => void;
 };
 
 const defaultContentProps = {
 	image: undefined,
 	imageType: undefined,
+	isCheckBox: true,
+	clickEventHandler: undefined,
 };
 
-const PopupContent = ({ name, image, imageType }: TContentProps) => {
+const PopupContent = ({ name, image, imageType, isCheckBox, clickEventHandler }: TContentProps) => {
 	const [checked, setChecked] = useState(false);
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setChecked(event.target.checked);
 	};
 
+	const handleClickContent = (event: React.MouseEvent) => {
+		if (clickEventHandler) clickEventHandler(event);
+	};
+
 	return (
-		<StyledPopupContent checked={checked}>
+		<StyledPopupContent checked={checked} onClick={handleClickContent}>
 			<StyledPopupName>
 				{imageType === "image" && <UserImg img={image} size="small" />}
 				{imageType === "color" && <UserImg color={image} size="small" />}
 				{name}
 			</StyledPopupName>
-			<Checkbox checked={checked} onChange={handleChange} size="small" color="default" />
+			{isCheckBox && (
+				<Checkbox checked={checked} onChange={handleChange} size="small" color="default" />
+			)}
 		</StyledPopupContent>
 	);
 };
