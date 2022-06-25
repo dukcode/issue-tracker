@@ -1,6 +1,7 @@
 package com.team31.codesquad.issuetracker.web.controller;
 
-import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginName;
+import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginUser;
+import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
@@ -63,8 +64,8 @@ public class IssueController {
             description = "Issue를 등록한다.")
     @PostMapping("/api/v1/issues")
     public ResponseEntity<IssueCreateResponse> createIssue(
-            @Validated @RequestBody IssueCreateRequest request, @LoginName String loginName) {
-        IssueCreateResponse response = issueService.createIssue(request, loginName);
+            @Validated @RequestBody IssueCreateRequest request, @LoginUser User loginUser) {
+        IssueCreateResponse response = issueService.createIssue(request, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
@@ -82,8 +83,8 @@ public class IssueController {
     @PatchMapping("/api/v1/issues/{issueId}/status")
     public ResponseEntity<Void> changeStatus(@PathVariable Long issueId,
             @Validated @RequestBody IssueStatusChangeRequest request,
-            @LoginName String loginName) {
-        issueService.changeStatus(issueId, request, loginName);
+            @LoginUser User loginUser) {
+        issueService.changeStatus(issueId, request, loginUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -93,8 +94,8 @@ public class IssueController {
     @PatchMapping("/api/v1/issues")
     public ResponseEntity<Void> changeIssuesStatus(
             @Validated @RequestBody MultiIssueStatusChangeRequest request,
-            @LoginName String loginName) {
-        issueService.changIssuesStatus(request, loginName);
+            @LoginUser User loginUser) {
+        issueService.changIssuesStatus(request, loginUser);
         return ResponseEntity.noContent().build();
     }
 

@@ -1,6 +1,7 @@
 package com.team31.codesquad.issuetracker.web.controller;
 
-import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginName;
+import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginUser;
+import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentUpdateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.ReactionResponse;
@@ -34,8 +35,8 @@ public class CommentController {
     @PostMapping("/api/v1/issues/{issueId}/comments")
     public ResponseEntity<Long> createComment(@PathVariable Long issueId,
             @Validated @RequestBody CommentCreateRequest request,
-            @LoginName String loginName) {
-        Long createdCommentId = commentService.createComment(issueId, request, loginName);
+            @LoginUser User loginUser) {
+        Long createdCommentId = commentService.createComment(issueId, request, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdCommentId);
     }
 
@@ -44,8 +45,8 @@ public class CommentController {
             description = "해당 Issue에 남긴 Comment의 내용을 삭제한다. Comment를 작성한 User만 삭제 권한을 가진다.")
     @DeleteMapping("/api/v1/issues/{issueId}/comments/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable Long issueId,
-            @PathVariable Long commentId, @LoginName String loginName) {
-        commentService.deleteComment(issueId, commentId, loginName);
+            @PathVariable Long commentId, @LoginUser User loginUser) {
+        commentService.deleteComment(issueId, commentId, loginUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -55,8 +56,8 @@ public class CommentController {
     @PutMapping("/api/v1/issues/{issueId}/comments/{commentId}")
     public ResponseEntity<Void> updateComment(@PathVariable Long issueId,
             @PathVariable Long commentId, @RequestBody CommentUpdateRequest request,
-            @LoginName String loginName) {
-        commentService.update(issueId, commentId, request, loginName);
+            @LoginUser User loginUser) {
+        commentService.update(issueId, commentId, request, loginUser);
         return ResponseEntity.noContent().build();
     }
 
@@ -67,8 +68,8 @@ public class CommentController {
     public ResponseEntity<Void> toggleReaction(
             @PathVariable Long commentId,
             @Validated @RequestBody ReactionToggleRequest request,
-            @LoginName String loginName) {
-        commentService.toggleReaction(commentId, request, loginName);
+            @LoginUser User loginUser) {
+        commentService.toggleReaction(commentId, request, loginUser);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -77,7 +78,7 @@ public class CommentController {
             description = "로그인된 User가 해당 Comment에 남긴 Reaction 목록을 받아온다.")
     @GetMapping("/api/v1/comments/{commentId}/reactions")
     public ReactionResponse getLoginUserReactions(
-            @PathVariable Long commentId, @LoginName String loginName) {
-        return commentService.getLoginUserReactions(commentId, loginName);
+            @PathVariable Long commentId, @LoginUser User loginUser) {
+        return commentService.getLoginUserReactions(commentId, loginUser);
     }
 }

@@ -34,59 +34,56 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public Long createComment(Long issueId, CommentCreateRequest request,
-            String loginName) {
+            User loginUser) {
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "존재하지 않는 issue 입니다. issueId = " + issueId));
 
-        User author = userRepository.findByLoginName(loginName);
-        Comment comment = new Comment(issue, author, request.getContent());
+        Comment comment = new Comment(issue, loginUser, request.getContent());
         commentRepository.save(comment);
         return comment.getId();
     }
 
     @Transactional
     @Override
-    public void deleteComment(Long issueId, Long commentId, String loginName) {
+    public void deleteComment(Long issueId, Long commentId, User loginUser) {
         Comment comment = findCommentWithExistValidation(commentId);
         comment.validateIssue(issueId);
-        comment.validateAuthor(loginName);
+        comment.validateAuthor(loginUser);
         commentRepository.deleteById(commentId);
     }
 
     @Transactional
     @Override
     public void update(Long issueId, Long commentId,
-            CommentUpdateRequest request, String loginName) {
+            CommentUpdateRequest request, User loginUser) {
         Comment comment = findCommentWithExistValidation(commentId);
 
         comment.validateIssue(issueId);
-        comment.validateAuthor(loginName);
+        comment.validateAuthor(loginUser);
         comment.update(request.getContent());
     }
 
     @Transactional
     @Override
-    public void toggleReaction(Long commentId, ReactionToggleRequest request, String loginName) {
+    public void toggleReaction(Long commentId, ReactionToggleRequest request, User loginUser) {
         Comment comment = findCommentWithExistValidation(commentId);
-        User user = userRepository.findByLoginName(loginName);
 
         Optional<Reaction> reaction = reactionRepository.findByUserAndCommentAndEmoji(
-                user, comment, request.getEmoji());
+                loginUser, comment, request.getEmoji());
 
         if (reaction.isPresent()) {
             reactionRepository.delete(reaction.get());
             return;
         }
-        reactionRepository.save(new Reaction(user, comment, request.getEmoji()));
+        reactionRepository.save(new Reaction(loginUser, comment, request.getEmoji()));
     }
 
     @Override
-    public ReactionResponse getLoginUserReactions(Long commentId, String loginName) {
+    public ReactionResponse getLoginUserReactions(Long commentId, User loginUser) {
         Comment comment = findCommentWithExistValidation(commentId);
-        User user = userRepository.findByLoginName(loginName);
 
-        List<Reaction> reactions = reactionRepository.findAllByUserAndComment(user,
+        List<Reaction> reactions = reactionRepository.findAllByUserAndComment(loginUser,
                 comment);
 
         return new ReactionResponse(reactions);

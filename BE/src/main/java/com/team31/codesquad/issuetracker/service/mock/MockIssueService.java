@@ -5,6 +5,7 @@ import com.team31.codesquad.issuetracker.domain.comment.ReactionEmoji;
 import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.domain.label.TextColor;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
+import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.dto.CountResult;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.comment.CommentResponse;
@@ -80,7 +81,7 @@ public class MockIssueService implements IssueService {
     }
 
     @Override
-    public IssueCreateResponse createIssue(IssueCreateRequest request, String loginName) {
+    public IssueCreateResponse createIssue(IssueCreateRequest request, User loginName) {
         return new IssueCreateResponse(2L, 3L);
     }
 
@@ -129,12 +130,12 @@ public class MockIssueService implements IssueService {
 
     @Override
     public void changeStatus(Long issueId, IssueStatusChangeRequest request,
-            String loginName) {
+            User loginName) {
         return;
     }
 
     @Override
-    public void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName) {
+    public void changIssuesStatus(MultiIssueStatusChangeRequest request, User statusChangeUser) {
         return;
     }
 

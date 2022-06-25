@@ -83,8 +83,8 @@ public class Comment extends BaseTimeEntity {
         }
     }
 
-    public void validateAuthor(String loginName) {
-        if (!loginName.equals(getAuthor().getLoginName())) {
+    public void validateAuthor(User user) {
+        if (!user.equals(getAuthor())) {
             throw new IllegalArgumentException("작성자만 접근이 가능합니다.");
         }
     }

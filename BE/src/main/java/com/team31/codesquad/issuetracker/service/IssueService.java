@@ -1,5 +1,6 @@
 package com.team31.codesquad.issuetracker.service;
 
+import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
@@ -19,13 +20,13 @@ public interface IssueService {
 
     void deleteIssue(Long issueId);
 
-    IssueCreateResponse createIssue(IssueCreateRequest request, String loginName);
+    IssueCreateResponse createIssue(IssueCreateRequest request, User loginUser);
 
     IssueDetailResponse getIssue(Long issueId);
 
-    void changeStatus(Long issueId, IssueStatusChangeRequest request, String loginName);
+    void changeStatus(Long issueId, IssueStatusChangeRequest request, User loginUser);
 
-    void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName);
+    void changIssuesStatus(MultiIssueStatusChangeRequest request, User loginUser);
 
     void changeAssignees(Long issueId, IssueAssigneesChangeRequest request);
 

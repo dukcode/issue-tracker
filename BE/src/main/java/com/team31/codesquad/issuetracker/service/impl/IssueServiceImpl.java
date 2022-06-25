@@ -80,14 +80,13 @@ public class IssueServiceImpl implements IssueService {
 
     @Transactional
     @Override
-    public IssueCreateResponse createIssue(IssueCreateRequest request, String loginName) {
-        User author = userRepository.findByLoginName(loginName);
+    public IssueCreateResponse createIssue(IssueCreateRequest request, User loginUser) {
         Milestone milestone = getMilestone(request.getMilestoneId());
-        Comment comment = new Comment(author, request.getCommentCreateRequest().getContent());
+        Comment comment = new Comment(loginUser, request.getCommentCreateRequest().getContent());
         List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
 
-        Issue issue = Issue.createIssue(request.getTitle(), author,
+        Issue issue = Issue.createIssue(request.getTitle(), loginUser,
                 assignedUsers, issueLabels, milestone, comment);
         issueRepository.save(issue);
 
@@ -102,9 +101,9 @@ public class IssueServiceImpl implements IssueService {
 
     @Transactional
     @Override
-    public void changeStatus(Long issueId, IssueStatusChangeRequest request, String loginName) {
+    public void changeStatus(Long issueId, IssueStatusChangeRequest request,
+            User statusChangeUser) {
         Issue issue = findIssueWithExistValidation(issueId);
-        User statusChangeUser = userRepository.findByLoginName(loginName);
         issue.changStatus(request.getStatus(), statusChangeUser);
     }
 
@@ -117,8 +116,7 @@ public class IssueServiceImpl implements IssueService {
 
     @Transactional
     @Override
-    public void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName) {
-        User statusChangeUser = userRepository.findByLoginName(loginName);
+    public void changIssuesStatus(MultiIssueStatusChangeRequest request, User statusChangeUser) {
         issueRepository.findAllById(request.getIssueIds())
                 .forEach(i -> i.changStatus(request.getStatus(), statusChangeUser));
     }
