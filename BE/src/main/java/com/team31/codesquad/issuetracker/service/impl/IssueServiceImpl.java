@@ -187,10 +187,7 @@ public class IssueServiceImpl implements IssueService {
             return new ArrayList<>();
         }
 
-        List<IssueLabel> issueLabels = labelIds.stream()
-                .map(id -> labelRepository.findById(id)
-                        .orElseThrow(() -> new IllegalArgumentException(
-                                "존재하지 않는 label 입니다. id = " + id)))
+        List<IssueLabel> issueLabels = labelRepository.findAllById(labelIds).stream()
                 .map(IssueLabel::new)
                 .collect(Collectors.toList());
 
@@ -203,10 +200,7 @@ public class IssueServiceImpl implements IssueService {
             return new ArrayList<>();
         }
 
-        List<AssignedUser> assignedUsers = assigneeIds.stream()
-                .map(id -> userRepository.findById(id)
-                        .orElseThrow(
-                                () -> new IllegalArgumentException("존재하지 않는 user 입니다. id = " + id)))
+        List<AssignedUser> assignedUsers = userRepository.findAllById(assigneeIds).stream()
                 .map(AssignedUser::new)
                 .collect(Collectors.toList());
 
