@@ -28,7 +28,7 @@ type TIssueItem = {
 	item: TIssueData;
 	isAllChecked: boolean;
 	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
-	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
+	setCheckedIssues: Dispatch<SetStateAction<Set<number>>>;
 	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 

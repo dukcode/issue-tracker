@@ -4,7 +4,7 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 	${({ theme: { colors, fonts }, isLeft, isOpened }) => css`
 		width: 300px;
 		position: absolute;
-		margin-top: 10px;
+		margin-top: 5px;
 		margin-left: -1px;
 		border: solid 1px ${colors.line};
 		border-radius: 20px;
@@ -33,17 +33,33 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 			color: ${colors.titleActive};
 		}
 
-		> div:not(:first-child) {
+		> div:not(:first-child),
+		> button:not(:first-child) {
 			${fonts.textSmall};
+			width: 100%;
 			background-color: ${colors.offWhite};
+			:hover {
+				background-color: ${colors.inputBackground};
+			}
+			:active {
+				background-color: ${colors.line};
+			}
+			:disabled {
+				background-color: ${colors.lightRed};
+				cursor: not-allowed;
+			}
 		}
 
-		> div:not(:last-child) {
+		> div:not(:last-child),
+		> button:not(:last-child) {
+			width: 100%;
 			border-bottom: solid 1px ${colors.line};
 		}
 
-		> div {
+		> div,
+		> button {
 			padding: 8px 16px;
+			margin: 0;
 		}
 	`}
 `;
@@ -51,4 +67,8 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 export const StyledPopupWrapper = styled.div`
 	z-index: 2;
 	position: relative;
+
+	svg {
+		pointer-events: none;
+	}
 `;
