@@ -48,9 +48,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public void deleteComment(Long issueId, Long commentId, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
+        Comment comment = findCommentWithExistValidation(commentId);
         comment.validateIssue(issueId);
         comment.validateAuthor(loginName);
         commentRepository.deleteById(commentId);
@@ -60,9 +58,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void update(Long issueId, Long commentId,
             CommentUpdateRequest request, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
+        Comment comment = findCommentWithExistValidation(commentId);
 
         comment.validateIssue(issueId);
         comment.validateAuthor(loginName);
@@ -72,10 +68,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public void updateReactions(Long commentId, ReactionCreateRequest request, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
-
+        Comment comment = findCommentWithExistValidation(commentId);
         User user = userRepository.findByLoginName(loginName);
 
         // TODO: 요청중에 기존 reaction과 중복되는 것 지울 필요 있을까?
@@ -88,15 +81,18 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public ReactionResponse getLoginUserReactions(Long commentId, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
-
+        Comment comment = findCommentWithExistValidation(commentId);
         User user = userRepository.findByLoginName(loginName);
 
         List<Reaction> reactions = reactionRepository.findAllByUserAndComment(user,
                 comment);
 
         return new ReactionResponse(reactions);
+    }
+
+    private Comment findCommentWithExistValidation(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 comment 입니다. commentId = " + commentId));
     }
 }
