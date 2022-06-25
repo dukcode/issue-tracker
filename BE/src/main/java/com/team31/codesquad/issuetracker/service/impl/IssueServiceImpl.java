@@ -96,18 +96,14 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public IssueDetailResponse getIssue(Long issueId) {
-        Issue issue = issueRepository.findById(issueId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        Issue issue = findIssueWithExistValidation(issueId);
         return new IssueDetailResponse(issue);
     }
 
     @Transactional
     @Override
     public void changeStatus(Long issueId, IssueStatusChangeRequest request, String loginName) {
-        Issue issue = issueRepository.findById(issueId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        Issue issue = findIssueWithExistValidation(issueId);
         User statusChangeUser = userRepository.findByLoginName(loginName);
         issue.changStatus(request.getStatus(), statusChangeUser);
     }
@@ -115,9 +111,7 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     @Override
     public void changeTitle(Long issueId, IssueTitleChangeRequest request) {
-        Issue issue = issueRepository.findById(issueId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        Issue issue = findIssueWithExistValidation(issueId);
         issue.changeTitle(request.getTitle());
     }
 
@@ -132,9 +126,7 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     @Override
     public void changeAssignee(Long issueId, IssueAssigneesChangeRequest request) {
-        Issue issue = issueRepository.findById(issueId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        Issue issue = findIssueWithExistValidation(issueId);
         assignedUserRepository.deleteAll(issue.getAssignees());
 
         List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
@@ -144,20 +136,22 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     @Override
     public void changeMilestone(Long issueId, IssueMilestoneChangeRequest request) {
-        Issue issue = issueRepository.findById(issueId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        Issue issue = findIssueWithExistValidation(issueId);
         Milestone milestone = getMilestone(request.getMilestoneId());
 
         issue.updateMilestone(milestone);
     }
 
+    private Issue findIssueWithExistValidation(Long issueId) {
+        return issueRepository.findById(issueId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+    }
+
     @Transactional
     @Override
     public void changeLabels(Long issueId, IssueLabelsChangeRequest request) {
-        Issue issue = issueRepository.findById(issueId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 issue 입니다. issueId = " + issueId));
+        Issue issue = findIssueWithExistValidation(issueId);
         issueLabelRepository.deleteAll(issue.getIssueLabels());
 
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
