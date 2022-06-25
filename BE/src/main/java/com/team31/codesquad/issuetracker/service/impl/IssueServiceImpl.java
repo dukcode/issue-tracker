@@ -81,7 +81,7 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     @Override
     public IssueCreateResponse createIssue(IssueCreateRequest request, String loginName) {
-        User author = getAuthor(loginName);
+        User author = userRepository.findByLoginName(loginName);
         List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
         Milestone milestone = getMilestone(request.getMilestoneId());
@@ -112,7 +112,7 @@ public class IssueServiceImpl implements IssueService {
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "존재하지 않는 issue 입니다. issueId = " + issueId));
-        User statusChangeUser = getAuthor(loginName);
+        User statusChangeUser = userRepository.findByLoginName(loginName);
         issue.changStatus(request.getStatus(), statusChangeUser);
     }
 
@@ -128,7 +128,7 @@ public class IssueServiceImpl implements IssueService {
     @Transactional
     @Override
     public void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName) {
-        User statusChangeUser = getAuthor(loginName);
+        User statusChangeUser = userRepository.findByLoginName(loginName);
         request.getIssueIds().stream()
                 .map(
                         id -> issueRepository.findById(id)
@@ -171,12 +171,6 @@ public class IssueServiceImpl implements IssueService {
 
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
         issue.updateIssueLabels(issueLabels);
-    }
-
-    private User getAuthor(String loginName) {
-        return userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
     }
 
     private Milestone getMilestone(Long milestoneId) {

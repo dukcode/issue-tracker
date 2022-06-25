@@ -39,9 +39,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "존재하지 않는 issue 입니다. issueId = " + issueId));
 
-        User author = userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
+        User author = userRepository.findByLoginName(loginName);
         Comment comment = new Comment(issue, author, request.getContent());
         commentRepository.save(comment);
         return comment.getId();
@@ -81,9 +79,7 @@ public class CommentServiceImpl implements CommentService {
 
         comment.validateIssue(issueId);
 
-        User user = userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
+        User user = userRepository.findByLoginName(loginName);
 
         // TODO: 요청중에 기존 reaction과 중복되는 것 지울 필요 있을까?
         reactionRepository.deleteAllInBatch(comment.getReactions());
@@ -99,9 +95,7 @@ public class CommentServiceImpl implements CommentService {
                 .orElseThrow(() -> new IllegalArgumentException(
                         "존재하지 않는 comment 입니다. commentId = " + commentId));
 
-        User user = userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
+        User user = userRepository.findByLoginName(loginName);
 
         List<Reaction> reactions = reactionRepository.findAllByUserAndComment(user,
                 comment);
