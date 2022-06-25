@@ -2,8 +2,10 @@ package com.team31.codesquad.issuetracker.service.impl;
 
 import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
+import com.team31.codesquad.issuetracker.domain.milestone.MilestoneQueryRepository;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneRepository;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneStatus;
+import com.team31.codesquad.issuetracker.dto.OpenClosedCount;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneCreateRequest;
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneResponse;
@@ -24,26 +26,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class MilestoneServiceImpl implements MilestoneService {
 
     private final MilestoneRepository milestoneRepository;
+    private final MilestoneQueryRepository milestoneQueryRepository;
 
     @Override
     public OpenClosedCountResult<List<MilestoneResponse>> findAll(MilestoneStatus status) {
-        List<MilestoneResponse> milestoneResponses = milestoneRepository.findAll().stream()
-                .map(MilestoneResponse::new).collect(Collectors.toList());
-        List<MilestoneResponse> filteredMilestoneResponses = milestoneResponses.stream()
-                .filter(m -> m.getStatus().equals(status))
-                .collect(Collectors.toList());
+        List<MilestoneResponse> milestoneResponses =
+                milestoneQueryRepository.findAllByStatusWithFetchIssues(status)
+                        .stream()
+                        .map(MilestoneResponse::new).collect(Collectors.toList());
+        OpenClosedCount openClosedCount = milestoneQueryRepository.countOpenAndClosed();
 
-        if (status.equals(MilestoneStatus.OPEN)) {
-            return new OpenClosedCountResult<>(
-                    (long) filteredMilestoneResponses.size(),
-                    (long) milestoneResponses.size() - filteredMilestoneResponses.size(),
-                    filteredMilestoneResponses);
-        }
-
-        return new OpenClosedCountResult<>(
-                (long) milestoneResponses.size() - filteredMilestoneResponses.size(),
-                (long) filteredMilestoneResponses.size(),
-                filteredMilestoneResponses);
+        return new OpenClosedCountResult<>(openClosedCount.getOpenCount(),
+                openClosedCount.getClosedCount(), milestoneResponses);
     }
 
     @Transactional
