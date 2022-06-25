@@ -23,7 +23,8 @@ const IssueStateEditor = ({ checkedIssues }: TIssueStateEditorProps) => {
 	const editClickedIssuesState = async (status: "OPEN" | "CLOSED") => {
 		const query = searchParams.get("q");
 		const isSameQuery =
-			(status === "OPEN" && query === "is:open") || (status === "CLOSED" && query === "is:closed");
+			(status === "OPEN" && (query === "is:open" || !query)) ||
+			(status === "CLOSED" && query === "is:closed");
 		if (isSameQuery) return;
 
 		const issueIds: number[] = [];
