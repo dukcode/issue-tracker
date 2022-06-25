@@ -11,7 +11,6 @@ import com.team31.codesquad.issuetracker.dto.milestone.MilestoneStatusChangeRequ
 import com.team31.codesquad.issuetracker.dto.milestone.MilestoneUpdateRequest;
 import com.team31.codesquad.issuetracker.service.MilestoneService;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -50,9 +49,7 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Transactional
     @Override
     public Long createMilestone(MilestoneCreateRequest request) {
-        if (milestoneRepository.findByTitle(request.getTitle()).isPresent()) {
-            throw new IllegalArgumentException("중복된 이름의 마일스톤이 존재합니다.");
-        }
+        validateDuplicateTitle(request.getTitle());
         Milestone milestone = request.toEntity();
         milestoneRepository.save(milestone);
         return milestone.getId();
@@ -61,11 +58,8 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Transactional
     @Override
     public void deleteMilestone(Long milestoneId) {
-        Milestone milestone = milestoneRepository.findById(milestoneId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "해당 마일스톤이 존재하지 않습니다. id = " + milestoneId));
-        milestone.getIssues()
-                .forEach(Issue::deleteMilestone);
+        Milestone milestone = findMilestoneById(milestoneId);
+        milestone.getIssues().forEach(Issue::deleteMilestone);
 
         milestoneRepository.delete(milestone);
 
@@ -74,32 +68,32 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Transactional
     @Override
     public void updateMilestone(Long milestoneId, MilestoneUpdateRequest request) {
-        milestoneRepository.findByTitle(request.getTitle()).ifPresent(
-                findLabel -> {
-                    if (!Objects.equals(findLabel.getId(), milestoneId)) {
-                        throw new IllegalArgumentException("중복된 이름의 마일스톤이 존재합니다.");
-                    }
-                });
-
-        Milestone milestone = milestoneRepository.findById(milestoneId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "해당 마일스톤이 존재하지 않습니다. id = " + milestoneId));
-
+        validateDuplicateTitle(request.getTitle());
+        Milestone milestone = findMilestoneById(milestoneId);
         milestone.update(request.getTitle(), request.getDescription(), request.getDueDate());
     }
 
     @Transactional
     @Override
     public void changeStatus(Long milestoneId, MilestoneStatusChangeRequest request) {
-        Milestone milestone = milestoneRepository.findById(milestoneId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "해당 마일스톤이 존재하지 않습니다. id = " + milestoneId));
-
+        Milestone milestone = findMilestoneById(milestoneId);
         milestone.changeStatus(request.getStatus());
     }
 
     @Override
     public Long getCount(MilestoneStatus status) {
         return milestoneRepository.countFilteredByStatus(status);
+    }
+
+    private Milestone findMilestoneById(Long milestoneId) {
+        return milestoneRepository.findById(milestoneId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "해당 마일스톤이 존재하지 않습니다. id = " + milestoneId));
+    }
+
+    private void validateDuplicateTitle(String milestoneTitle) {
+        if (milestoneRepository.existsByTitle(milestoneTitle)) {
+            throw new IllegalArgumentException("중복된 제목의 마일스톤이 존재합니다.");
+        }
     }
 }
