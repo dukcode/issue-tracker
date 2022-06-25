@@ -57,6 +57,12 @@ public class Comment extends BaseTimeEntity {
         this.systemMessage = false;
     }
 
+    public Comment(User author, String content) {
+        this.author = author;
+        this.content = content;
+        this.systemMessage = false;
+    }
+
     public static Comment createStatusChangeComment(Issue issue,
             IssueStatus status, User statusChangeUser) {
         Comment comment = new Comment();

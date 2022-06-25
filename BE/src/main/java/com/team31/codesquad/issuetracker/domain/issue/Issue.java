@@ -68,7 +68,7 @@ public class Issue extends BaseTimeEntity {
     private User statusChangeUser;
 
     public static Issue createIssue(String title, User author, List<AssignedUser> assignedUsers,
-            List<IssueLabel> issueLabels, Milestone milestone) {
+            List<IssueLabel> issueLabels, Milestone milestone, Comment comment) {
         Issue issue = new Issue();
         issue.status = IssueStatus.OPEN;
         issue.title = title;
@@ -82,6 +82,7 @@ public class Issue extends BaseTimeEntity {
         issue.milestone = milestone;
         issue.statusChangedAt = LocalDateTime.now();
         issue.statusChangeUser = author;
+        issue.addComment(comment);
 
         return issue;
     }

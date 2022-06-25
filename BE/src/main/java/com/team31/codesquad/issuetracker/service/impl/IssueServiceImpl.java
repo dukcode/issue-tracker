@@ -82,18 +82,14 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public IssueCreateResponse createIssue(IssueCreateRequest request, String loginName) {
         User author = userRepository.findByLoginName(loginName);
+        Milestone milestone = getMilestone(request.getMilestoneId());
+        Comment comment = new Comment(author, request.getCommentCreateRequest().getContent());
         List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
         List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
-        Milestone milestone = getMilestone(request.getMilestoneId());
 
         Issue issue = Issue.createIssue(request.getTitle(), author,
-                assignedUsers, issueLabels, milestone);
+                assignedUsers, issueLabels, milestone, comment);
         issueRepository.save(issue);
-        Comment comment = new Comment(issue, author,
-                request.getCommentCreateRequest().getContent());
-        commentRepository.save(comment);
-
-        issue.addComment(comment);
 
         return new IssueCreateResponse(issue.getId(), comment.getId());
     }
@@ -191,7 +187,6 @@ public class IssueServiceImpl implements IssueService {
                 .map(IssueLabel::new)
                 .collect(Collectors.toList());
 
-        issueLabelRepository.saveAll(issueLabels);
         return issueLabels;
     }
 
@@ -204,7 +199,6 @@ public class IssueServiceImpl implements IssueService {
                 .map(AssignedUser::new)
                 .collect(Collectors.toList());
 
-        assignedUserRepository.saveAll(assignedUsers);
         return assignedUsers;
     }
 
