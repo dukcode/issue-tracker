@@ -4,7 +4,7 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 	${({ theme: { colors, fonts }, isLeft, isOpened }) => css`
 		width: 300px;
 		position: absolute;
-		margin-top: 10px;
+		margin-top: 5px;
 		margin-left: -1px;
 		border: solid 1px ${colors.line};
 		border-radius: 20px;
@@ -49,6 +49,17 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 		> div,
 		> button {
 			padding: 8px 16px;
+			margin: 0;
+		}
+
+		> div,
+		> button {
+			:hover {
+				background-color: ${colors.inputBackground};
+			}
+			:active {
+				background-color: ${colors.lightBlue};
+			}
 		}
 	`}
 `;
