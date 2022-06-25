@@ -1,11 +1,19 @@
 import styled, { css } from "styled-components";
 
-export const StyledLoading = styled.div`
+export const StyledNotification = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	width: 100%;
 	height: 200px;
+`;
+
+export const StyledMention = styled.div`
+	${({ theme: { colors, fonts } }) => css`
+		margin: 0 auto;
+		color: ${colors.label};
+		${fonts.textMedium};
+	`}
 `;
 
 export const StyledLoadingAnimation = styled.div`
