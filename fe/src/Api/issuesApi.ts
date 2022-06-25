@@ -3,7 +3,7 @@ import axios, { AxiosError, AxiosResponse } from "axios";
 const baseURL = `${process.env.REACT_APP_API}/issues`;
 const client = axios.create({ baseURL });
 
-const issueListApi = {
+const issuesApi = {
 	getIssueList: async (token: string, q: string | null) => {
 		const response = await client
 			.get("", {
@@ -22,4 +22,4 @@ const issueListApi = {
 	},
 };
 
-export default issueListApi;
+export default issuesApi;

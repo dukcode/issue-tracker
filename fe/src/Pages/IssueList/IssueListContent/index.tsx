@@ -1,6 +1,6 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import issueListApi from "Api/issueListApi";
+import issuesApi from "Api/issuesApi";
 import useCookieUserInfo from "Hooks";
 import MainLoading from "Pages/Main/MainLoading";
 import IssueCell from "Pages/IssueList/IssueCell";
@@ -57,7 +57,7 @@ const IssueListContent = () => {
 			return;
 		}
 
-		const issueListResponse = await issueListApi.getIssueList(accessToken, q);
+		const issueListResponse = await issuesApi.getIssueList(accessToken, q);
 		const {
 			data: { data, openCount, closedCount },
 			status,
