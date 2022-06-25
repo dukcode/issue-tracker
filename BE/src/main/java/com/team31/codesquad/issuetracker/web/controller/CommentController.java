@@ -63,12 +63,12 @@ public class CommentController {
     @Tag(name = "Reaction")
     @Operation(summary = "Reaction 등록",
             description = "Emoji 목록을 받아 Comment에 Reaction을 등록한다.")
-    @PutMapping("/api/v1/issues/{issueId}/comments/{commentId}/reactions")
+    @PutMapping("/api/v1/comments/{commentId}/reactions")
     public ResponseEntity<Void> updateReactions(
-            @PathVariable Long issueId, @PathVariable Long commentId,
+            @PathVariable Long commentId,
             @Validated @RequestBody ReactionCreateRequest request,
             @LoginName String loginName) {
-        commentService.updateReactions(issueId, commentId, request, loginName);
+        commentService.updateReactions(commentId, request, loginName);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
