@@ -27,6 +27,7 @@ const PopupContent = ({ name, image, imageType, isCheckBox, clickEventHandler }:
 	};
 
 	const handleClickContent = (event: React.MouseEvent) => {
+		setChecked(!checked);
 		if (clickEventHandler) clickEventHandler(event);
 	};
 
