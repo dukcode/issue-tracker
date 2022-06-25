@@ -14,7 +14,7 @@ type TGetNewIssueCells = {
 	data: TIssueData[];
 	isAllChecked: boolean;
 	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
-	setCheckedIssues: Dispatch<SetStateAction<Set<unknown>>>;
+	setCheckedIssues: Dispatch<SetStateAction<Set<number>>>;
 	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
@@ -47,7 +47,7 @@ const IssueListContent = () => {
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
 	const [isAllChecked, setIsAllChecked] = useState(false);
-	const [checkedIssues, setCheckedIssues] = useState(new Set());
+	const [checkedIssues, setCheckedIssues] = useState(new Set<number>());
 	const [allCheckedCount, setAllCheckedCount] = useState(0);
 
 	const getIssueList = async () => {
@@ -57,7 +57,7 @@ const IssueListContent = () => {
 			return;
 		}
 
-		const issueListResponse = await issuesApi.getIssueList(accessToken, q);
+		const issueListResponse = await issuesApi.getIssues(accessToken, q);
 		const {
 			data: { data, openCount, closedCount },
 			status,

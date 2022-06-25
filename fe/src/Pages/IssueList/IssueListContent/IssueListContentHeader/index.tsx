@@ -20,7 +20,7 @@ type TIssueListContentHeader = {
 	counts: { openCount: number; closedCount: number };
 	isAllChecked: boolean;
 	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
-	checkedIssues: Set<unknown>;
+	checkedIssues: Set<number>;
 };
 
 const IssueListContentHeader = ({
