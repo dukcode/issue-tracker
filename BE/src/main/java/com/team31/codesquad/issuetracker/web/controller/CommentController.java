@@ -4,7 +4,7 @@ import com.team31.codesquad.issuetracker.config.mvc.annotation.LoginName;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentUpdateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.ReactionResponse;
-import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
+import com.team31.codesquad.issuetracker.dto.reaction.ReactionToggleRequest;
 import com.team31.codesquad.issuetracker.service.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -61,14 +61,14 @@ public class CommentController {
     }
 
     @Tag(name = "Reaction")
-    @Operation(summary = "Reaction 등록",
-            description = "Emoji 목록을 받아 Comment에 Reaction을 등록한다.")
+    @Operation(summary = "Reaction 토글",
+            description = "Emoji를 Comment에 Reaction을 토글한다.")
     @PutMapping("/api/v1/comments/{commentId}/reactions")
-    public ResponseEntity<Void> updateReactions(
+    public ResponseEntity<Void> toggleReaction(
             @PathVariable Long commentId,
-            @Validated @RequestBody ReactionCreateRequest request,
+            @Validated @RequestBody ReactionToggleRequest request,
             @LoginName String loginName) {
-        commentService.updateReactions(commentId, request, loginName);
+        commentService.toggleReaction(commentId, request, loginName);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

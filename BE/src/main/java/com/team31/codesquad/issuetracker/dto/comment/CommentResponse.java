@@ -34,7 +34,7 @@ public class CommentResponse {
         this.author = new UserResponse(comment.getAuthor());
         this.content = comment.getContent();
         this.reactions = comment.getReactions().stream()
-                .map(Reaction::getReactionEmoji)
+                .map(Reaction::getEmoji)
                 .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
         this.createDate = comment.getCreateDate();
         this.modifiedDate = comment.getModifiedDate();
