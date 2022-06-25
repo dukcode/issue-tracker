@@ -33,16 +33,21 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 			color: ${colors.titleActive};
 		}
 
-		> div:not(:first-child) {
+		> div:not(:first-child),
+		> button:not(:first-child) {
 			${fonts.textSmall};
+			width: 100%;
 			background-color: ${colors.offWhite};
 		}
 
-		> div:not(:last-child) {
+		> div:not(:last-child),
+		> button:not(:last-child) {
+			width: 100%;
 			border-bottom: solid 1px ${colors.line};
 		}
 
-		> div {
+		> div,
+		> button {
 			padding: 8px 16px;
 		}
 	`}

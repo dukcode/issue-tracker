@@ -20,6 +20,7 @@ const defaultContentProps = {
 
 const PopupContent = ({ name, image, imageType, isCheckBox, clickEventHandler }: TContentProps) => {
 	const [checked, setChecked] = useState(false);
+	const contentTag = clickEventHandler ? "button" : "div";
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setChecked(event.target.checked);
@@ -30,7 +31,7 @@ const PopupContent = ({ name, image, imageType, isCheckBox, clickEventHandler }:
 	};
 
 	return (
-		<StyledPopupContent checked={checked} onClick={handleClickContent}>
+		<StyledPopupContent checked={checked} onClick={handleClickContent} as={contentTag}>
 			<StyledPopupName>
 				{imageType === "image" && <UserImg img={image} size="small" />}
 				{imageType === "color" && <UserImg color={image} size="small" />}

@@ -30,6 +30,7 @@ const IssueStateEditor = ({ checkedIssues }: TIssueStateEditorProps) => {
 		checkedIssues.forEach((issue) => {
 			issueIds.push(issue);
 		});
+
 		issuesApi.patchIssues(accessToken, issueIds, status);
 		window.location.reload();
 	};
