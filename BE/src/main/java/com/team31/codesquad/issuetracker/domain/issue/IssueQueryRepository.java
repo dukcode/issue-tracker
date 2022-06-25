@@ -8,8 +8,10 @@ import static com.team31.codesquad.issuetracker.domain.milestone.QMilestone.mile
 import static com.team31.codesquad.issuetracker.domain.user.QAssignedUser.assignedUser;
 import static com.team31.codesquad.issuetracker.domain.user.QUser.user;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.team31.codesquad.issuetracker.dto.OpenClosedCount;
 import com.team31.codesquad.issuetracker.dto.issue.IssueSearchCondition;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -51,23 +53,37 @@ public class IssueQueryRepository {
         return milestone.title.eq(milestoneName);
     }
 
-    public Long countAllByConditionAndStatus(IssueSearchCondition condition,
-            IssueStatus status) {
-        return queryFactory
-                .select(issue.countDistinct())
+    public OpenClosedCount countAllByCondition(IssueSearchCondition condition) {
+        List<Tuple> result = queryFactory
+                .select(issue.status, issue.countDistinct())
                 .from(issue)
-                .leftJoin(issue.author, user)
                 .leftJoin(issue.milestone, milestone)
                 .leftJoin(issue.issueLabels, issueLabel)
                 .leftJoin(issueLabel.label, label)
                 .leftJoin(issue.assignees, assignedUser)
                 .leftJoin(assignedUser.assignee, user)
-                .where(statusEq(status),
+                .where(
                         authorEq(condition.getAuthorLoginName()),
                         labelIn(condition.getLabelNames()),
                         milestoneEq(condition.getMilestoneName()),
                         assigneeEq(condition.getAssigneeLoginName()))
-                .fetchOne();
+                .groupBy(issue.status)
+                .fetch();
+
+        Long openCount = 0L;
+        Long closedCount = 0L;
+        for (Tuple tuple : result) {
+            Long count = tuple.get(issue.countDistinct());
+            IssueStatus status = tuple.get(issue.status);
+            if (status.equals(IssueStatus.OPEN)) {
+                openCount = count;
+            }
+            if (status.equals(IssueStatus.CLOSED)) {
+                closedCount = count;
+            }
+        }
+
+        return new OpenClosedCount(openCount, closedCount);
     }
 
     private BooleanExpression assigneeEq(String assigneeLoginName) {

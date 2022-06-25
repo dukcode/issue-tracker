@@ -7,7 +7,6 @@ import com.team31.codesquad.issuetracker.domain.issue.IssueLabel;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabelRepository;
 import com.team31.codesquad.issuetracker.domain.issue.IssueQueryRepository;
 import com.team31.codesquad.issuetracker.domain.issue.IssueRepository;
-import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
 import com.team31.codesquad.issuetracker.domain.label.LabelRepository;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneRepository;
@@ -15,6 +14,7 @@ import com.team31.codesquad.issuetracker.domain.user.AssignedUser;
 import com.team31.codesquad.issuetracker.domain.user.AssignedUserRepository;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.domain.user.UserRepository;
+import com.team31.codesquad.issuetracker.dto.OpenClosedCount;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCountResult;
 import com.team31.codesquad.issuetracker.dto.issue.IssueAssigneesChangeRequest;
 import com.team31.codesquad.issuetracker.dto.issue.IssueCreateRequest;
@@ -66,11 +66,10 @@ public class IssueServiceImpl implements IssueService {
                         .stream()
                         .map(IssueResponse::new).collect(Collectors.toList());
 
-        long countOpen = issueQueryRepository.countAllByConditionAndStatus(condition,
-                IssueStatus.OPEN);
-        long countClosed = issueQueryRepository.countAllByConditionAndStatus(condition,
-                IssueStatus.CLOSED);
-        return new OpenClosedCountResult<>(countOpen, countClosed, issueResponses);
+        OpenClosedCount openClosedCount = issueQueryRepository.countAllByCondition(condition);
+
+        return new OpenClosedCountResult<>(openClosedCount.getOpenCount(),
+                openClosedCount.getClosedCount(), issueResponses);
     }
 
     @Transactional
