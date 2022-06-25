@@ -19,12 +19,13 @@ const IssueStateEditor = ({ checkedIssues }: TIssueStateEditorProps) => {
 	const { accessToken } = useCookieUserInfo();
 	const [isDown, setIsDown] = useState(false);
 	const [searchParams] = useSearchParams();
+	const query = searchParams.get("q");
+	const isQueryOpen = query === "is:open" || !query;
+	const isQueryClosed = query === "is:closed";
 
 	const editClickedIssuesState = async (status: "OPEN" | "CLOSED") => {
-		const query = searchParams.get("q");
 		const isSameQuery =
-			(status === "OPEN" && (query === "is:open" || !query)) ||
-			(status === "CLOSED" && query === "is:closed");
+			(status === "OPEN" && isQueryOpen) || (status === "CLOSED" && isQueryClosed);
 		if (isSameQuery) return;
 
 		const issueIds: number[] = [];
@@ -32,8 +33,10 @@ const IssueStateEditor = ({ checkedIssues }: TIssueStateEditorProps) => {
 			issueIds.push(issue);
 		});
 
-		issuesApi.patchIssues(accessToken, issueIds, status);
-		window.location.reload();
+		const response = await issuesApi.patchIssues(accessToken, issueIds, status);
+		const { status: statusNum } = response;
+
+		if (statusNum && statusNum < 300) window.location.reload();
 	};
 
 	const issueStateEditorContents: TPopupContentProps[] = [
@@ -42,12 +45,14 @@ const IssueStateEditor = ({ checkedIssues }: TIssueStateEditorProps) => {
 			name: "선택한 이슈 열기",
 			clickEventHandler: () => editClickedIssuesState("OPEN"),
 			isCheckBox: false,
+			disabledOption: isQueryOpen,
 		},
 		{
 			id: 1,
 			name: "선택한 이슈 닫기",
 			clickEventHandler: () => editClickedIssuesState("CLOSED"),
 			isCheckBox: false,
+			disabledOption: isQueryClosed,
 		},
 	];
 

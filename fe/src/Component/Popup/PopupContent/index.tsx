@@ -9,6 +9,7 @@ type TContentProps = {
 	imageType?: "image" | "color";
 	isCheckBox?: boolean;
 	clickEventHandler?: (event: React.MouseEvent) => void;
+	disabledOption?: boolean;
 };
 
 const defaultContentProps = {
@@ -16,9 +17,17 @@ const defaultContentProps = {
 	imageType: undefined,
 	isCheckBox: true,
 	clickEventHandler: undefined,
+	disabledOption: false,
 };
 
-const PopupContent = ({ name, image, imageType, isCheckBox, clickEventHandler }: TContentProps) => {
+const PopupContent = ({
+	name,
+	image,
+	imageType,
+	isCheckBox,
+	clickEventHandler,
+	disabledOption,
+}: TContentProps) => {
 	const [checked, setChecked] = useState(false);
 	const contentTag = clickEventHandler ? "button" : "div";
 
@@ -27,12 +36,20 @@ const PopupContent = ({ name, image, imageType, isCheckBox, clickEventHandler }:
 	};
 
 	const handleClickContent = (event: React.MouseEvent) => {
-		setChecked(!checked);
-		if (clickEventHandler) clickEventHandler(event);
+		if (clickEventHandler) {
+			clickEventHandler(event);
+		} else {
+			setChecked(!checked);
+		}
 	};
 
 	return (
-		<StyledPopupContent checked={checked} onClick={handleClickContent} as={contentTag}>
+		<StyledPopupContent
+			checked={checked}
+			onClick={handleClickContent}
+			as={contentTag}
+			disabled={disabledOption}
+		>
 			<StyledPopupName>
 				{imageType === "image" && <UserImg img={image} size="small" />}
 				{imageType === "color" && <UserImg color={image} size="small" />}

@@ -42,7 +42,11 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 				background-color: ${colors.inputBackground};
 			}
 			:active {
-				background-color: ${colors.lightBlue};
+				background-color: ${colors.line};
+			}
+			:disabled {
+				background-color: ${colors.lightRed};
+				cursor: not-allowed;
 			}
 		}
 
