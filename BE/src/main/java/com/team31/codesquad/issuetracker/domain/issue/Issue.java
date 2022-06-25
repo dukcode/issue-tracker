@@ -126,7 +126,7 @@ public class Issue extends BaseTimeEntity {
         this.status = status;
         this.statusChangeUser = statusChangeUser;
         this.statusChangedAt = LocalDateTime.now();
-        Comment comment = Comment.createStatusChangeComment(this, status, statusChangeUser);
+        Comment comment = Comment.createStatusChangeComment(status, statusChangeUser);
         addComment(comment);
     }
 

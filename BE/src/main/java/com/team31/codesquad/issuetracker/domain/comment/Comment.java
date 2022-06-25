@@ -63,10 +63,8 @@ public class Comment extends BaseTimeEntity {
         this.systemMessage = false;
     }
 
-    public static Comment createStatusChangeComment(Issue issue,
-            IssueStatus status, User statusChangeUser) {
+    public static Comment createStatusChangeComment(IssueStatus status, User statusChangeUser) {
         Comment comment = new Comment();
-        comment.issue = issue;
         comment.author = statusChangeUser;
         comment.content =
                 status.equals(IssueStatus.OPEN) ? ISSUE_OPEN_MESSAGE : ISSUE_CLOSED_MESSAGE;
