@@ -1,5 +1,6 @@
 package com.team31.codesquad.issuetracker.service.impl;
 
+import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneQueryRepository;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneRepository;
@@ -52,6 +53,7 @@ public class MilestoneServiceImpl implements MilestoneService {
     @Override
     public void deleteMilestone(Long milestoneId) {
         Milestone milestone = findMilestoneById(milestoneId);
+        milestone.getIssues().forEach(Issue::deleteMilestone);
         milestoneRepository.delete(milestone);
 
     }
