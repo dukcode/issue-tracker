@@ -28,7 +28,6 @@ public class DefaultExceptionHandlerAdvice {
                 && exception.getCause() instanceof InvalidFormatException) {
 
             String message = exception.getCause().getMessage();
-            System.out.println("message = " + message);
             Matcher match = WORD_IN_SQUARED_BRACKET.matcher(message);
 
             if (message.contains("not one of the values accepted for Enum class") && match.find()) {

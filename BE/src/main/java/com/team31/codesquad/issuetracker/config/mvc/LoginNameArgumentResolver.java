@@ -35,7 +35,6 @@ public class LoginNameArgumentResolver implements HandlerMethodArgumentResolver 
             return jwtUtil.getAdminLoginName();
         }
         String loginName = jwtUtil.getPayload(token);
-        System.out.println("loginName = " + loginName);
         return loginName;
     }
 }
