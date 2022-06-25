@@ -8,7 +8,6 @@ import com.team31.codesquad.issuetracker.dto.label.LabelResponse;
 import com.team31.codesquad.issuetracker.dto.label.LabelUpdateRequest;
 import com.team31.codesquad.issuetracker.service.LabelService;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -35,9 +34,7 @@ public class LabelServiceImpl implements LabelService {
     @Transactional
     @Override
     public Long createLabel(LabelCreateRequest request) {
-        if (labelRepository.findByName(request.getName()).isPresent()) {
-            throw new IllegalArgumentException("중복된 이름의 레이블이 존재합니다.");
-        }
+        validateDuplicateName(request.getName());
 
         Label label = request.toEntity();
         labelRepository.save(label);
@@ -53,12 +50,7 @@ public class LabelServiceImpl implements LabelService {
     @Transactional
     @Override
     public void update(Long labelId, LabelUpdateRequest request) {
-        labelRepository.findByName(request.getName()).ifPresent(
-                findLabel -> {
-                    if (!Objects.equals(findLabel.getId(), labelId)) {
-                        throw new IllegalArgumentException("중복된 이름의 레이블이 존재합니다.");
-                    }
-                });
+        validateDuplicateName(request.getName());
 
         Label label = labelRepository.findById(labelId)
                 .orElseThrow(() -> new IllegalArgumentException(
@@ -73,6 +65,9 @@ public class LabelServiceImpl implements LabelService {
         return labelRepository.count();
     }
 
-    private void validateDuplicateName(String name) {
+    private void validateDuplicateName(String labelName) {
+        if (labelRepository.existsByName(labelName)) {
+            throw new IllegalArgumentException("중복된 이름의 레이블이 존재합니다.");
+        }
     }
 }
