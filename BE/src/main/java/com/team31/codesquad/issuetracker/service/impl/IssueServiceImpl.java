@@ -125,12 +125,7 @@ public class IssueServiceImpl implements IssueService {
     @Override
     public void changIssuesStatus(MultiIssueStatusChangeRequest request, String loginName) {
         User statusChangeUser = userRepository.findByLoginName(loginName);
-        request.getIssueIds().stream()
-                .map(
-                        id -> issueRepository.findById(id)
-                                .orElseThrow(() -> new IllegalArgumentException(
-                                        "존재하지 않는 issue 입니다. issueId = " + id))
-                )
+        issueRepository.findAllById(request.getIssueIds())
                 .forEach(i -> i.changStatus(request.getStatus(), statusChangeUser));
     }
 
