@@ -38,6 +38,12 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 			${fonts.textSmall};
 			width: 100%;
 			background-color: ${colors.offWhite};
+			:hover {
+				background-color: ${colors.inputBackground};
+			}
+			:active {
+				background-color: ${colors.lightBlue};
+			}
 		}
 
 		> div:not(:last-child),
@@ -50,16 +56,6 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 		> button {
 			padding: 8px 16px;
 			margin: 0;
-		}
-
-		> div,
-		> button {
-			:hover {
-				background-color: ${colors.inputBackground};
-			}
-			:active {
-				background-color: ${colors.lightBlue};
-			}
 		}
 	`}
 `;
