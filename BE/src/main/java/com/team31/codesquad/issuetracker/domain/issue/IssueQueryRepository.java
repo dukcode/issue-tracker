@@ -8,12 +8,14 @@ import static com.team31.codesquad.issuetracker.domain.milestone.QMilestone.mile
 import static com.team31.codesquad.issuetracker.domain.user.QAssignedUser.assignedUser;
 import static com.team31.codesquad.issuetracker.domain.user.QUser.user;
 
-import com.querydsl.core.Tuple;
+import com.querydsl.core.group.GroupBy;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.team31.codesquad.issuetracker.dto.OpenClosedCount;
 import com.team31.codesquad.issuetracker.dto.issue.IssueSearchCondition;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -54,8 +56,7 @@ public class IssueQueryRepository {
     }
 
     public OpenClosedCount countAllByCondition(IssueSearchCondition condition) {
-        List<Tuple> result = queryFactory
-                .select(issue.status, issue.countDistinct())
+        Map<IssueStatus, Long> result = queryFactory
                 .from(issue)
                 .leftJoin(issue.milestone, milestone)
                 .leftJoin(issue.issueLabels, issueLabel)
@@ -68,22 +69,10 @@ public class IssueQueryRepository {
                         milestoneEq(condition.getMilestoneName()),
                         assigneeEq(condition.getAssigneeLoginName()))
                 .groupBy(issue.status)
-                .fetch();
+                .transform(GroupBy.groupBy(issue.status).as(issue.countDistinct()));
 
-        Long openCount = 0L;
-        Long closedCount = 0L;
-        for (Tuple tuple : result) {
-            Long count = tuple.get(issue.countDistinct());
-            IssueStatus status = tuple.get(issue.status);
-            if (status.equals(IssueStatus.OPEN)) {
-                openCount = count;
-            }
-            if (status.equals(IssueStatus.CLOSED)) {
-                closedCount = count;
-            }
-        }
-
-        return new OpenClosedCount(openCount, closedCount);
+        return new OpenClosedCount(Optional.ofNullable(result.get(IssueStatus.OPEN)).orElse(0L),
+                Optional.ofNullable(result.get(IssueStatus.CLOSED)).orElse(0L));
     }
 
     private BooleanExpression assigneeEq(String assigneeLoginName) {
