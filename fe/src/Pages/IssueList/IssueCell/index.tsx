@@ -1,10 +1,11 @@
 import Moment from "react-moment";
 import "moment/locale/ko";
-
+import { useEffect, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
 import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
+import TIssueData from "Pages/IssueList/mockData";
 import {
 	StyledIssueCell,
 	IssueCellLeft,
@@ -22,43 +23,76 @@ import {
 
 const { ErrorOutline, EmojiFlags } = icons;
 
-type TLabel = {
-	id: number;
-	name: string;
-	description: string;
-	labelColor: string;
-	textColor: string;
-};
-
 type TIssueItem = {
-	id: number;
-	title: string;
-	author: string;
-	timeStamp: string; // TODO: timestamp 형식
-	mileStone: string;
-	profileImage: string;
-	labels: TLabel[];
+	dataSize: number;
+	item: TIssueData;
+	isAllChecked: boolean;
+	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
+	setCheckedIssues: Dispatch<SetStateAction<Set<number>>>;
+	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
 const IssueCell = ({
-	id,
-	title,
-	author,
-	timeStamp,
-	mileStone,
-	profileImage,
-	labels: labelsInfo,
+	dataSize,
+	item,
+	isAllChecked,
+	setIsAllChecked,
+	setCheckedIssues,
+	setAllCheckedCount,
 }: TIssueItem) => {
+	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
+	const { loginName, profileImage } = author;
 	const labels = labelsInfo.map(({ id: lableId, name, labelColor }) => (
 		<Label key={lableId} name={name} color={labelColor} />
 	));
-	const editedTime = <Moment fromNow>{timeStamp}</Moment>;
+	const editedTime = <Moment fromNow>{createDate}</Moment>;
+	const [checked, setChecked] = useState(false);
+
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		if (checked) {
+			if (!isAllChecked) setIsAllChecked(false);
+			setCheckedIssues((prevCheckedIssues) => {
+				const newCheckedIssues = new Set(prevCheckedIssues);
+				newCheckedIssues.delete(id);
+				return newCheckedIssues;
+			});
+		} else {
+			setCheckedIssues((prevCheckedIssues) => {
+				const newCheckedIssues = new Set(prevCheckedIssues);
+				newCheckedIssues.add(id);
+				return newCheckedIssues;
+			});
+		}
+		setChecked(event.target.checked);
+	};
+
+	useEffect(() => {
+		if (isAllChecked) {
+			setChecked(true);
+			setCheckedIssues((prevCheckedIssues) => {
+				const newCheckedIssues = new Set(prevCheckedIssues);
+				newCheckedIssues.add(id);
+				return newCheckedIssues;
+			});
+		} else {
+			setChecked(false);
+			setCheckedIssues((prevCheckedIssues) => {
+				const newCheckedIssues = new Set(prevCheckedIssues);
+				newCheckedIssues.clear();
+				return newCheckedIssues;
+			});
+		}
+	}, [isAllChecked]);
+
+	useEffect(() => {
+		setAllCheckedCount(dataSize);
+	}, []);
 
 	return (
 		<StyledIssueCell>
 			<IssueCellLeft>
 				<StyledCheckbox>
-					<Checkbox size="small" color="default" />
+					<Checkbox size="small" color="default" checked={checked} onChange={handleChange} />
 				</StyledCheckbox>
 				<IssueInfo>
 					<IssueInfoTop>
@@ -71,11 +105,11 @@ const IssueCell = ({
 					<IssueInfoBottom>
 						<IssueNumber>#{id}</IssueNumber>
 						<AuthorTimeStamp>
-							이 이슈가 {editedTime}, {author}님에 의해 작성되었습니다.
+							이 이슈가 {editedTime}, {loginName}님에 의해 작성되었습니다.
 						</AuthorTimeStamp>
 						<MileStone>
 							<EmojiFlags colorset="label" size={18} />
-							{mileStone}
+							{milestone.title}
 						</MileStone>
 					</IssueInfoBottom>
 				</IssueInfo>

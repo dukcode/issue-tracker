@@ -1,16 +1,22 @@
 import styled, { css } from "styled-components";
 
-export const StyledPopup = styled.div<{ isLeft: boolean }>`
-	${({ theme: { colors, fonts }, isLeft }) => css`
+export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
+	${({ theme: { colors, fonts }, isLeft, isOpened }) => css`
 		width: 300px;
-		display: block;
 		position: absolute;
-		margin-top: 10px;
+		margin-top: 5px;
 		margin-left: -1px;
 		border: solid 1px ${colors.line};
 		border-radius: 20px;
 		box-shadow: 0px 4px 8px -4px ${colors.body};
 		overflow: hidden;
+		display: none;
+		animation: fadein 0.5s forwards;
+
+		${!isOpened &&
+		css`
+			animation: fadeout 0.5s forwards;
+		`}
 
 		${!isLeft &&
 		css`
@@ -27,17 +33,33 @@ export const StyledPopup = styled.div<{ isLeft: boolean }>`
 			color: ${colors.titleActive};
 		}
 
-		> div:not(:first-child) {
+		> div:not(:first-child),
+		> button:not(:first-child) {
 			${fonts.textSmall};
+			width: 100%;
 			background-color: ${colors.offWhite};
+			:hover {
+				background-color: ${colors.inputBackground};
+			}
+			:active {
+				background-color: ${colors.line};
+			}
+			:disabled {
+				background-color: ${colors.lightRed};
+				cursor: not-allowed;
+			}
 		}
 
-		> div:not(:last-child) {
+		> div:not(:last-child),
+		> button:not(:last-child) {
+			width: 100%;
 			border-bottom: solid 1px ${colors.line};
 		}
 
-		> div {
+		> div,
+		> button {
 			padding: 8px 16px;
+			margin: 0;
 		}
 	`}
 `;
@@ -45,24 +67,8 @@ export const StyledPopup = styled.div<{ isLeft: boolean }>`
 export const StyledPopupWrapper = styled.div`
 	z-index: 2;
 	position: relative;
-`;
 
-type TStyledContentProps = {
-	checked: boolean;
-};
-
-export const StyledContent = styled.div<TStyledContentProps>`
-	${({ checked, theme: { colors } }) => css`
-		color: ${colors.label};
-
-		${checked &&
-		css`
-			font-weight: 700;
-			color: ${colors.titleActive};
-		`}
-
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-	`}
+	svg {
+		pointer-events: none;
+	}
 `;

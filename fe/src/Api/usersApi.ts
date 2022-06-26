@@ -1,17 +1,16 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const baseURL = `${process.env.REACT_APP_API}/issues`;
+const baseURL = `${process.env.REACT_APP_API}/users`;
 const client = axios.create({ baseURL });
 
-const issueListApi = {
-	getIssueList: async (token: string, q: string | null) => {
+const usersApi = {
+	getUsers: async (token: string) => {
 		const response = await client
 			.get("", {
 				headers: {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
 				},
-				params: { q },
 			})
 			.catch((error: Error | AxiosError) => {
 				if (axios.isAxiosError(error)) return error.response as AxiosResponse;
@@ -22,4 +21,4 @@ const issueListApi = {
 	},
 };
 
-export default issueListApi;
+export default usersApi;

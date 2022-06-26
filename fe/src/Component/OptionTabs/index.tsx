@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import icons from "Util/Icons";
 import Button from "Component/Button";
 import useCookieUserInfo from "Hooks";
-import milestoneApi from "Api/milestoneApi";
-import labelsApi from "Api/labelsApi";
+import { milestoneApi, labelsApi } from "Api";
 import { StyledOptionTabs, StyledTabsLabelMilestone } from "./OptionsTabs.styled";
 
 const { BookmarksOutlined, DirectionsOutlined } = icons;
@@ -42,7 +41,7 @@ const OptionTabs = () => {
 	});
 
 	const getLabelMilestoneCount = async () => {
-		const milestoneResponse = await milestoneApi.getMilestoneCount(accessToken, true);
+		const milestoneResponse = await milestoneApi.getMilestone(accessToken, true);
 		const labelResponse = await labelsApi.getLabels(accessToken, true);
 
 		const { data: milestoneData } = milestoneResponse;

@@ -41,21 +41,40 @@ export const StyledNewIssueDesc = styled.div`
 			color: ${colors.placeholder};
 			box-sizing: border-box;
 			margin: 10px 20px;
-			flex-grow: 1;
+			flex-grow: 12;
 			outline: none;
 			border: none;
 		}
 
-		div {
-			${fonts.textXSamll};
-			color: ${colors.label};
-			cursor: pointer;
-			display: flex;
-			flex-grow: 0.05;
-			align-items: center;
-			gap: 5px;
-			border-top: dashed 2px ${colors.line};
-			padding: 10px 20px;
+		input {
+			display: none;
+		}
+
+		:focus {
+			background-color: ${colors.offWhite};
+			color: ${colors.titleActive};
+		}
+	`}
+`;
+
+export const StyledUploadImg = styled.label`
+	${({ theme: { colors, fonts } }) => css`
+		${fonts.textXSamll};
+		color: ${colors.label};
+		cursor: pointer;
+		display: flex;
+		flex-grow: 1;
+		align-items: center;
+		gap: 5px;
+		border-top: dashed 2px ${colors.line};
+		padding: 10px 20px;
+
+		:hover {
+			color: ${colors.titleActive};
+
+			svg {
+				color: ${colors.titleActive};
+			}
 		}
 	`}
 `;

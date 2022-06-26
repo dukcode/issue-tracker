@@ -5,7 +5,7 @@ import { SvgIconComponent } from "@mui/icons-material";
 import StyledIssueOption from "./IssueOption.styled";
 
 type TIssueOptionProps = {
-	counts: { openCount: number; closedCount: number };
+	counts: { [key in string]: number };
 	Icon: StyledComponent<SvgIconComponent, DefaultTheme, TResultButton>;
 	isOpened: boolean;
 	name: string;
@@ -33,7 +33,7 @@ const IssueOption = ({ counts, Icon, isOpened, name, option }: TIssueOptionProps
 			onClick={() => handleClickIssueOption(option)}
 		>
 			<Icon colorset={isOpened === isClosed ? "placeholder" : "titleActive"} size={18} />
-			{`${name} (${counts.openCount})`}
+			{`${name} (${counts[`${option}Count`]})`}
 		</StyledIssueOption>
 	);
 };

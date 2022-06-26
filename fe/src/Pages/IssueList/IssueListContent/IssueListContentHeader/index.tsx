@@ -1,7 +1,14 @@
+import { Dispatch, SetStateAction } from "react";
 import icons from "Util/Icons";
-import { StyledIssueListContentHeader, StyledIssueOptions } from "./IssueListContentHeader.styled";
+import { Checkbox } from "@mui/material";
+import {
+	StyledIssueListContentHeader,
+	StyledIssueOptions,
+	StyledCheckedIssuesCountInfo,
+} from "./IssueListContentHeader.styled";
 import IssueOption from "../IssueOption";
-import FilterCategoryList from "../../FilterCategoryList";
+import FilterCategoryList from "./FilterCategoryList";
+import IssueStateEditor from "./IssueStateEditor";
 
 const { ErrorOutline, Inventory } = icons;
 const issueOptionsData = [
@@ -11,9 +18,20 @@ const issueOptionsData = [
 
 type TIssueListContentHeader = {
 	counts: { openCount: number; closedCount: number };
+	isAllChecked: boolean;
+	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
+	checkedIssues: Set<number>;
 };
 
-const IssueListContentHeader = ({ counts }: TIssueListContentHeader) => {
+const IssueListContentHeader = ({
+	counts,
+	isAllChecked,
+	setIsAllChecked,
+	checkedIssues,
+}: TIssueListContentHeader) => {
+	const checkedIssuesCount = checkedIssues.size;
+	const isChecked = !!checkedIssuesCount;
+
 	const IssueOptions = issueOptionsData.map(({ id, Icon, isOpened, name, option }) => {
 		return (
 			<IssueOption
@@ -27,10 +45,26 @@ const IssueListContentHeader = ({ counts }: TIssueListContentHeader) => {
 		);
 	});
 
+	const checkedIssuesCountInfo = (
+		<StyledCheckedIssuesCountInfo>{checkedIssuesCount}개 이슈 선택</StyledCheckedIssuesCountInfo>
+	);
+
+	const handleMultipleCheckbox = () => {
+		setIsAllChecked(!isAllChecked);
+	};
+
 	return (
 		<StyledIssueListContentHeader>
-			<StyledIssueOptions>{IssueOptions}</StyledIssueOptions>
-			<FilterCategoryList />
+			<StyledIssueOptions>
+				<Checkbox
+					size="small"
+					color="default"
+					onChange={handleMultipleCheckbox}
+					checked={isAllChecked}
+				/>
+				{isChecked ? checkedIssuesCountInfo : IssueOptions}
+			</StyledIssueOptions>
+			{isChecked ? <IssueStateEditor checkedIssues={checkedIssues} /> : <FilterCategoryList />}
 		</StyledIssueListContentHeader>
 	);
 };

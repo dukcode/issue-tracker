@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import issueListApi from "Api/issueListApi";
+import issuesApi from "Api/issuesApi";
 import useCookieUserInfo from "Hooks";
-import MainLoading from "Pages/Main/MainLoading";
+import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import IssueCell from "Pages/IssueList/IssueCell";
 import TIssueData from "Pages/IssueList/mockData";
 import StyledContent from "Component/StyledContent";
@@ -10,29 +10,47 @@ import IssueListContentHeader from "./IssueListContentHeader";
 
 const countsDefault = { openCount: 0, closedCount: 0 };
 
-const getNewIssueCells = (data: TIssueData[]) =>
-	data
+type TGetNewIssueCells = {
+	data: TIssueData[];
+	isAllChecked: boolean;
+	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
+	setCheckedIssues: Dispatch<SetStateAction<Set<number>>>;
+	setAllCheckedCount: Dispatch<SetStateAction<number>>;
+};
+
+const getNewIssueCells = ({
+	data,
+	isAllChecked,
+	setIsAllChecked,
+	setCheckedIssues,
+	setAllCheckedCount,
+}: TGetNewIssueCells) => {
+	if (!data.length) return [<IssuesNotification mention="등록된 이슈가 없습니다" key="1" />];
+	return data
 		.reverse()
 		.map((item: TIssueData) => (
 			<IssueCell
 				key={item.id}
-				id={item.id}
-				title={item.title}
-				author={item.author.loginName}
-				timeStamp={item.createDate}
-				mileStone={item.milestone.title}
-				profileImage={item.author.profileImage}
-				labels={item.labels}
+				dataSize={data.length}
+				item={item}
+				isAllChecked={isAllChecked}
+				setIsAllChecked={setIsAllChecked}
+				setCheckedIssues={setCheckedIssues}
+				setAllCheckedCount={setAllCheckedCount}
 			/>
 		));
+};
 
 const IssueListContent = () => {
 	const [counts, setCounts] = useState(countsDefault);
-	const [issueCells, setIssueCells] = useState([<MainLoading key="1" />]);
+	const [issueCells, setIssueCells] = useState([<IssuesNotification key="1" />]);
 	const cookieUserInfo = useCookieUserInfo();
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
+	const [isAllChecked, setIsAllChecked] = useState(false);
+	const [checkedIssues, setCheckedIssues] = useState(new Set<number>());
+	const [allCheckedCount, setAllCheckedCount] = useState(0);
 
 	const getIssueList = async () => {
 		const { accessToken } = cookieUserInfo;
@@ -41,7 +59,7 @@ const IssueListContent = () => {
 			return;
 		}
 
-		const issueListResponse = await issueListApi.getIssueList(accessToken, q);
+		const issueListResponse = await issuesApi.getIssues(accessToken, q);
 		const {
 			data: { data, openCount, closedCount },
 			status,
@@ -51,18 +69,42 @@ const IssueListContent = () => {
 			return;
 		}
 
-		setIssueCells(getNewIssueCells(data));
+		const newIssueCells = getNewIssueCells({
+			data,
+			isAllChecked,
+			setIsAllChecked,
+			setCheckedIssues,
+			setAllCheckedCount,
+		});
+
+		setIssueCells(newIssueCells);
 		setCounts({ openCount, closedCount });
 	};
 
 	useEffect(() => {
-		setIssueCells([<MainLoading key="1" />]);
+		setIssueCells([<IssuesNotification key="1" />]);
 		getIssueList();
+		checkedIssues.clear();
+		setCheckedIssues(checkedIssues);
 	}, [searchParams]);
+
+	useEffect(() => {
+		getIssueList();
+	}, [isAllChecked]);
+
+	useEffect(() => {
+		if (allCheckedCount && checkedIssues.size === allCheckedCount) setIsAllChecked(true);
+		if (checkedIssues.size === 0) setIsAllChecked(false);
+	}, [checkedIssues]);
 
 	return (
 		<StyledContent>
-			<IssueListContentHeader counts={counts} />
+			<IssueListContentHeader
+				counts={counts}
+				isAllChecked={isAllChecked}
+				setIsAllChecked={setIsAllChecked}
+				checkedIssues={checkedIssues}
+			/>
 			{issueCells}
 		</StyledContent>
 	);
