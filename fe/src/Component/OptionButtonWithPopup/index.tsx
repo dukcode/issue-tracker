@@ -1,14 +1,14 @@
+import { StyledComponent, DefaultTheme } from "styled-components";
 import { AxiosResponse } from "axios";
 
 import { TResultIcon } from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import { useState } from "react";
 import useCookieUserInfo from "Hooks";
-import StyledFilterCategory from "./FilterCategory.styled";
 
 type TIcons = { DownIcon?: TResultIcon; UpIcon?: TResultIcon } | undefined;
 
-type TFilterCategoryItem = {
+type TOptionButtonWithPopupItem = {
 	id: number;
 	title: string;
 	isLeft: boolean;
@@ -21,11 +21,12 @@ type TFilterCategoryItem = {
 		  }
 	>;
 	getPopupContents: (data: any) => TPopupContentProps[];
+	StyledButton: StyledComponent<"button", DefaultTheme, {}, never>;
 	icons?: TIcons;
 };
 
-type TFilterCategoryProps = {
-	item: TFilterCategoryItem;
+type TOptionButtonWithPopupProps = {
+	item: TOptionButtonWithPopupItem;
 };
 
 const getShowedIcon = (icons: TIcons, isDown: boolean) => {
@@ -41,9 +42,9 @@ const getShowedIcon = (icons: TIcons, isDown: boolean) => {
 	return showedIcon;
 };
 
-const FilterCategory = ({
-	item: { id, title, isLeft, popupContents, getData, getPopupContents, icons },
-}: TFilterCategoryProps) => {
+const OptionButtonWithPopup = ({
+	item: { id, title, isLeft, popupContents, getData, getPopupContents, icons, StyledButton },
+}: TOptionButtonWithPopupProps) => {
 	const [contents, setContents] = useState(popupContents);
 	const [isDown, setIsDown] = useState(false);
 	const [isUpdated, setIsUpdated] = useState(false);
@@ -63,13 +64,13 @@ const FilterCategory = ({
 
 	return (
 		<Popup isLeft={isLeft} contents={contents} title={`${title} 필터`} setOption={setIsDown}>
-			<StyledFilterCategory key={id} type="button" onMouseEnter={handleMouseEnter}>
+			<StyledButton key={id} type="button" onMouseEnter={handleMouseEnter}>
 				<div>{title}</div>
 				{showedIcon}
-			</StyledFilterCategory>
+			</StyledButton>
 		</Popup>
 	);
 };
 
-export default FilterCategory;
-export type { TFilterCategoryItem };
+export default OptionButtonWithPopup;
+export type { TOptionButtonWithPopupItem };

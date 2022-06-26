@@ -1,8 +1,9 @@
 import { labelsApi, usersApi, milestoneApi } from "Api";
+
 import icons from "Util/Icons";
+import OptionButtonWithPopup, { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
-import StyledFilterCategory from "./FilterCategory.styled";
-import FilterCategory, { TFilterCategoryItem } from "./FilterCategory";
+import { StyledFilterCategoryList, StyledFilterCategory } from "./FilterCategoryList.styled";
 
 type TLabelData = {
 	id: number;
@@ -74,7 +75,7 @@ const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContent
 	return newContents;
 };
 
-const filterCategoryItems: TFilterCategoryItem[] = [
+const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 	{
 		id: 1,
 		title: "담당자",
@@ -86,6 +87,7 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 			UpIcon: KeyboardArrowUp,
 			DownIcon: KeyboardArrowDown,
 		},
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 2,
@@ -98,6 +100,7 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 			UpIcon: KeyboardArrowUp,
 			DownIcon: KeyboardArrowDown,
 		},
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 3,
@@ -110,6 +113,7 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 			UpIcon: KeyboardArrowUp,
 			DownIcon: KeyboardArrowDown,
 		},
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 4,
@@ -122,16 +126,16 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 			UpIcon: KeyboardArrowUp,
 			DownIcon: KeyboardArrowDown,
 		},
+		StyledButton: StyledFilterCategory,
 	},
 ];
 
 const FilterCategoryList = () => {
-	const categoryList = filterCategoryItems.map((item: TFilterCategoryItem) => (
-		<FilterCategory item={item} />
+	const categoryList = filterCategoryItems.map((item: TOptionButtonWithPopupItem) => (
+		<OptionButtonWithPopup item={item} />
 	));
 
-	return <StyledFilterCategory>{categoryList}</StyledFilterCategory>;
+	return <StyledFilterCategoryList>{categoryList}</StyledFilterCategoryList>;
 };
 
-export type { TFilterCategoryItem as listItem };
 export default FilterCategoryList;
