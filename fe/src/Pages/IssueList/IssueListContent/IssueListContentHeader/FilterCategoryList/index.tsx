@@ -1,24 +1,8 @@
-import { AxiosResponse } from "axios";
-
 import { labelsApi, usersApi, milestoneApi } from "Api";
+import icons from "Util/Icons";
 import { TPopupContentProps } from "Component/Popup";
 import StyledFilterCategory from "./FilterCategory.styled";
-import FilterCategory from "./FilterCategory";
-
-type TFilterCategoryItem = {
-	id: number;
-	title: string;
-	isLeft: boolean;
-	popupContents: TPopupContentProps[];
-	getData: (token: string) => Promise<
-		| AxiosResponse<any, any>
-		| {
-				data: Error;
-				status: null;
-		  }
-	>;
-	getPopupContents: (data: any) => TPopupContentProps[];
-};
+import FilterCategory, { TFilterCategoryItem } from "./FilterCategory";
 
 type TLabelData = {
 	id: number;
@@ -50,6 +34,8 @@ type TUsersData = {
 	name: string;
 	profileImage: string;
 };
+
+const { KeyboardArrowDown, KeyboardArrowUp } = icons;
 
 const defaultPopupContents: TPopupContentProps[] = [];
 
@@ -96,6 +82,10 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: usersApi.getUsers,
 		getPopupContents: getContentsByUsers,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
 	},
 	{
 		id: 2,
@@ -104,6 +94,10 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: labelsApi.getLabels,
 		getPopupContents: getContentsByLabels,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
 	},
 	{
 		id: 3,
@@ -112,6 +106,10 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: milestoneApi.getMilestone,
 		getPopupContents: getContentsByMilestone,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
 	},
 	{
 		id: 4,
@@ -120,6 +118,10 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: usersApi.getUsers,
 		getPopupContents: getContentsByUsers,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
 	},
 ];
 
