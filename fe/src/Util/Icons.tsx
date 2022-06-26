@@ -13,6 +13,7 @@ import {
 	DirectionsOutlined,
 	AddBox,
 	FilePresent,
+	IndeterminateCheckBox,
 } from "@mui/icons-material";
 import { TKeysColors } from "Styles/theme";
 
@@ -28,6 +29,7 @@ const muiIcons = {
 	DirectionsOutlined,
 	AddBox,
 	FilePresent,
+	IndeterminateCheckBox,
 };
 
 type TResultButton = {

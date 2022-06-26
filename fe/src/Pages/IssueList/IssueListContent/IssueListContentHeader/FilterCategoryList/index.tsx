@@ -131,11 +131,11 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 ];
 
 const FilterCategoryList = () => {
-	const categoryList = filterCategoryItems.map((item: TOptionButtonWithPopupItem) => (
+	const filterCategoryList = filterCategoryItems.map((item: TOptionButtonWithPopupItem) => (
 		<OptionButtonWithPopup item={item} />
 	));
 
-	return <StyledFilterCategoryList>{categoryList}</StyledFilterCategoryList>;
+	return <StyledFilterCategoryList>{filterCategoryList}</StyledFilterCategoryList>;
 };
 
 export default FilterCategoryList;
