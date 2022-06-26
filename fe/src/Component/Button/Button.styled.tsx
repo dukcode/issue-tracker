@@ -16,6 +16,14 @@ const StyledAddIssue = styled.div`
 		color: ${colors.offWhite};
 		background-color: ${colors.blue};
 
+		:hover {
+			opacity: 0.8;
+		}
+
+		:active {
+			opacity: 1;
+		}
+
 		svg {
 			margin-top: -2px;
 		}
