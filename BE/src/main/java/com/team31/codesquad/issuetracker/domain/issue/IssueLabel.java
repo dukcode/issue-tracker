@@ -32,8 +32,9 @@ public class IssueLabel extends BaseTimeEntity {
     @JoinColumn(name = "label_id")
     private Label label;
 
-    public IssueLabel(Label label) {
+    public IssueLabel(Label label, Issue issue) {
         this.label = label;
+        this.issue = issue;
     }
 
     public void setIssue(Issue issue) {

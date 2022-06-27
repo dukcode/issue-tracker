@@ -32,7 +32,8 @@ public class AssignedUser extends BaseTimeEntity {
     @JoinColumn(name = "assignee_id")
     private User assignee;
 
-    public AssignedUser(User assignee) {
+    public AssignedUser(User assignee, Issue issue) {
+        this.issue = issue;
         this.assignee = assignee;
     }
 
