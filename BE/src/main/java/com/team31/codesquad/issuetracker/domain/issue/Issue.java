@@ -7,7 +7,9 @@ import com.team31.codesquad.issuetracker.domain.user.AssignedUser;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,7 +49,7 @@ public class Issue extends BaseTimeEntity {
     private User author;
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
-    private List<AssignedUser> assignees = new ArrayList<>();
+    private Set<AssignedUser> assignees = new HashSet<>();
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
     private List<IssueLabel> issueLabels = new ArrayList<>();
@@ -66,7 +68,7 @@ public class Issue extends BaseTimeEntity {
     private User statusChangeUser;
 
     public static Issue createIssue(String title, User author, List<AssignedUser> assignedUsers,
-            List<IssueLabel> issueLabels, Milestone milestone) {
+            List<IssueLabel> issueLabels, Milestone milestone, Comment comment) {
         Issue issue = new Issue();
         issue.status = IssueStatus.OPEN;
         issue.title = title;
@@ -80,6 +82,7 @@ public class Issue extends BaseTimeEntity {
         issue.milestone = milestone;
         issue.statusChangedAt = LocalDateTime.now();
         issue.statusChangeUser = author;
+        issue.addComment(comment);
 
         return issue;
     }
@@ -91,7 +94,7 @@ public class Issue extends BaseTimeEntity {
     }
 
     public void updateAssignedUsers(List<AssignedUser> assignedUsers) {
-        this.assignees = new ArrayList<>();
+        this.assignees = new HashSet<>();
         for (AssignedUser assignedUser : assignedUsers) {
             addAssignedUser(assignedUser);
         }
@@ -123,7 +126,7 @@ public class Issue extends BaseTimeEntity {
         this.status = status;
         this.statusChangeUser = statusChangeUser;
         this.statusChangedAt = LocalDateTime.now();
-        Comment comment = Comment.createStatusChangeComment(this, status, statusChangeUser);
+        Comment comment = Comment.createStatusChangeComment(status, statusChangeUser);
         addComment(comment);
     }
 

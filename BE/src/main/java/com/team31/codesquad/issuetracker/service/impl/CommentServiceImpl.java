@@ -11,10 +11,10 @@ import com.team31.codesquad.issuetracker.domain.user.UserRepository;
 import com.team31.codesquad.issuetracker.dto.comment.CommentCreateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.CommentUpdateRequest;
 import com.team31.codesquad.issuetracker.dto.comment.ReactionResponse;
-import com.team31.codesquad.issuetracker.dto.reaction.ReactionCreateRequest;
+import com.team31.codesquad.issuetracker.dto.reaction.ReactionToggleRequest;
 import com.team31.codesquad.issuetracker.service.CommentService;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
@@ -34,80 +34,64 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public Long createComment(Long issueId, CommentCreateRequest request,
-            String loginName) {
+            User loginUser) {
         Issue issue = issueRepository.findById(issueId)
                 .orElseThrow(() -> new IllegalArgumentException(
                         "존재하지 않는 issue 입니다. issueId = " + issueId));
 
-        User author = userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
-        Comment comment = new Comment(issue, author, request.getContent());
+        Comment comment = new Comment(issue, loginUser, request.getContent());
         commentRepository.save(comment);
         return comment.getId();
     }
 
     @Transactional
     @Override
-    public void deleteComment(Long issueId, Long commentId, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
+    public void deleteComment(Long issueId, Long commentId, User loginUser) {
+        Comment comment = findCommentWithExistValidation(commentId);
         comment.validateIssue(issueId);
-        comment.validateAuthor(loginName);
+        comment.validateAuthor(loginUser);
         commentRepository.deleteById(commentId);
     }
 
     @Transactional
     @Override
     public void update(Long issueId, Long commentId,
-            CommentUpdateRequest request, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
+            CommentUpdateRequest request, User loginUser) {
+        Comment comment = findCommentWithExistValidation(commentId);
 
         comment.validateIssue(issueId);
-        comment.validateAuthor(loginName);
+        comment.validateAuthor(loginUser);
         comment.update(request.getContent());
     }
 
     @Transactional
     @Override
-    public void updateReactions(Long issueId, Long commentId,
-            ReactionCreateRequest request, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
+    public void toggleReaction(Long commentId, ReactionToggleRequest request, User loginUser) {
+        Comment comment = findCommentWithExistValidation(commentId);
 
-        comment.validateIssue(issueId);
+        Optional<Reaction> reaction = reactionRepository.findByUserAndCommentAndEmoji(
+                loginUser, comment, request.getEmoji());
 
-        User user = userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
-
-        // TODO: 요청중에 기존 reaction과 중복되는 것 지울 필요 있을까?
-        reactionRepository.deleteAllInBatch(comment.getReactions());
-        List<Reaction> reactions = request.getEmojis().stream()
-                .map(e -> new Reaction(user, comment, e))
-                .collect(Collectors.toList());
-        reactionRepository.saveAll(reactions);
+        if (reaction.isPresent()) {
+            reactionRepository.delete(reaction.get());
+            return;
+        }
+        reactionRepository.save(new Reaction(loginUser, comment, request.getEmoji()));
     }
 
     @Override
-    public ReactionResponse getReactions(Long issueId, Long commentId, String loginName) {
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 comment 입니다. commentId = " + commentId));
+    public ReactionResponse getLoginUserReactions(Long commentId, User loginUser) {
+        Comment comment = findCommentWithExistValidation(commentId);
 
-        comment.validateIssue(issueId);
-
-        User user = userRepository.findByLoginName(loginName)
-                .orElseThrow(() -> new IllegalArgumentException(
-                        "존재하지 않는 user 입니다. loginName = " + loginName));
-
-        List<Reaction> reactions = reactionRepository.findAllByUserAndComment(user,
+        List<Reaction> reactions = reactionRepository.findAllByUserAndComment(loginUser,
                 comment);
 
         return new ReactionResponse(reactions);
+    }
+
+    private Comment findCommentWithExistValidation(Long commentId) {
+        return commentRepository.findById(commentId)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "존재하지 않는 comment 입니다. commentId = " + commentId));
     }
 }

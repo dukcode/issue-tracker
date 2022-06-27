@@ -57,10 +57,14 @@ public class Comment extends BaseTimeEntity {
         this.systemMessage = false;
     }
 
-    public static Comment createStatusChangeComment(Issue issue,
-            IssueStatus status, User statusChangeUser) {
+    public Comment(User author, String content) {
+        this.author = author;
+        this.content = content;
+        this.systemMessage = false;
+    }
+
+    public static Comment createStatusChangeComment(IssueStatus status, User statusChangeUser) {
         Comment comment = new Comment();
-        comment.issue = issue;
         comment.author = statusChangeUser;
         comment.content =
                 status.equals(IssueStatus.OPEN) ? ISSUE_OPEN_MESSAGE : ISSUE_CLOSED_MESSAGE;
@@ -79,8 +83,8 @@ public class Comment extends BaseTimeEntity {
         }
     }
 
-    public void validateAuthor(String loginName) {
-        if (!loginName.equals(getAuthor().getLoginName())) {
+    public void validateAuthor(User user) {
+        if (!user.equals(getAuthor())) {
             throw new IllegalArgumentException("작성자만 접근이 가능합니다.");
         }
     }

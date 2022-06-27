@@ -53,7 +53,7 @@ public class OAuthService {
     }
 
     private User saveOrUpdate(UserProfile userProfile) {
-        User user = userRepository.findByLoginName(userProfile.getLoginName())
+        User user = userRepository.findOptionalByLoginName(userProfile.getLoginName())
                 .map(entity -> entity.update(
                         userProfile.getName(), userProfile.getEmail(),
                         userProfile.getProfileImage()))

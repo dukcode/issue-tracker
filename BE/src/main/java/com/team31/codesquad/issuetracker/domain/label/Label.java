@@ -39,7 +39,7 @@ public class Label extends BaseTimeEntity {
     @Column(nullable = false)
     private TextColor textColor;
 
-    @OneToMany(mappedBy = "label", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "label", cascade = CascadeType.REMOVE)
     private List<IssueLabel> issueLabels = new ArrayList<>();
 
     public Label(String name, String description, String labelColor,
