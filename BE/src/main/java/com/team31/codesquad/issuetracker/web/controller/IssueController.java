@@ -44,7 +44,7 @@ public class IssueController {
     @Operation(summary = "Issue 목록 조회",
             description = "q와, page에 따라 필터링 된 Issue를 조회한다.")
     public OpenClosedCountResult<List<IssueResponse>> getIssues(
-            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(name = "q", defaultValue = "is:open") String query) {
 
         return issueService.findAll(page, query);
