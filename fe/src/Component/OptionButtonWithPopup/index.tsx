@@ -4,7 +4,7 @@ import { AxiosResponse } from "axios";
 import { TResultIcon } from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import { useState } from "react";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 
 type TIcons = { DownIcon?: TResultIcon; UpIcon?: TResultIcon } | undefined;
 

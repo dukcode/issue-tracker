@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import UserImg from "Component/UserImg";
 import warning from "Img/warning.png";
 import { StyledHeader, StyledHeaderLogo } from "./Header.styled";

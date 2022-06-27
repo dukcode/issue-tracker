@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import icons from "Util/Icons";
 import { useNavigate } from "react-router-dom";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import warning from "Img/warning.png";
 import {
 	StyledLogin,
