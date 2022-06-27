@@ -52,7 +52,7 @@ public class Issue extends BaseTimeEntity {
     private Set<AssignedUser> assignees = new HashSet<>();
 
     @OneToMany(mappedBy = "issue", cascade = CascadeType.ALL)
-    private List<IssueLabel> issueLabels = new ArrayList<>();
+    private Set<IssueLabel> issueLabels = new HashSet<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "milestone_id")
@@ -134,7 +134,7 @@ public class Issue extends BaseTimeEntity {
     }
 
     public void updateIssueLabels(List<IssueLabel> issueLabels) {
-        this.issueLabels = new ArrayList<>();
+        this.issueLabels = new HashSet<>();
         for (IssueLabel issueLabel : issueLabels) {
             addIssueLabel(issueLabel);
         }
