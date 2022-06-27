@@ -2,6 +2,7 @@ package com.team31.codesquad.issuetracker.domain.issue;
 
 import com.team31.codesquad.issuetracker.domain.BaseTimeEntity;
 import com.team31.codesquad.issuetracker.domain.label.Label;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -32,11 +33,29 @@ public class IssueLabel extends BaseTimeEntity {
     @JoinColumn(name = "label_id")
     private Label label;
 
-    public IssueLabel(Label label) {
+    public IssueLabel(Label label, Issue issue) {
         this.label = label;
+        this.issue = issue;
     }
 
     public void setIssue(Issue issue) {
         this.issue = issue;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        IssueLabel that = (IssueLabel) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
     }
 }

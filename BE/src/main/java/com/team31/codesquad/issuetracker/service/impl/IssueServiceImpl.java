@@ -83,12 +83,13 @@ public class IssueServiceImpl implements IssueService {
     public IssueCreateResponse createIssue(IssueCreateRequest request, User loginUser) {
         Milestone milestone = getMilestone(request.getMilestoneId());
         Comment comment = new Comment(loginUser, request.getCommentCreateRequest().getContent());
-        List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
-        List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
-
-        Issue issue = Issue.createIssue(request.getTitle(), loginUser,
-                assignedUsers, issueLabels, milestone, comment);
+        Issue issue = Issue.createIssue(request.getTitle(), loginUser, milestone, comment);
         issueRepository.save(issue);
+
+        List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds(), issue);
+        List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds(), issue);
+        assignedUserRepository.saveAll(assignedUsers);
+        issueLabelRepository.saveAll(issueLabels);
 
         return new IssueCreateResponse(issue.getId(), comment.getId());
     }
@@ -127,7 +128,7 @@ public class IssueServiceImpl implements IssueService {
         Issue issue = findIssueWithExistValidation(issueId);
         assignedUserRepository.deleteAll(issue.getAssignees());
 
-        List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds());
+        List<AssignedUser> assignedUsers = createAssignedUsers(request.getAssigneeIds(), issue);
         issue.updateAssignedUsers(assignedUsers);
     }
 
@@ -152,7 +153,7 @@ public class IssueServiceImpl implements IssueService {
         Issue issue = findIssueWithExistValidation(issueId);
         issueLabelRepository.deleteAll(issue.getIssueLabels());
 
-        List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds());
+        List<IssueLabel> issueLabels = createIssueLabels(request.getLabelIds(), issue);
         issue.updateIssueLabels(issueLabels);
     }
 
@@ -165,25 +166,25 @@ public class IssueServiceImpl implements IssueService {
                         "존재하지 않는 milestone 입니다. id = " + milestoneId));
     }
 
-    private List<IssueLabel> createIssueLabels(List<Long> labelIds) {
+    private List<IssueLabel> createIssueLabels(List<Long> labelIds, Issue issue) {
         if (labelIds == null || labelIds.size() == 0) {
             return new ArrayList<>();
         }
 
         List<IssueLabel> issueLabels = labelRepository.findAllById(labelIds).stream()
-                .map(IssueLabel::new)
+                .map(label -> new IssueLabel(label, issue))
                 .collect(Collectors.toList());
 
         return issueLabels;
     }
 
-    private List<AssignedUser> createAssignedUsers(List<Long> assigneeIds) {
+    private List<AssignedUser> createAssignedUsers(List<Long> assigneeIds, Issue issue) {
         if (assigneeIds == null || assigneeIds.size() == 0) {
             return new ArrayList<>();
         }
 
         List<AssignedUser> assignedUsers = userRepository.findAllById(assigneeIds).stream()
-                .map(AssignedUser::new)
+                .map(user -> new AssignedUser(user, issue))
                 .collect(Collectors.toList());
 
         return assignedUsers;
