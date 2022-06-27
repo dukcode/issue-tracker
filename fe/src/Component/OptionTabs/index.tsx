@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import icons from "Util/Icons";
 import Button from "Component/Button";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
@@ -12,6 +12,7 @@ const MILESTONE = "마일스톤";
 const ADD_ISSUE = "이슈 작성";
 
 const OptionTabs = () => {
+	const navigate = useNavigate();
 	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
 	const [milestoneCount, setMilestoneCount] = useState(0);
@@ -55,9 +56,16 @@ const OptionTabs = () => {
 		getLabelMilestoneCount();
 	}, []);
 
+	const handleClickedButton = (e: any) => {
+		console.log(e.target);
+		// TODO: 라우팅
+		navigate(`/labels`);
+	};
+
 	return (
 		<StyledOptionTabs>
-			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
+			<StyledTabsLabelMilestone onClick={handleClickedButton}>{tabs}</StyledTabsLabelMilestone>
+
 			<Link to="new-issue">
 				<Button content={ADD_ISSUE} icon="AddBox" />
 			</Link>

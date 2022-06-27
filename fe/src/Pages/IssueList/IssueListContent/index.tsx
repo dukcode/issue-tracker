@@ -4,7 +4,7 @@ import issuesApi from "Api/issuesApi";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import IssueCell from "Pages/IssueList/IssueCell";
-import TIssueData from "Pages/IssueList/mockData";
+import { TIssueData } from "Pages/IssueList/mockData";
 import StyledContent from "Component/StyledContent";
 import IssueListContentHeader from "./IssueListContentHeader";
 

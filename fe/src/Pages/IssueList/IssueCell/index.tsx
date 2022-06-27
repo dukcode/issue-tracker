@@ -5,7 +5,7 @@ import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
-import TIssueData from "Pages/IssueList/mockData";
+import { TIssueData } from "Pages/IssueList/mockData";
 import {
 	StyledIssueCell,
 	IssueCellLeft,
