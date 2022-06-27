@@ -1,4 +1,5 @@
 import React, { ReactNode, useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+
 import { StyledPopup, StyledPopupWrapper } from "./Popup.styled";
 import PopupContent, { TContentProps } from "./PopupContent";
 
@@ -20,7 +21,7 @@ const defaultPopupProps = {
 
 const Popup = ({ children, isLeft, title, contents, setOption }: TPopupProps) => {
 	const contentsList = contents.map(
-		({ id, name, image, imageType, clickEventHandler, isCheckBox, disabledOption }) => (
+		({ id, name, image, imageType, clickEventHandler, isCheckBox, disabledOption, atom }) => (
 			<PopupContent
 				key={id}
 				name={name}
@@ -29,6 +30,7 @@ const Popup = ({ children, isLeft, title, contents, setOption }: TPopupProps) =>
 				clickEventHandler={clickEventHandler}
 				isCheckBox={isCheckBox}
 				disabledOption={disabledOption}
+				atom={atom}
 			/>
 		)
 	);

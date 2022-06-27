@@ -1,4 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
+import { RecoilState, useRecoilState } from "recoil";
+
 import { Checkbox } from "@mui/material";
 import UserImg from "Component/UserImg";
 import { StyledPopupContent, StyledPopupName } from "./PopupContent.styled";
@@ -10,6 +12,7 @@ type TContentProps = {
 	isCheckBox?: boolean;
 	clickEventHandler?: (event: React.MouseEvent) => void;
 	disabledOption?: boolean;
+	atom?: RecoilState<any[]>;
 };
 
 const defaultContentProps = {
@@ -18,6 +21,7 @@ const defaultContentProps = {
 	isCheckBox: true,
 	clickEventHandler: undefined,
 	disabledOption: false,
+	atom: undefined,
 };
 
 const PopupContent = ({
@@ -27,8 +31,10 @@ const PopupContent = ({
 	isCheckBox,
 	clickEventHandler,
 	disabledOption,
+	atom,
 }: TContentProps) => {
 	const [checked, setChecked] = useState(false);
+	const [atomState, setAtomState] = atom ? useRecoilState(atom) : [null, null];
 	const contentTag = clickEventHandler ? "button" : "div";
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -37,6 +43,12 @@ const PopupContent = ({
 
 	const handleClickContent = (event: React.MouseEvent) => {
 		if (clickEventHandler) clickEventHandler(event);
+		if (atomState) {
+			const newAtomState = atomState.includes(name)
+				? atomState.filter((value) => value !== name)
+				: [...atomState, name];
+			setAtomState(newAtomState);
+		}
 		setChecked(!checked);
 	};
 
