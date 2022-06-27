@@ -14,7 +14,7 @@ public class ReactionResponse {
 
     public ReactionResponse(List<Reaction> reactions) {
         this.emojis = reactions.stream()
-                .map(Reaction::getReactionEmoji)
+                .map(Reaction::getEmoji)
                 .collect(Collectors.toSet());
     }
 }
