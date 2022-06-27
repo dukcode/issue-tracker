@@ -1,19 +1,19 @@
 import styled, { css } from "styled-components";
 
 type TStyledLabelProps = {
-	color: string;
+	labelColor: string;
+	textColor: string;
 };
 
 export const StyledLabel = styled.div<TStyledLabelProps>`
-	${({ theme: { fonts, getTextColor }, color }) => css`
+	${({ theme: { fonts }, labelColor, textColor }) => css`
 		${fonts.linkXSmall};
 		width: fit-content;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
-		align-items: center;
-		background-color: ${color};
-		color: ${getTextColor(color)};
+		background-color: ${labelColor};
+		color: ${textColor};
 		border-radius: 30px;
 		padding: 4px 10px;
 	`}

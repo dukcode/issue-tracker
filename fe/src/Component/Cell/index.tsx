@@ -12,7 +12,7 @@ type TLabelData = {
 const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 	return (
 		<StyledCell>
-			<Label key={id} name={name} color={labelColor} />
+			<Label key={id} name={name} labelColor={labelColor} textColor={textColor} />
 			<div>{description}</div>
 
 			<div>{textColor}</div>

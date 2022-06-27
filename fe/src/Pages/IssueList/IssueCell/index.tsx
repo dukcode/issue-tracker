@@ -42,11 +42,9 @@ const IssueCell = ({
 }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
 	const { loginName, profileImage } = author;
-	const labels = labelsInfo
-		? labelsInfo.map(({ id: lableId, name, labelColor }) => (
-				<Label key={lableId} name={name} color={labelColor} />
-		  ))
-		: [];
+	const labels = labelsInfo.map(({ id: lableId, name, labelColor, textColor }) => (
+		<Label key={lableId} name={name} labelColor={labelColor} textColor={textColor} />
+	));
 	const editedTime = <Moment fromNow>{createDate}</Moment>;
 	const [checked, setChecked] = useState(false);
 
