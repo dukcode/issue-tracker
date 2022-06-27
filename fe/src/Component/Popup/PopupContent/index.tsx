@@ -36,11 +36,8 @@ const PopupContent = ({
 	};
 
 	const handleClickContent = (event: React.MouseEvent) => {
-		if (clickEventHandler) {
-			clickEventHandler(event);
-		} else {
-			setChecked(!checked);
-		}
+		if (clickEventHandler) clickEventHandler(event);
+		setChecked(!checked);
 	};
 
 	return (
