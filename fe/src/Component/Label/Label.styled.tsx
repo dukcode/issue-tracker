@@ -6,14 +6,14 @@ type TStyledLabelProps = {
 };
 
 export const StyledLabel = styled.div<TStyledLabelProps>`
-	${({ theme: { fonts }, labelColor, textColor }) => css`
+	${({ theme: { fonts, colors }, labelColor, textColor }) => css`
 		${fonts.linkXSmall};
 		width: fit-content;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		color: ${textColor === "LIGHT" ? colors.offWhite : colors.titleActive};
 		background-color: ${labelColor};
-		color: ${textColor};
 		border-radius: 30px;
 		padding: 4px 10px;
 	`}
