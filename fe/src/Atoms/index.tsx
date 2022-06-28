@@ -1,6 +1,7 @@
 import { atom } from "recoil";
 
 type TNewIssueOption = {
+	id: number;
 	name: string;
 	image?: string;
 	imageType?: string;

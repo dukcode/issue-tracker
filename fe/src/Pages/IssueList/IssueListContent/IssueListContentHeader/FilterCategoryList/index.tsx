@@ -132,7 +132,7 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 
 const FilterCategoryList = () => {
 	const filterCategoryList = filterCategoryItems.map((item: TOptionButtonWithPopupItem) => (
-		<OptionButtonWithPopup item={item} />
+		<OptionButtonWithPopup item={item} key={item.id} />
 	));
 
 	return <StyledFilterCategoryList>{filterCategoryList}</StyledFilterCategoryList>;
