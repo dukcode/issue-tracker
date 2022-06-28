@@ -18,6 +18,7 @@ export const StyledProgressBarInner = styled.div<TStyledProgressBarInnerProps>`
 	${({ theme: { colors }, ratio }) => css`
 		width: ${ratio}%;
 		height: 100%;
+		border-radius: 10px;
 
 		background-color: ${colors.blue};
 	`}
