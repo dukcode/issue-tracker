@@ -1,4 +1,6 @@
 import { useState, ChangeEvent } from "react";
+import { labelsApi } from "Api";
+import useCookieUserInfo from "Hooks";
 import icons from "Util/Icons";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -35,6 +37,7 @@ const getRandomColorCode = () => {
 };
 
 const AddNewLabel = () => {
+	const { accessToken } = useCookieUserInfo();
 	const [inputTitle, setInputTitle] = useState("");
 	const [inputDescription, setInputDescription] = useState("");
 	const [inputBackgroundColor, setInputBackgroundColor] = useState(DefaultBackgroundColor);
@@ -55,6 +58,28 @@ const AddNewLabel = () => {
 	const handleColorPick = () => {
 		const color = getRandomColorCode();
 		setInputBackgroundColor(`#${color}`);
+	};
+
+	const postNewLabel = async (
+		title: string,
+		description: string,
+		backgroundColor: string,
+		textColor: string
+	) => {
+		const response = await labelsApi.postLabel(
+			accessToken,
+			title,
+			description,
+			backgroundColor,
+			textColor
+		);
+		const { status: statusNum } = response;
+
+		if (statusNum && statusNum < 300) window.location.reload();
+	};
+
+	const handleAddNewLabel = () => {
+		postNewLabel(inputTitle, inputDescription, inputBackgroundColor, inputTextColor);
 	};
 
 	return (
@@ -107,7 +132,9 @@ const AddNewLabel = () => {
 						</FormControl>
 					</StyledTextColor>
 				</StyledColorSelect>
-				<Button content={DONE} icon="AddBox" />
+				<div onClick={handleAddNewLabel} onKeyUp={handleAddNewLabel} role="button" tabIndex={0}>
+					<Button content={DONE} icon="AddBox" />
+				</div>
 			</StyledAddNewLabelForm>
 		</StyledAddNewLabel>
 	);

@@ -26,10 +26,12 @@ export const StyledAddNewLabelForm = styled.div<IStyledAddNewLabelForm>`
 		margin-top: 96px;
 
 		> :last-child {
-			margin-left: auto;
-			margin-right: 20px;
-			margin-top: 24px;
-			${!hasInput && `opacity: 0.5`}
+			div {
+				margin-left: auto;
+				margin-right: 20px;
+				margin-top: 24px;
+				${!hasInput && `opacity: 0.5`}
+			}
 		}
 	`}
 `;
