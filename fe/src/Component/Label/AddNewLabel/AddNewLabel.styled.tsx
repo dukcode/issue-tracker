@@ -31,8 +31,8 @@ export const StyledMention = styled.div`
 
 export const StyledLabelWrapper = styled.div`
 	position: absolute;
-	top: 200px;
-	left: 131px;
+	top: 45%;
+	left: 40%;
 `;
 
 export const StyledInputArea = styled.form`
