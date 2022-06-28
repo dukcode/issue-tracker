@@ -27,16 +27,19 @@ export const StyledNewIssueOptions = styled.div`
 	`}
 `;
 
-export const StyledIssueOption = styled.button`
+export const StyledIssueOption = styled.div`
+	padding: 30px;
+`;
+
+export const StyledIssueOptionButton = styled.button`
 	${({ theme: { colors, fonts } }) => css`
 		${fonts.linkSmall};
 		color: ${colors.label};
 		cursor: pointer;
 		display: flex;
 		width: 100%;
-		height: 100px;
+		height: 50px;
 
-		padding: 30px;
 		align-items: center;
 		justify-content: space-between;
 	`}

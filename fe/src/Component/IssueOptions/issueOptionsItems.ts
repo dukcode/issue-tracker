@@ -3,7 +3,7 @@ import atoms from "Atoms";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
 import icons from "Util/Icons";
-import { StyledIssueOption } from "./IssueOptions.styled";
+import { StyledIssueOptionButton } from "./IssueOptions.styled";
 
 type TLabelData = {
 	id: number;
@@ -21,6 +21,8 @@ type TLabelResponseData = {
 type TMilestoneData = {
 	id: number;
 	title: string;
+	countOpen: number;
+	countClosed: number;
 };
 
 type TMilestoneResponseData = {
@@ -46,7 +48,6 @@ const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[]
 			name,
 			image: labelColor,
 			imageType: "color" as "color",
-			atom: atoms.newIssue.labels,
 		};
 	});
 	return newContents;
@@ -59,18 +60,17 @@ const getContentsByUsers = (data: TUsersData[]): TPopupContentProps[] => {
 			name: loginName,
 			image: profileImage,
 			imageType: "image" as "image",
-			atom: atoms.newIssue.users,
 		};
 	});
 	return newContents;
 };
 
 const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContentProps[] => {
-	const newContents = data.map(({ id, title }: TMilestoneData) => {
+	const newContents = data.map(({ id, title, countOpen, countClosed }: TMilestoneData) => {
 		return {
 			id,
 			name: title,
-			atom: atoms.newIssue.milestones,
+			option: { countOpen, countClosed },
 		};
 	});
 
@@ -89,7 +89,8 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			UpIcon: AddBox,
 			DownIcon: IndeterminateCheckBox,
 		},
-		StyledButton: StyledIssueOption,
+		StyledButton: StyledIssueOptionButton,
+		atom: atoms.newIssue.labels,
 	},
 	{
 		id: 2,
@@ -102,7 +103,8 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			UpIcon: AddBox,
 			DownIcon: IndeterminateCheckBox,
 		},
-		StyledButton: StyledIssueOption,
+		StyledButton: StyledIssueOptionButton,
+		atom: atoms.newIssue.users,
 	},
 	{
 		id: 3,
@@ -115,7 +117,8 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			UpIcon: AddBox,
 			DownIcon: IndeterminateCheckBox,
 		},
-		StyledButton: StyledIssueOption,
+		StyledButton: StyledIssueOptionButton,
+		atom: atoms.newIssue.milestones,
 	},
 ];
 

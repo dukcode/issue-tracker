@@ -1,6 +1,8 @@
 import { StyledComponent, DefaultTheme } from "styled-components";
 import { AxiosResponse } from "axios";
+import { RecoilState } from "recoil";
 
+import { TNewIssueOption } from "Atoms";
 import { TResultIcon } from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import { useState } from "react";
@@ -10,7 +12,7 @@ type TIcons = { DownIcon?: TResultIcon; UpIcon?: TResultIcon } | undefined;
 
 type TOptionButtonWithPopupItem = {
 	id: number;
-	title: string;
+	title: "담당자" | "레이블" | "마일스톤" | "작성자";
 	isLeft: boolean;
 	popupContents: TPopupContentProps[];
 	getData: (token: string) => Promise<
@@ -23,6 +25,7 @@ type TOptionButtonWithPopupItem = {
 	getPopupContents: (data: any) => TPopupContentProps[];
 	StyledButton: StyledComponent<"button", DefaultTheme, {}, never>;
 	icons?: TIcons;
+	atom?: RecoilState<TNewIssueOption[]>;
 };
 
 type TOptionButtonWithPopupProps = {
@@ -43,7 +46,7 @@ const getShowedIcon = (icons: TIcons, isDown: boolean) => {
 };
 
 const OptionButtonWithPopup = ({
-	item: { id, title, isLeft, popupContents, getData, getPopupContents, icons, StyledButton },
+	item: { id, title, isLeft, popupContents, getData, getPopupContents, icons, StyledButton, atom },
 }: TOptionButtonWithPopupProps) => {
 	const [contents, setContents] = useState(popupContents);
 	const [isDown, setIsDown] = useState(false);
@@ -63,7 +66,13 @@ const OptionButtonWithPopup = ({
 	};
 
 	return (
-		<Popup isLeft={isLeft} contents={contents} title={`${title} 필터`} setOption={setIsDown}>
+		<Popup
+			isLeft={isLeft}
+			contents={contents}
+			title={`${title} 필터`}
+			setOption={setIsDown}
+			atom={atom}
+		>
 			<StyledButton key={id} type="button" onMouseEnter={handleMouseEnter}>
 				<div>{title}</div>
 				{showedIcon}

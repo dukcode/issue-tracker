@@ -1,10 +1,29 @@
 import OptionButtonWithPopup from "Component/OptionButtonWithPopup";
 import issueOptionsItems from "./issueOptionsItems";
-import { StyledNewIssueOptions } from "./IssueOptions.styled";
+import {
+	SelectedOptionUsers,
+	SelectedOptionLabels,
+	SelectedOptionMilestones,
+} from "./SelectedOptions";
+import { StyledNewIssueOptions, StyledIssueOption } from "./IssueOptions.styled";
+
+const selectedOptionComponents = {
+	담당자: SelectedOptionUsers,
+	레이블: SelectedOptionLabels,
+	마일스톤: SelectedOptionMilestones,
+	작성자: SelectedOptionUsers,
+};
 
 const NewIssueOptions = () => {
 	const issueOptions = issueOptionsItems.map((item) => {
-		return <OptionButtonWithPopup item={item} />;
+		const { atom, title } = item;
+		const SelectedOptionComponent = selectedOptionComponents[title];
+		return (
+			<StyledIssueOption key={item.id}>
+				<OptionButtonWithPopup item={item} />
+				{atom && <SelectedOptionComponent atom={atom} />}
+			</StyledIssueOption>
+		);
 	});
 
 	return <StyledNewIssueOptions>{issueOptions}</StyledNewIssueOptions>;

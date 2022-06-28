@@ -46,7 +46,7 @@ const PopupContent = ({
 		const filteredAtomState = atomState.filter((value) => value.name === name);
 		const newAtomState = filteredAtomState.length
 			? atomState.filter((value) => value.name !== name)
-			: [...atomState, { name, image, imageType, option }];
+			: [...atomState, { id: atomState.length, name, image, imageType, option }];
 		setAtomState(newAtomState);
 	};
 

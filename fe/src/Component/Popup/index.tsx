@@ -1,5 +1,7 @@
 import React, { ReactNode, useState, useRef, useEffect, Dispatch, SetStateAction } from "react";
+import { RecoilState } from "recoil";
 
+import { TNewIssueOption } from "Atoms";
 import { StyledPopup, StyledPopupWrapper } from "./Popup.styled";
 import PopupContent, { TContentProps } from "./PopupContent";
 
@@ -13,15 +15,17 @@ type TPopupProps = {
 	title: string;
 	contents: TPopupContentProps[];
 	setOption?: Dispatch<SetStateAction<boolean>>;
+	atom?: RecoilState<TNewIssueOption[]>;
 };
 
 const defaultPopupProps = {
 	setOption: undefined,
+	atom: undefined,
 };
 
-const Popup = ({ children, isLeft, title, contents, setOption }: TPopupProps) => {
+const Popup = ({ children, isLeft, title, contents, setOption, atom }: TPopupProps) => {
 	const contentsList = contents.map(
-		({ id, name, image, imageType, clickEventHandler, isCheckBox, disabledOption, atom }) => (
+		({ id, name, image, imageType, clickEventHandler, isCheckBox, disabledOption, option }) => (
 			<PopupContent
 				key={id}
 				name={name}
@@ -31,6 +35,7 @@ const Popup = ({ children, isLeft, title, contents, setOption }: TPopupProps) =>
 				isCheckBox={isCheckBox}
 				disabledOption={disabledOption}
 				atom={atom}
+				option={option}
 			/>
 		)
 	);
