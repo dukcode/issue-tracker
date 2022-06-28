@@ -9,6 +9,7 @@ const StyledCell = styled.div`
 	display: flex;
 	align-items: center;
 	padding-left: 32px;
+	position: relative;
 
 	> :last-child {
 		margin-left: auto;
