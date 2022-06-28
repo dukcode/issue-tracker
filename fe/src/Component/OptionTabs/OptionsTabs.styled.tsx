@@ -16,6 +16,7 @@ const StyledOptionTabs = styled.div<IStyledOptionTabs>`
 	display: flex;
 	gap: 15px;
 	align-items: center;
+	// 여기서 style 줌
 `;
 
 const StyledTabsLabelMilestone = styled.div`

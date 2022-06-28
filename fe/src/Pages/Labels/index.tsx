@@ -21,6 +21,7 @@ const Labels = () => {
 	const [labelCount, setLabelCount] = useState(0);
 	const [labelData, setLabelData] = useState<TLabelData[]>([]);
 	const [cells, setCells] = useState([<IssuesNotification key="1" />]);
+	const [addNewLabelIsClicked, setAddNewLabelIsClicked] = useState(false);
 
 	const getLabelData = async () => {
 		const labelCountResponse = await labelsApi.getLabels(accessToken, true);
@@ -60,8 +61,12 @@ const Labels = () => {
 
 	return (
 		<>
-			<OptionTabs />
-			<AddNewLabel />
+			<OptionTabs
+				addNewLabelIsClicked={addNewLabelIsClicked}
+				setAddNewLabelIsClicked={setAddNewLabelIsClicked}
+			/>
+			{addNewLabelIsClicked && <AddNewLabel />}
+
 			<StyledContent>
 				<StyledLabelsHeader>{mention}</StyledLabelsHeader>
 				{cells}
