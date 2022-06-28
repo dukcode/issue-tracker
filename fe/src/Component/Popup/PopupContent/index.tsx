@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { RecoilState, useRecoilState } from "recoil";
+import { TNewIssueOption } from "Atoms";
 
 import { Checkbox } from "@mui/material";
 import UserImg from "Component/UserImg";
@@ -12,7 +13,8 @@ type TContentProps = {
 	isCheckBox?: boolean;
 	clickEventHandler?: (event: React.MouseEvent) => void;
 	disabledOption?: boolean;
-	atom?: RecoilState<any[]>;
+	atom?: RecoilState<TNewIssueOption[]>;
+	option?: { countOpen: number; countClosed: number };
 };
 
 const defaultContentProps = {
@@ -22,6 +24,7 @@ const defaultContentProps = {
 	clickEventHandler: undefined,
 	disabledOption: false,
 	atom: undefined,
+	option: undefined,
 };
 
 const PopupContent = ({
@@ -32,10 +35,20 @@ const PopupContent = ({
 	clickEventHandler,
 	disabledOption,
 	atom,
+	option,
 }: TContentProps) => {
 	const [checked, setChecked] = useState(false);
 	const [atomState, setAtomState] = atom ? useRecoilState(atom) : [null, null];
 	const contentTag = clickEventHandler ? "button" : "div";
+
+	const setNewAtomState = () => {
+		if (!atomState) return;
+		const filteredAtomState = atomState.filter((value) => value.name === name);
+		const newAtomState = filteredAtomState.length
+			? atomState.filter((value) => value.name !== name)
+			: [...atomState, { name, image, imageType, option }];
+		setAtomState(newAtomState);
+	};
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setChecked(event.target.checked);
@@ -43,12 +56,7 @@ const PopupContent = ({
 
 	const handleClickContent = (event: React.MouseEvent) => {
 		if (clickEventHandler) clickEventHandler(event);
-		if (atomState) {
-			const newAtomState = atomState.includes(name)
-				? atomState.filter((value) => value !== name)
-				: [...atomState, name];
-			setAtomState(newAtomState);
-		}
+		setNewAtomState();
 		setChecked(!checked);
 	};
 
