@@ -17,6 +17,7 @@ import {
 	RemoveCircleOutline,
 	Edit,
 	DeleteOutline,
+	Loop,
 } from "@mui/icons-material";
 import { TKeysColors } from "Styles/theme";
 
@@ -36,6 +37,7 @@ const muiIcons = {
 	RemoveCircleOutline,
 	Edit,
 	DeleteOutline,
+	Loop,
 };
 
 type TResultButton = {

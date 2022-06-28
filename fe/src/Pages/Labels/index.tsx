@@ -5,6 +5,7 @@ import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
 import Cell from "Component/Cell";
 import OptionTabs from "Component/OptionTabs";
+import AddNewLabel from "Component/Label/AddNewLabel";
 import StyledLabelsHeader from "./Labels.styled";
 
 type TLabelData = {
@@ -60,6 +61,7 @@ const Labels = () => {
 	return (
 		<>
 			<OptionTabs />
+			<AddNewLabel />
 			<StyledContent>
 				<StyledLabelsHeader>{mention}</StyledLabelsHeader>
 				{cells}
