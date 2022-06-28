@@ -12,9 +12,7 @@ export type TIssuesInfo = {
 	};
 };
 
-type TUseIssuessMethod = "GET" | "POST";
-
-const useIssues = (method: TUseIssuessMethod) => {
+export const useIssuesGet = (id?: string) => {
 	const { accessToken } = useCookieUserInfo();
 	const baseURL = `${process.env.REACT_APP_API}/issues`;
 	const client = axios.create({
@@ -24,23 +22,15 @@ const useIssues = (method: TUseIssuessMethod) => {
 			Authorization: `Bearer ${accessToken}`,
 		},
 	});
+	const detail = id ? `/${id}` : "";
 
 	const issuesGetApi = async () => {
-		const { data } = await client.get("");
+		const { data } = await client.get(detail);
 		return data;
 	};
 
-	const issuesPostApi = async (newIssuesInfo: TIssuesInfo) => {
-		const { data } = await client.post("", newIssuesInfo);
-		return data;
-	};
+	const result = id ? useQuery("issues", issuesGetApi) : useQuery("issue", issuesGetApi);
 
-	const queryOptions = {
-		GET: useQuery("issues", issuesGetApi),
-		POST: useMutation(issuesPostApi),
-	};
-
-	const result = queryOptions[method];
 	return result;
 };
 
@@ -61,5 +51,3 @@ export const useIssuesPost = () => {
 	const mutation = useMutation(issuesPostApi);
 	return mutation;
 };
-
-export default useIssues;
