@@ -90,7 +90,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.labels,
+		atom: atoms.newIssue.users,
 	},
 	{
 		id: 2,
@@ -104,7 +104,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.users,
+		atom: atoms.newIssue.labels,
 	},
 	{
 		id: 3,
