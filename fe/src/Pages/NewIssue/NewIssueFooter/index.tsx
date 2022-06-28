@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useIssuesPost, TIssuesInfo } from "Hooks/useIssues";
 import atoms from "Atoms";
 import Button from "Component/Button";
+import TextButton from "Component/TextButton";
 import { StyledNewIssueFooter } from "./NewIssueFooter.styled";
 
 type TNewIssueKey = keyof typeof atoms.newIssue;
@@ -35,23 +36,38 @@ const NewIssueFooter = () => {
 		milestoneId,
 		commentCreateRequest,
 	};
-	const { mutate, isSuccess } = useIssuesPost();
+	const { mutate, isSuccess, isLoading } = useIssuesPost();
+
+	const deleteNewIssueInfo = () => {
+		newIssueResetters.forEach((resetter) => resetter());
+		navigate("/");
+	};
 
 	const handleButtonClick = () => {
 		mutate(newIssuesInfo);
 	};
 
+	const handleTextButtonClick = () => {
+		deleteNewIssueInfo();
+	};
+
 	useEffect(() => {
-		if (isSuccess) {
-			newIssueResetters.forEach((resetter) => resetter());
-			navigate("/");
-		}
+		if (isSuccess) deleteNewIssueInfo();
 	}, [isSuccess]);
 
 	return (
 		<StyledNewIssueFooter>
-			<div>취소 버튼 위치</div>
-			<Button content="완료" size="medium" clickHandler={handleButtonClick} />
+			<TextButton
+				icon="RemoveCircleOutline"
+				content="작성 취소"
+				handleClick={handleTextButtonClick}
+			/>
+			<Button
+				content="완료"
+				size="medium"
+				clickHandler={handleButtonClick}
+				disableOption={isLoading}
+			/>
 		</StyledNewIssueFooter>
 	);
 };
