@@ -25,6 +25,10 @@ const StyledTextButton = styled.div`
 				color: ${colors.titleActive};
 			}
 		}
+
+		:disabled {
+			opacity: 0.5;
+		}
 	`}
 `;
 
