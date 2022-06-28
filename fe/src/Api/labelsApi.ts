@@ -43,6 +43,21 @@ const labelsApi = {
 
 		return response;
 	},
+	deleteLabel: async (token: string, id: number) => {
+		const response = await client
+			.delete(`${id}`, {
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
+				},
+			})
+			.catch((error: Error | AxiosError) => {
+				if (axios.isAxiosError(error)) return error.response as AxiosResponse;
+				return { data: error, status: null };
+			});
+
+		return response;
+	},
 };
 
 export default labelsApi;

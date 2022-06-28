@@ -1,5 +1,7 @@
 import Label from "Component/Label";
 import icons from "Util/Icons";
+import { labelsApi } from "Api";
+import useCookieUserInfo from "Hooks";
 import {
 	StyledCell,
 	StyledCellDescription,
@@ -21,27 +23,39 @@ type TLabelData = {
 const EDIT = "편집";
 const DELETE = "삭제";
 
-const buttonsInfo = [
-	{ id: 1, Icon: Edit, name: EDIT },
-	{ id: 2, Icon: DeleteOutline, name: DELETE },
-];
-
-const buttons = buttonsInfo.map(({ id, Icon, name }) => {
-	const buttonColor = name === EDIT ? "label" : "red";
-	return (
-		<StyledButton key={id}>
-			<Icon size={20} colorset={buttonColor} />
-			<StyledButtonName buttonColor={buttonColor}>{name}</StyledButtonName>
-		</StyledButton>
-	);
-});
-
 const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
+	const { accessToken } = useCookieUserInfo();
+
+	const handleLabelEdit = () => {
+		// TODO: 레이블 편집 구현
+		console.log("handleLabelEdit");
+	};
+
+	const deleteLabel = async (issueNumber: number) => {
+		const response = await labelsApi.deleteLabel(accessToken, issueNumber);
+		const { status: statusNum } = response;
+
+		if (statusNum && statusNum < 300) window.location.reload();
+	};
+
+	const handleLabelDelete = () => {
+		deleteLabel(id);
+	};
+
 	return (
 		<StyledCell>
 			<Label key={id} name={name} labelColor={labelColor} textColor={textColor} />
 			<StyledCellDescription>{description}</StyledCellDescription>
-			<StyledButtons>{buttons}</StyledButtons>
+			<StyledButtons>
+				<StyledButton onClick={handleLabelEdit}>
+					<Edit size={20} colorset="label" />
+					<StyledButtonName buttonColor="label">{EDIT}</StyledButtonName>
+				</StyledButton>
+				<StyledButton onClick={handleLabelDelete}>
+					<DeleteOutline size={20} colorset="red" />
+					<StyledButtonName buttonColor="red">{DELETE}</StyledButtonName>
+				</StyledButton>
+			</StyledButtons>
 		</StyledCell>
 	);
 };
