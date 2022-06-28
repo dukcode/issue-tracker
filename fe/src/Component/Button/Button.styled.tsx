@@ -39,6 +39,10 @@ const StyledButton = styled.button<TStyledButtonProps>`
 			opacity: 1;
 		}
 
+		:disabled {
+			opacity: 0.5;
+		}
+
 		svg {
 			margin-top: -2px;
 		}
