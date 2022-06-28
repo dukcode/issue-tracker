@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import icons from "Util/Icons";
 import Button from "Component/Button";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import { milestoneApi, labelsApi } from "Api";
-import { StyledOptionTabs, StyledTabsLabelMilestone } from "./OptionsTabs.styled";
+import { StyledOptionTabs, StyledTabsLabelMilestone, StyledTab } from "./OptionsTabs.styled";
 
 const { BookmarksOutlined, DirectionsOutlined } = icons;
 const LABEL = "레이블";
@@ -14,10 +14,10 @@ const ADD_LABEL = "추가";
 
 const OptionTabs = () => {
 	const location = useLocation();
-	const navigate = useNavigate();
 	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
 	const [milestoneCount, setMilestoneCount] = useState(0);
+	// const [addNewLabelIsClicked, setAddNewLabelIsClicked] = useState(false);
 	const tabsInfo = [
 		{
 			id: 1,
@@ -35,12 +35,15 @@ const OptionTabs = () => {
 	const isLabels = location.pathname === "/labels";
 
 	const tabs = tabsInfo.map(({ id, Icon, name, count }) => {
+		const nextPage = name === LABEL ? "/labels" : "/milestones";
 		return (
-			<div key={id}>
-				<Icon colorset="label" size={20} />
-				<div>{name}</div>
-				<div>({count})</div>
-			</div>
+			<Link to={nextPage}>
+				<StyledTab key={id} className={name}>
+					<Icon colorset="label" size={20} />
+					<div>{name}</div>
+					<div>({count})</div>
+				</StyledTab>
+			</Link>
 		);
 	});
 
@@ -59,15 +62,13 @@ const OptionTabs = () => {
 		getLabelMilestoneCount();
 	}, []);
 
-	const handleClickedButton = (e: any) => {
-		console.log(e.target);
-		// TODO: 라우팅
-		navigate(`/labels`);
-	};
+	// const handleAddNewLabelIsClicked = () => {
+	// 	setAddNewLabelIsClicked(!addNewLabelIsClicked);
+	// };
 
 	return (
 		<StyledOptionTabs isLabels={isLabels}>
-			<StyledTabsLabelMilestone onClick={handleClickedButton}>{tabs}</StyledTabsLabelMilestone>
+			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
 			{isLabels ? (
 				<Button content={ADD_LABEL} icon="AddBox" />
 			) : (
