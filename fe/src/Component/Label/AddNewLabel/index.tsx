@@ -19,7 +19,6 @@ import {
 } from "./AddNewLabel.styled";
 
 const NAME = "레이블 이름";
-const INPUTBACKGROUND = "#EFF0F6";
 const DARK = "DARK";
 const MENTION = "새로운 레이블 추가";
 const defaultInputTitle = "레이블 이름";
@@ -36,7 +35,7 @@ const AddNewLabel = () => {
 	const [inputTitle, setInputTitle] = useState("");
 	const [inputDescription, setInputDescription] = useState("");
 	const [inputBackgroundColor, setInputBackgroundColor] = useState("#c2e0c6");
-	const [inputTextColor, setInputTextColor] = useState("DARK");
+	const [inputTextColor, setInputTextColor] = useState(DARK);
 	const handleInputTitle = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
 		setInputTitle(value);
@@ -60,17 +59,27 @@ const AddNewLabel = () => {
 			<StyledAddNewLabelTitle>
 				<StyledMention>{MENTION}</StyledMention>
 				<StyledLabelWrapper>
-					<Label name={NAME} labelColor={INPUTBACKGROUND} textColor={DARK} />
+					<Label
+						name={!inputTitle ? NAME : inputTitle}
+						labelColor={inputBackgroundColor}
+						textColor={inputTextColor}
+					/>
 				</StyledLabelWrapper>
 			</StyledAddNewLabelTitle>
 			<StyledAddNewLabelForm>
 				<StyledInputArea>
-					<input placeholder={defaultInputTitle} value={inputTitle} onChange={handleInputTitle} />
+					<input
+						placeholder={defaultInputTitle}
+						value={inputTitle}
+						maxLength={30}
+						onChange={handleInputTitle}
+					/>
 				</StyledInputArea>
 				<StyledInputArea>
 					<input
 						placeholder={defaultInputDescription}
 						value={inputDescription}
+						maxLength={50}
 						onChange={handleInputDescription}
 					/>
 				</StyledInputArea>

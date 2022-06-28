@@ -55,6 +55,7 @@ export const StyledInputArea = styled.form`
 			color: ${colors.titleActive};
 			outline: none;
 			border: none;
+			width: 700px;
 		}
 	`}
 `;
@@ -103,7 +104,8 @@ export const StyledTextColor = styled.div`
 
 export const StyledInputBackgroundColor = styled.div`
 	${({ theme: { colors, fonts } }) => css`
-		${fonts.textSmall}
-		color: ${colors.titleActive}
+		${fonts.textSmall};
+		color: ${colors.titleActive};
+		width: 65px;
 	`}
 `;
