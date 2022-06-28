@@ -29,7 +29,7 @@ export const useIssuesGet = (id?: string) => {
 		return data;
 	};
 
-	const result = id ? useQuery("issues", issuesGetApi) : useQuery("issue", issuesGetApi);
+	const result = id ? useQuery("issue", issuesGetApi) : useQuery("issues", issuesGetApi);
 
 	return result;
 };

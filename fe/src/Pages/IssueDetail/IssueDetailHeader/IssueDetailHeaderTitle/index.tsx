@@ -9,8 +9,7 @@ import {
 } from "./IssueDetailHeaderTitle.styled";
 
 const IssueDetailHeaderTitle = () => {
-	const params = useParams();
-	const id = params?.id;
+	const id = useParams()?.id;
 	const { data } = useIssuesGet(id);
 	const title = data?.title;
 
