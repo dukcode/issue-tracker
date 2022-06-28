@@ -20,6 +20,7 @@ import {
 } from "./AddNewLabel.styled";
 
 const NAME = "레이블 이름";
+const DefaultBackgroundColor = "#c2e0c6";
 const DARK = "DARK";
 const MENTION = "새로운 레이블 추가";
 const defaultInputTitle = "레이블 이름";
@@ -36,7 +37,7 @@ const getRandomColorCode = () => {
 const AddNewLabel = () => {
 	const [inputTitle, setInputTitle] = useState("");
 	const [inputDescription, setInputDescription] = useState("");
-	const [inputBackgroundColor, setInputBackgroundColor] = useState("#c2e0c6");
+	const [inputBackgroundColor, setInputBackgroundColor] = useState(DefaultBackgroundColor);
 	const [inputTextColor, setInputTextColor] = useState(DARK);
 	const handleInputTitle = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
