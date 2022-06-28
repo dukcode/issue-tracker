@@ -14,7 +14,9 @@ export const StyledSelectedOptionLabel = styled.div`
 	display: flex;
 	gap: 10px;
 	flex-wrap: wrap;
-	margin-top: 10px;
+	> div {
+		margin-top: 10px;
+	}
 `;
 
 export const StyledSelectedOptionMilestone = styled.div`

@@ -28,7 +28,7 @@ export const StyledNewIssueOptions = styled.div`
 `;
 
 export const StyledIssueOption = styled.div`
-	padding: 30px;
+	padding: 25px;
 `;
 
 export const StyledIssueOptionButton = styled.button`
