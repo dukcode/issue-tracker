@@ -1,6 +1,18 @@
 import styled, { css } from "styled-components";
 
-const StyledOptionTabs = styled.div`
+interface IStyledOptionTabs {
+	isLabels: boolean;
+}
+
+const StyledOptionTabs = styled.div<IStyledOptionTabs>`
+	${({ isLabels }) => {
+		return (
+			isLabels &&
+			css`
+				justify-content: space-between;
+			`
+		);
+	}}
 	display: flex;
 	gap: 15px;
 	align-items: center;

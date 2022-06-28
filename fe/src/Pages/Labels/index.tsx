@@ -4,6 +4,7 @@ import useCookieUserInfo from "Hooks";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
 import Cell from "Component/Cell";
+import OptionTabs from "Component/OptionTabs";
 import StyledLabelsHeader from "./Labels.styled";
 
 type TLabelData = {
@@ -57,10 +58,13 @@ const Labels = () => {
 	const mention = `${labelCount}개의 레이블`;
 
 	return (
-		<StyledContent>
-			<StyledLabelsHeader>{mention}</StyledLabelsHeader>
-			{cells}
-		</StyledContent>
+		<>
+			<OptionTabs />
+			<StyledContent>
+				<StyledLabelsHeader>{mention}</StyledLabelsHeader>
+				{cells}
+			</StyledContent>
+		</>
 	);
 };
 

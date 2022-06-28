@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import icons from "Util/Icons";
 import Button from "Component/Button";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
@@ -10,8 +10,10 @@ const { BookmarksOutlined, DirectionsOutlined } = icons;
 const LABEL = "레이블";
 const MILESTONE = "마일스톤";
 const ADD_ISSUE = "이슈 작성";
+const ADD_LABEL = "추가";
 
 const OptionTabs = () => {
+	const location = useLocation();
 	const navigate = useNavigate();
 	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
@@ -30,6 +32,7 @@ const OptionTabs = () => {
 			count: milestoneCount,
 		},
 	];
+	const isLabels = location.pathname === "/labels";
 
 	const tabs = tabsInfo.map(({ id, Icon, name, count }) => {
 		return (
@@ -63,12 +66,15 @@ const OptionTabs = () => {
 	};
 
 	return (
-		<StyledOptionTabs>
+		<StyledOptionTabs isLabels={isLabels}>
 			<StyledTabsLabelMilestone onClick={handleClickedButton}>{tabs}</StyledTabsLabelMilestone>
-
-			<Link to="new-issue">
-				<Button content={ADD_ISSUE} icon="AddBox" />
-			</Link>
+			{isLabels ? (
+				<Button content={ADD_LABEL} icon="AddBox" />
+			) : (
+				<Link to="new-issue">
+					<Button content={ADD_ISSUE} icon="AddBox" />
+				</Link>
+			)}
 		</StyledOptionTabs>
 	);
 };
