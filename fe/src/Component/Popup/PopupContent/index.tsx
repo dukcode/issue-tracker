@@ -8,6 +8,7 @@ import { StyledPopupContent, StyledPopupName } from "./PopupContent.styled";
 
 type TContentProps = {
 	name: string;
+	id: number;
 	image?: string;
 	imageType?: "image" | "color";
 	isCheckBox?: boolean;
@@ -28,6 +29,7 @@ const defaultContentProps = {
 };
 
 const PopupContent = ({
+	id,
 	name,
 	image,
 	imageType,
@@ -46,7 +48,7 @@ const PopupContent = ({
 		const filteredAtomState = atomState.filter((value) => value.name === name);
 		const newAtomState = filteredAtomState.length
 			? atomState.filter((value) => value.name !== name)
-			: [...atomState, { id: atomState.length, name, image, imageType, option }];
+			: [...atomState, { id, name, image, imageType, option }];
 		setAtomState(newAtomState);
 	};
 

@@ -27,6 +27,7 @@ const Popup = ({ children, isLeft, title, contents, setOption, atom }: TPopupPro
 	const contentsList = contents.map(
 		({ id, name, image, imageType, clickEventHandler, isCheckBox, disabledOption, option }) => (
 			<PopupContent
+				id={id}
 				key={id}
 				name={name}
 				image={image}
