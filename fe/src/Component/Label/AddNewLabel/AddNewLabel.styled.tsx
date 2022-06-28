@@ -1,5 +1,9 @@
 import styled, { css } from "styled-components";
 
+interface IStyledAddNewLabelForm {
+	hasInput: string;
+}
+
 export const StyledAddNewLabel = styled.div`
 	${({ theme: { colors } }) => css`
 		border: solid 1px ${colors.line};
@@ -16,9 +20,18 @@ export const StyledAddNewLabelTitle = styled.div`
 	position: relative;
 `;
 
-export const StyledAddNewLabelForm = styled.div`
-	width: 936px;
-	margin-top: 96px;
+export const StyledAddNewLabelForm = styled.div<IStyledAddNewLabelForm>`
+	${({ hasInput }) => css`
+		width: 936px;
+		margin-top: 96px;
+
+		> :last-child {
+			margin-left: auto;
+			margin-right: 20px;
+			margin-top: 24px;
+			${!hasInput && `opacity: 0.5`}
+		}
+	`}
 `;
 
 export const StyledMention = styled.div`

@@ -5,6 +5,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import Label from "Component/Label";
+import Button from "Component/Button";
 import {
 	StyledAddNewLabel,
 	StyledAddNewLabelTitle,
@@ -25,6 +26,7 @@ const defaultInputTitle = "레이블 이름";
 const defaultInputDescription = "설명(선택)";
 const BACKGROUNDCOLOR = "배경 색상";
 const TEXTCOLOR = "텍스트 색상";
+const DONE = "완료";
 const { Loop } = icons;
 
 const getRandomColorCode = () => {
@@ -66,7 +68,7 @@ const AddNewLabel = () => {
 					/>
 				</StyledLabelWrapper>
 			</StyledAddNewLabelTitle>
-			<StyledAddNewLabelForm>
+			<StyledAddNewLabelForm hasInput={inputTitle}>
 				<StyledInputArea>
 					<input
 						placeholder={defaultInputTitle}
@@ -104,6 +106,7 @@ const AddNewLabel = () => {
 						</FormControl>
 					</StyledTextColor>
 				</StyledColorSelect>
+				<Button content={DONE} icon="AddBox" />
 			</StyledAddNewLabelForm>
 		</StyledAddNewLabel>
 	);
