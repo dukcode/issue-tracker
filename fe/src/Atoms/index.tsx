@@ -1,13 +1,21 @@
 import { atom } from "recoil";
 
+type TNewIssueOption = {
+	name: string;
+	image?: string;
+	imageType?: string;
+	option?: { countOpen: number; countClosed: number };
+};
+
 const atoms = {
 	newIssue: {
 		title: atom({ key: "newIssueTitle", default: "" }),
 		desc: atom({ key: "newIssueDesc", default: "" }),
-		users: atom<string[]>({ key: "newIssueManagers", default: [] }),
-		labels: atom<string[]>({ key: "newIssueLabels", default: [] }),
-		milestones: atom<string[]>({ key: "newIssueMilestones", default: [] }),
+		users: atom<TNewIssueOption[]>({ key: "newIssueManagers", default: [] }),
+		labels: atom<TNewIssueOption[]>({ key: "newIssueLabels", default: [] }),
+		milestones: atom<TNewIssueOption[]>({ key: "newIssueMilestones", default: [] }),
 	},
 };
 
 export default atoms;
+export type { TNewIssueOption };
