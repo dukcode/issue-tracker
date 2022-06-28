@@ -10,6 +10,7 @@ export const StyledLabel = styled.div<TStyledLabelProps>`
 		width: fit-content;
 		${fonts.textXSmall};
 		display: flex;
+		width: fit-content;
 		flex-direction: column;
 		justify-content: center;
 		color: ${textColor === "LIGHT" ? colors.offWhite : colors.titleActive};
