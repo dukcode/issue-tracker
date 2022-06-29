@@ -22,7 +22,7 @@ const StyledIssueOption = styled.button<TStyledIssueOption>`
 				}
 			`}
 
-			width: 110px;
+			width: fit-content;
 			height: 28px;
 			font-weight: 700;
 			font-size: 16px;

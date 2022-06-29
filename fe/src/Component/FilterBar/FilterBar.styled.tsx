@@ -45,6 +45,8 @@ const StyledFilterInputArea = styled.form`
 
 		input {
 			${fonts.textSmall};
+			width: 100%;
+			padding: 5px;
 			background-color: ${colors.inputBackground};
 			color: ${colors.placeholder};
 			outline: none;

@@ -2,6 +2,7 @@ import styled, { css } from "styled-components";
 
 export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 	${({ theme: { colors, fonts }, isLeft, isOpened }) => css`
+		z-index: 2;
 		width: 300px;
 		position: absolute;
 		margin-top: 5px;
@@ -65,7 +66,6 @@ export const StyledPopup = styled.div<{ isLeft: boolean; isOpened: boolean }>`
 `;
 
 export const StyledPopupWrapper = styled.div`
-	z-index: 2;
 	position: relative;
 
 	svg {

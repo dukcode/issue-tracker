@@ -54,7 +54,7 @@ const FilterBar = () => {
 			</Popup>
 			<StyledFilterInputArea onSubmit={handleSubmit}>
 				<Search colorset="placeholder" size={20} />
-				<input value={inputValue} onChange={handleInput} />
+				<input value={inputValue} onChange={handleInput} placeholder="SEARCH ALL ISSUES" />
 			</StyledFilterInputArea>
 		</StyledFilterBar>
 	);

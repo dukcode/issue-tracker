@@ -13,6 +13,8 @@ import {
 	DirectionsOutlined,
 	AddBox,
 	FilePresent,
+	IndeterminateCheckBox,
+	RemoveCircleOutline,
 } from "@mui/icons-material";
 import { TKeysColors } from "Styles/theme";
 
@@ -28,6 +30,8 @@ const muiIcons = {
 	DirectionsOutlined,
 	AddBox,
 	FilePresent,
+	IndeterminateCheckBox,
+	RemoveCircleOutline,
 };
 
 type TResultButton = {
@@ -35,6 +39,7 @@ type TResultButton = {
 	size: number;
 };
 type TKeysIcons = keyof typeof muiIcons;
+type TResultIcon = StyledComponent<SvgIconComponent, DefaultTheme, TResultButton>;
 
 const muiKeys = Object.keys(muiIcons) as TKeysIcons[];
 
@@ -52,12 +57,11 @@ const getIcon = (buttonType: SvgIconComponent) => {
 	return resultButton;
 };
 
-const icons: { [key in string]: StyledComponent<SvgIconComponent, DefaultTheme, TResultButton> } =
-	{};
+const icons: { [key in string]: TResultIcon } = {};
 
 muiKeys.forEach((key) => {
 	icons[key] = getIcon(muiIcons[key]);
 });
 
 export default icons;
-export type { TKeysIcons, TResultButton };
+export type { TKeysIcons, TResultButton, TResultIcon };

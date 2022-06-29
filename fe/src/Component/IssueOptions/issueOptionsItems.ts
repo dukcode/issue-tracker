@@ -1,9 +1,9 @@
 import { labelsApi, usersApi, milestoneApi } from "Api";
-
-import icons from "Util/Icons";
-import OptionButtonWithPopup, { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
+import atoms from "Atoms";
+import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
-import { StyledFilterCategoryList, StyledFilterCategory } from "./FilterCategoryList.styled";
+import icons from "Util/Icons";
+import { StyledIssueOptionButton } from "./IssueOptions.styled";
 
 type TLabelData = {
 	id: number;
@@ -21,6 +21,8 @@ type TLabelResponseData = {
 type TMilestoneData = {
 	id: number;
 	title: string;
+	countOpen: number;
+	countClosed: number;
 };
 
 type TMilestoneResponseData = {
@@ -36,8 +38,7 @@ type TUsersData = {
 	profileImage: string;
 };
 
-const { KeyboardArrowDown, KeyboardArrowUp } = icons;
-
+const { IndeterminateCheckBox, AddBox } = icons;
 const defaultPopupContents: TPopupContentProps[] = [];
 
 const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[] => {
@@ -65,17 +66,18 @@ const getContentsByUsers = (data: TUsersData[]): TPopupContentProps[] => {
 };
 
 const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContentProps[] => {
-	const newContents = data.map(({ id, title }: TMilestoneData) => {
+	const newContents = data.map(({ id, title, countOpen, countClosed }: TMilestoneData) => {
 		return {
 			id,
 			name: title,
+			option: { countOpen, countClosed },
 		};
 	});
 
 	return newContents;
 };
 
-const filterCategoryItems: TOptionButtonWithPopupItem[] = [
+const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 	{
 		id: 1,
 		title: "담당자",
@@ -84,10 +86,11 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 		getData: usersApi.getUsers,
 		getPopupContents: getContentsByUsers,
 		icons: {
-			UpIcon: KeyboardArrowUp,
-			DownIcon: KeyboardArrowDown,
+			UpIcon: AddBox,
+			DownIcon: IndeterminateCheckBox,
 		},
-		StyledButton: StyledFilterCategory,
+		StyledButton: StyledIssueOptionButton,
+		atom: atoms.newIssue.users,
 	},
 	{
 		id: 2,
@@ -97,45 +100,26 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 		getData: labelsApi.getLabels,
 		getPopupContents: getContentsByLabels,
 		icons: {
-			UpIcon: KeyboardArrowUp,
-			DownIcon: KeyboardArrowDown,
+			UpIcon: AddBox,
+			DownIcon: IndeterminateCheckBox,
 		},
-		StyledButton: StyledFilterCategory,
+		StyledButton: StyledIssueOptionButton,
+		atom: atoms.newIssue.labels,
 	},
 	{
 		id: 3,
 		title: "마일스톤",
-		isLeft: false,
+		isLeft: true,
 		popupContents: defaultPopupContents,
 		getData: milestoneApi.getMilestone,
 		getPopupContents: getContentsByMilestone,
 		icons: {
-			UpIcon: KeyboardArrowUp,
-			DownIcon: KeyboardArrowDown,
+			UpIcon: AddBox,
+			DownIcon: IndeterminateCheckBox,
 		},
-		StyledButton: StyledFilterCategory,
-	},
-	{
-		id: 4,
-		title: "작성자",
-		isLeft: false,
-		popupContents: defaultPopupContents,
-		getData: usersApi.getUsers,
-		getPopupContents: getContentsByUsers,
-		icons: {
-			UpIcon: KeyboardArrowUp,
-			DownIcon: KeyboardArrowDown,
-		},
-		StyledButton: StyledFilterCategory,
+		StyledButton: StyledIssueOptionButton,
+		atom: atoms.newIssue.milestones,
 	},
 ];
 
-const FilterCategoryList = () => {
-	const filterCategoryList = filterCategoryItems.map((item: TOptionButtonWithPopupItem) => (
-		<OptionButtonWithPopup item={item} key={item.id} />
-	));
-
-	return <StyledFilterCategoryList>{filterCategoryList}</StyledFilterCategoryList>;
-};
-
-export default FilterCategoryList;
+export default issueOptionsItems;

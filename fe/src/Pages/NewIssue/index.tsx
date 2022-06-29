@@ -1,6 +1,7 @@
 import NewIssueOptions from "Component/IssueOptions";
 import IssueHeader from "Component/IssueHeader";
 import NewIssueContent from "./NewIssueContent";
+import NewIssueFooter from "./NewIssueFooter";
 import { StyledNewIssue, StyledNewIssueMain } from "./NewIssue.styled";
 
 const NewIssue = () => {
@@ -11,6 +12,7 @@ const NewIssue = () => {
 				<NewIssueContent />
 				<NewIssueOptions />
 			</StyledNewIssueMain>
+			<NewIssueFooter />
 		</StyledNewIssue>
 	);
 };

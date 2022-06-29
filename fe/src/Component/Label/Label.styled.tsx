@@ -7,9 +7,11 @@ type TStyledLabelProps = {
 export const StyledLabel = styled.div<TStyledLabelProps>`
 	${({ theme: { fonts, getTextColor }, color }) => css`
 		${fonts.linkXSmall};
+		width: fit-content;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
+		align-items: center;
 		background-color: ${color};
 		color: ${getTextColor(color)};
 		border-radius: 30px;

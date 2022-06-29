@@ -42,9 +42,11 @@ const IssueCell = ({
 }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
 	const { loginName, profileImage } = author;
-	const labels = labelsInfo.map(({ id: lableId, name, labelColor }) => (
-		<Label key={lableId} name={name} color={labelColor} />
-	));
+	const labels = labelsInfo
+		? labelsInfo.map(({ id: lableId, name, labelColor }) => (
+				<Label key={lableId} name={name} color={labelColor} />
+		  ))
+		: [];
 	const editedTime = <Moment fromNow>{createDate}</Moment>;
 	const [checked, setChecked] = useState(false);
 
@@ -107,10 +109,12 @@ const IssueCell = ({
 						<AuthorTimeStamp>
 							이 이슈가 {editedTime}, {loginName}님에 의해 작성되었습니다.
 						</AuthorTimeStamp>
-						<MileStone>
-							<EmojiFlags colorset="label" size={18} />
-							{milestone.title}
-						</MileStone>
+						{milestone && (
+							<MileStone>
+								<EmojiFlags colorset="label" size={18} />
+								{milestone.title}
+							</MileStone>
+						)}
 					</IssueInfoBottom>
 				</IssueInfo>
 			</IssueCellLeft>

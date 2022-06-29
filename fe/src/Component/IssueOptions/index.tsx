@@ -1,20 +1,28 @@
-import icons from "Util/Icons";
-import { StyledNewIssueOptions, StyledNewIssueOption } from "./IssueOptions.styled";
+import OptionButtonWithPopup from "Component/OptionButtonWithPopup";
+import issueOptionsItems from "./issueOptionsItems";
+import {
+	SelectedOptionUsers,
+	SelectedOptionLabels,
+	SelectedOptionMilestones,
+} from "./SelectedOptions";
+import { StyledNewIssueOptions, StyledIssueOption } from "./IssueOptions.styled";
 
-const issueOptionsInfo = [
-	{ id: 1, name: "담당자" },
-	{ id: 2, name: "레이블" },
-	{ id: 3, name: "마일스톤" },
-];
-const { AddBox } = icons;
+const selectedOptionComponents = {
+	담당자: SelectedOptionUsers,
+	레이블: SelectedOptionLabels,
+	마일스톤: SelectedOptionMilestones,
+	작성자: SelectedOptionUsers,
+};
 
 const NewIssueOptions = () => {
-	const issueOptions = issueOptionsInfo.map(({ id, name }) => {
+	const issueOptions = issueOptionsItems.map((item) => {
+		const { atom, title } = item;
+		const SelectedOptionComponent = selectedOptionComponents[title];
 		return (
-			<StyledNewIssueOption>
-				<div key={id}>{name}</div>
-				<AddBox size={25} colorset="line" />
-			</StyledNewIssueOption>
+			<StyledIssueOption key={item.id}>
+				<OptionButtonWithPopup item={item} />
+				{atom && <SelectedOptionComponent atom={atom} />}
+			</StyledIssueOption>
 		);
 	});
 
