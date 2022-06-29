@@ -1,7 +1,7 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import issuesApi from "Api/issuesApi";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import IssueCell from "Pages/IssueList/IssueCell";
 import TIssueData from "Pages/IssueList/mockData";

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import tokenApi from "Api/tokenApi";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import { StyledLoading, StyledLoadingMention, StyledLoadingAnimation } from "./Loading.styled";
 
 const LOADING = "LOADING";

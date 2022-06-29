@@ -65,6 +65,11 @@ const fonts = {
 		"font-size": "16px",
 		"line-height": "28px",
 	},
+	linkSmall: {
+		"font-weight": "700",
+		"font-size": "16px",
+		"line-height": "28px",
+	},
 	textXSamll: {
 		"font-weight": "500",
 		"font-size": "12px",

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import icons from "Util/Icons";
 import Button from "Component/Button";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import { milestoneApi, labelsApi } from "Api";
 import { StyledOptionTabs, StyledTabsLabelMilestone } from "./OptionsTabs.styled";
 

@@ -1,6 +1,12 @@
 import styled, { css } from "styled-components";
 
-const StyledFilterCategory = styled.button`
+export const StyledFilterCategoryList = styled.div`
+	display: flex;
+	justify-content: space-around;
+	width: 357px;
+`;
+
+export const StyledFilterCategory = styled.button`
 	${({ theme: { colors } }) => css`
 		height: 32px;
 		color: ${colors.label};
@@ -26,5 +32,3 @@ const StyledFilterCategory = styled.button`
 		}
 	`}
 `;
-
-export default StyledFilterCategory;
