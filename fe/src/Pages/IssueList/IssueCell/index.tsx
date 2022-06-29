@@ -1,7 +1,7 @@
 import { useEffect, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
-import Moment from "react-moment";
+import moment from "moment";
 import "moment/locale/ko";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
@@ -43,7 +43,8 @@ const IssueCell = ({ dataSize, item, setAllCheckedCount }: TIssueItem) => {
 				<Label key={lableId} name={name} labelColor={labelColor} textColor={textColor} />
 		  ))
 		: [];
-	const editedTime = <Moment fromNow>{createDate}</Moment>;
+	const createDateMention = createDate ? moment(createDate).fromNow() : "0초 전";
+	const createDateDesc = `이 이슈가 ${createDateMention}에 ${loginName}님에 의해 작성되었습니다`;
 	const [checked, setChecked] = useState(false);
 	const navigate = useNavigate();
 
@@ -108,9 +109,7 @@ const IssueCell = ({ dataSize, item, setAllCheckedCount }: TIssueItem) => {
 					</IssueInfoTop>
 					<IssueInfoBottom>
 						<IssueNumber>#{id}</IssueNumber>
-						<AuthorTimeStamp>
-							이 이슈가 {editedTime}, {loginName}님에 의해 작성되었습니다.
-						</AuthorTimeStamp>
+						<AuthorTimeStamp>{createDateDesc}</AuthorTimeStamp>
 						{milestone && (
 							<MileStone>
 								<EmojiFlags colorset="label" size={18} />

@@ -20,6 +20,7 @@ const IssueOption = ({ counts, Icon, isOpened, name, option }: TIssueOptionProps
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
 	const isClosed = q?.includes(getOptionString(CLOSED));
+	const isSelected = isOpened === isClosed;
 
 	const handleClickIssueOption = (optionString: string) => {
 		const tester = { q: getOptionString(optionString) };
@@ -28,11 +29,8 @@ const IssueOption = ({ counts, Icon, isOpened, name, option }: TIssueOptionProps
 	};
 
 	return (
-		<StyledIssueOption
-			isClosed={isOpened === isClosed}
-			onClick={() => handleClickIssueOption(option)}
-		>
-			<Icon colorset={isOpened === isClosed ? "placeholder" : "titleActive"} size={18} />
+		<StyledIssueOption isSelected={isSelected} onClick={() => handleClickIssueOption(option)}>
+			<Icon colorset={isSelected ? "placeholder" : "titleActive"} size={18} />
 			{`${name} (${counts[`${option}Count`]})`}
 		</StyledIssueOption>
 	);
