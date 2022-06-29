@@ -1,6 +1,7 @@
 package com.team31.codesquad.issuetracker.dto.issue;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.team31.codesquad.issuetracker.domain.comment.Comment;
 import com.team31.codesquad.issuetracker.domain.issue.Issue;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabel;
 import com.team31.codesquad.issuetracker.domain.issue.IssueStatus;
@@ -73,5 +74,36 @@ public class IssueDetailResponse {
         this.comments = new CountResult<>(commentResponses.size(), commentResponses);
         this.statusChangedAt = issue.getStatusChangedAt();
         this.statusChangeUser = new UserResponse(issue.getStatusChangeUser());
+    }
+
+    public IssueDetailResponse(Issue issue, List<AssignedUser> assignedUsers,
+            List<IssueLabel> issueLabels,
+            List<Comment> comments) {
+
+        this.id = issue.getId();
+        this.status = issue.getStatus();
+        this.title = issue.getTitle();
+        this.author = new UserResponse(issue.getAuthor());
+        this.assignees = assignedUsers.stream()
+                .map(AssignedUser::getAssignee)
+                .map(UserResponse::new)
+                .collect(Collectors.toList());
+        this.labels = issueLabels.stream()
+                .map(IssueLabel::getLabel)
+                .map(LabelResponse::new)
+                .collect(Collectors.toList());
+        Optional.ofNullable(issue.getMilestone())
+                .ifPresent(m -> this.milestone = new MilestoneResponse(m));
+        this.createDate = issue.getCreateDate();
+        this.modifiedDate = issue.getModifiedDate();
+
+        List<CommentResponse> commentResponses = comments.stream()
+                .map(CommentResponse::new)
+                .collect(Collectors.toList());
+        this.comments = new CountResult<>(commentResponses.size(), commentResponses);
+        this.statusChangedAt = issue.getStatusChangedAt();
+        this.statusChangeUser = new UserResponse(issue.getStatusChangeUser());
+
+
     }
 }

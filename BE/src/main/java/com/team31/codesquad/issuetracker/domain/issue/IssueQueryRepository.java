@@ -106,4 +106,14 @@ public class IssueQueryRepository {
     private BooleanExpression statusEq(IssueStatus status) {
         return issue.status.eq(status);
     }
+
+    public Issue findIssueWithAuthorAndMilestone(Long issueId) {
+        return queryFactory
+                .select(issue)
+                .from(issue)
+                .leftJoin(issue.author, user).fetchJoin()
+                .leftJoin(issue.milestone, milestone).fetchJoin()
+                .where(issue.id.eq(issueId))
+                .fetchOne();
+    }
 }
