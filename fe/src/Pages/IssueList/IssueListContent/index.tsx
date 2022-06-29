@@ -43,6 +43,7 @@ const getNewIssueCells = ({
 const IssueListContent = () => {
 	const [counts, setCounts] = useState(countsDefault);
 	const [issueCells, setIssueCells] = useState([<IssuesNotification key="1" />]);
+	const [isShowed, setIsShowed] = useState(false);
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
@@ -53,6 +54,7 @@ const IssueListContent = () => {
 
 	const updateIssueList = () => {
 		if (!issuesData) return;
+
 		const { data, openCount, closedCount } = issuesData;
 		const newIssueCells = getNewIssueCells({
 			data,
@@ -63,7 +65,12 @@ const IssueListContent = () => {
 		});
 		setIssueCells(newIssueCells);
 		setCounts({ openCount, closedCount });
+		setIsShowed(true);
 	};
+
+	useEffect(() => {
+		setIsShowed(false);
+	}, [searchParams]);
 
 	useEffect(() => {
 		if (allCheckedCount && checkedIssues.size === allCheckedCount) setIsAllChecked(true);
@@ -89,7 +96,7 @@ const IssueListContent = () => {
 				setIsAllChecked={setIsAllChecked}
 				checkedIssues={checkedIssues}
 			/>
-			{!isFetching ? issueCells : <IssuesNotification />}
+			{isShowed ? issueCells : <IssuesNotification />}
 		</StyledContent>
 	);
 };
