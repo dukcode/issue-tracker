@@ -1,7 +1,7 @@
-import { labelsApi, usersApi } from "Api";
-
 import icons from "Util/Icons";
+import useUsers from "Hooks/useUsers";
 import useMilestones from "Hooks/useMilestones";
+import useLabels from "Hooks/useLabels";
 import OptionButtonWithPopup, { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
 import { StyledFilterCategoryList, StyledFilterCategory } from "./FilterCategoryList.styled";
@@ -82,7 +82,7 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 		title: "담당자",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: usersApi.getUsers,
+		getData: useUsers,
 		getPopupContents: getContentsByUsers,
 		icons: {
 			UpIcon: KeyboardArrowUp,
@@ -95,7 +95,7 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 		title: "레이블",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: labelsApi.getLabels,
+		getData: useLabels,
 		getPopupContents: getContentsByLabels,
 		icons: {
 			UpIcon: KeyboardArrowUp,
@@ -121,7 +121,7 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 		title: "작성자",
 		isLeft: false,
 		popupContents: defaultPopupContents,
-		getData: usersApi.getUsers,
+		getData: useUsers,
 		getPopupContents: getContentsByUsers,
 		icons: {
 			UpIcon: KeyboardArrowUp,

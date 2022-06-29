@@ -1,8 +1,9 @@
-import { labelsApi, usersApi, milestoneApi } from "Api";
 import atoms from "Atoms";
+import useLabels from "Hooks/useLabels";
+import useMilestones from "Hooks/useMilestones";
+import useUsers from "Hooks/useUsers";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
-import useMilestones from "Hooks/useMilestones";
 import icons from "Util/Icons";
 import { StyledIssueOptionButton } from "./IssueOptions.styled";
 
@@ -84,7 +85,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 		title: "담당자",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: usersApi.getUsers,
+		getData: useUsers,
 		getPopupContents: getContentsByUsers,
 		icons: {
 			UpIcon: AddBox,
@@ -98,7 +99,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 		title: "레이블",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: labelsApi.getLabels,
+		getData: useLabels,
 		getPopupContents: getContentsByLabels,
 		icons: {
 			UpIcon: AddBox,
