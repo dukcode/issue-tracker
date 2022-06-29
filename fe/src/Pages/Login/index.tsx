@@ -18,7 +18,11 @@ const Login = () => {
 	const { GitHub } = icons;
 	const { accessToken } = useCookieUserInfo();
 	const navigate = useNavigate();
-	const loginUrl = process.env.REACT_APP_GITHUB_LOGIN as string;
+	const isDev = process.env.NODE_ENV === "development";
+
+	const loginUrl = isDev
+		? "http://localhost:3000/loading"
+		: (process.env.REACT_APP_GITHUB_LOGIN as string);
 
 	const handleButtonClick = () => {
 		window.location.href = loginUrl;
