@@ -1,5 +1,6 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+
 import { useIssuesGet } from "Hooks/useIssues";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import IssueCell from "Pages/IssueList/IssueCell";
@@ -17,13 +18,7 @@ type TGetNewIssueCells = {
 	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
-const getNewIssueCells = ({
-	data,
-	isAllChecked,
-	setIsAllChecked,
-	setCheckedIssues,
-	setAllCheckedCount,
-}: TGetNewIssueCells) => {
+const getNewIssueCells = ({ data, setAllCheckedCount }: TGetNewIssueCells) => {
 	if (!data.length) return [<IssuesNotification mention="등록된 이슈가 없습니다" key="1" />];
 	return data
 		.reverse()
@@ -32,9 +27,6 @@ const getNewIssueCells = ({
 				key={item.id}
 				dataSize={data.length}
 				item={item}
-				isAllChecked={isAllChecked}
-				setIsAllChecked={setIsAllChecked}
-				setCheckedIssues={setCheckedIssues}
 				setAllCheckedCount={setAllCheckedCount}
 			/>
 		));
@@ -90,12 +82,7 @@ const IssueListContent = () => {
 
 	return (
 		<StyledContent>
-			<IssueListContentHeader
-				counts={counts}
-				isAllChecked={isAllChecked}
-				setIsAllChecked={setIsAllChecked}
-				checkedIssues={checkedIssues}
-			/>
+			<IssueListContentHeader counts={counts} />
 			{isShowed ? issueCells : <IssuesNotification />}
 		</StyledContent>
 	);

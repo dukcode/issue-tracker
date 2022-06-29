@@ -3,7 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import Moment from "react-moment";
 import "moment/locale/ko";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
+import atoms from "Atoms";
 import icons from "Util/Icons";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
@@ -28,21 +30,13 @@ const { ErrorOutline, EmojiFlags } = icons;
 type TIssueItem = {
 	dataSize: number;
 	item: TIssueData;
-	isAllChecked: boolean;
-	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
-	setCheckedIssues: Dispatch<SetStateAction<Set<number>>>;
 	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
-const IssueCell = ({
-	dataSize,
-	item,
-	isAllChecked,
-	setIsAllChecked,
-	setCheckedIssues,
-	setAllCheckedCount,
-}: TIssueItem) => {
+const IssueCell = ({ dataSize, item, setAllCheckedCount }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
+	const [isCheckedAll, setIsCheckedAll] = useRecoilState(atoms.issueList.isCheckedAll);
+	const setCheckedIssues = useSetRecoilState(atoms.issueList.checkedIssues);
 	const { loginName, profileImage } = author;
 	const labels = labelsInfo
 		? labelsInfo.map(({ id: lableId, name, labelColor, textColor }) => (
@@ -60,7 +54,7 @@ const IssueCell = ({
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		event.stopPropagation();
 		if (checked) {
-			if (!isAllChecked) setIsAllChecked(false);
+			if (!isCheckedAll) setIsCheckedAll(false);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
 				newCheckedIssues.delete(id);
@@ -77,7 +71,7 @@ const IssueCell = ({
 	};
 
 	useEffect(() => {
-		if (isAllChecked) {
+		if (isCheckedAll) {
 			setChecked(true);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
@@ -92,7 +86,7 @@ const IssueCell = ({
 				return newCheckedIssues;
 			});
 		}
-	}, [isAllChecked]);
+	}, [isCheckedAll]);
 
 	useEffect(() => {
 		setAllCheckedCount(dataSize);

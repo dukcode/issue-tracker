@@ -14,7 +14,7 @@ export const StyledIssueOptions = styled.div`
 `;
 
 export const StyledCheckedIssuesCountInfo = styled.div`
-	width: 91px;
+	width: fit-content;
 	height: 28px;
 	font-weight: 700;
 	font-size: 16px;

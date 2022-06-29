@@ -19,7 +19,7 @@ const IssueOption = ({ counts, Icon, isOpened, name, option }: TIssueOptionProps
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
-	const isClosed = q === getOptionString(CLOSED);
+	const isClosed = q?.includes(getOptionString(CLOSED));
 
 	const handleClickIssueOption = (optionString: string) => {
 		const tester = { q: getOptionString(optionString) };

@@ -16,6 +16,10 @@ const atoms = {
 		labels: atom<TNewIssueOption[]>({ key: "newIssueLabels", default: [] }),
 		milestones: atom<TNewIssueOption[]>({ key: "newIssueMilestones", default: [] }),
 	},
+	issueList: {
+		isCheckedAll: atom({ key: "isCheckedAll", default: false }),
+		checkedIssues: atom<Set<number>>({ key: "checkedIssues", default: new Set() }),
+	},
 };
 
 export default atoms;

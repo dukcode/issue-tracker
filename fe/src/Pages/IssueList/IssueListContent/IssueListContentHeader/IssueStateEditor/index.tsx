@@ -1,20 +1,19 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
+import atoms from "Atoms";
 import { useIssuesPatch } from "Hooks/useIssues";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import icons from "Util/Icons";
 import StyledIssueStateEditor from "./IssueStateEditor.styled";
 
-type TIssueStateEditorProps = {
-	checkedIssues: Set<number>;
-};
-
 const { KeyboardArrowDown, KeyboardArrowUp } = icons;
 const CHANGE_STATE = "상태 변경";
 const EDIT_STATE = "상태 수정";
 
-const IssueStateEditor = ({ checkedIssues }: TIssueStateEditorProps) => {
+const IssueStateEditor = () => {
+	const [checkedIssues] = useRecoilState(atoms.issueList.checkedIssues);
 	const [isDown, setIsDown] = useState(false);
 	const [searchParams] = useSearchParams();
 	const { mutate, isSuccess } = useIssuesPatch();

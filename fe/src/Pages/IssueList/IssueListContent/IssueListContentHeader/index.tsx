@@ -1,4 +1,6 @@
-import { Dispatch, SetStateAction } from "react";
+import { useRecoilState } from "recoil";
+
+import atoms from "Atoms";
 import icons from "Util/Icons";
 import { Checkbox } from "@mui/material";
 import {
@@ -18,17 +20,11 @@ const issueOptionsData = [
 
 type TIssueListContentHeader = {
 	counts: { openCount: number; closedCount: number };
-	isAllChecked: boolean;
-	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
-	checkedIssues: Set<number>;
 };
 
-const IssueListContentHeader = ({
-	counts,
-	isAllChecked,
-	setIsAllChecked,
-	checkedIssues,
-}: TIssueListContentHeader) => {
+const IssueListContentHeader = ({ counts }: TIssueListContentHeader) => {
+	const [isCheckedAll, setIsCheckedAll] = useRecoilState(atoms.issueList.isCheckedAll);
+	const [checkedIssues] = useRecoilState(atoms.issueList.checkedIssues);
 	const checkedIssuesCount = checkedIssues.size;
 	const isChecked = !!checkedIssuesCount;
 
@@ -50,7 +46,7 @@ const IssueListContentHeader = ({
 	);
 
 	const handleMultipleCheckbox = () => {
-		setIsAllChecked(!isAllChecked);
+		setIsCheckedAll(!isCheckedAll);
 	};
 
 	return (
@@ -60,11 +56,11 @@ const IssueListContentHeader = ({
 					size="small"
 					color="default"
 					onChange={handleMultipleCheckbox}
-					checked={isAllChecked}
+					checked={isCheckedAll}
 				/>
 				{isChecked ? checkedIssuesCountInfo : IssueOptions}
 			</StyledIssueOptions>
-			{isChecked ? <IssueStateEditor checkedIssues={checkedIssues} /> : <FilterCategoryList />}
+			{isChecked ? <IssueStateEditor /> : <FilterCategoryList />}
 		</StyledIssueListContentHeader>
 	);
 };
