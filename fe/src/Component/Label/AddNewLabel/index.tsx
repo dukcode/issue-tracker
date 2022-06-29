@@ -42,6 +42,7 @@ type TAddNewLabel = {
 	isEditing: boolean;
 	isEditClicked?: boolean;
 	setIsEditClicked?: Dispatch<SetStateAction<boolean>>;
+	curId?: number;
 	curName: string;
 	curDescription: string;
 	curLabelColor: string;
@@ -49,6 +50,7 @@ type TAddNewLabel = {
 };
 
 const defaultAddNewLabel = {
+	curId: 1,
 	isEditClicked: false,
 	setIsEditClicked: undefined,
 };
@@ -57,18 +59,19 @@ const AddNewLabel = ({
 	isEditing,
 	isEditClicked,
 	setIsEditClicked,
+	curId,
 	curName,
 	curDescription,
 	curLabelColor,
 	curTextColor,
 }: TAddNewLabel) => {
 	const { accessToken } = useCookieUserInfo();
-	const [inputTitle, setInputTitle] = useState(curName); // curName ? curName : ""
+	const [inputTitle, setInputTitle] = useState(curName);
 	const [inputDescription, setInputDescription] = useState(curDescription);
 	const [inputBackgroundColor, setInputBackgroundColor] = useState(
 		curLabelColor || DefaultBackgroundColor
-	); // 여기 조건문 체크 curLabelColor ? curLabelColor : DefaultBackgroundColor
-	const [inputTextColor, setInputTextColor] = useState(curTextColor || DARK); // 여기도 체크
+	);
+	const [inputTextColor, setInputTextColor] = useState(curTextColor || DARK);
 	const handleInputTitle = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
 		setInputTitle(value);
@@ -113,8 +116,30 @@ const AddNewLabel = ({
 		if (setIsEditClicked) setIsEditClicked(!isEditClicked);
 	};
 
+	const editCurLabel = async (
+		id: number,
+		title: string,
+		description: string,
+		backgroundColor: string,
+		textColor: string
+	) => {
+		const response = await labelsApi.editLabel(
+			accessToken,
+			id,
+			title,
+			description,
+			backgroundColor,
+			textColor
+		);
+
+		const { status: statusNum } = response;
+
+		if (statusNum && statusNum < 300) window.location.reload();
+	};
+
 	const handleEditingLabel = () => {
-		console.log("handleEditingLabel");
+		if (curId)
+			editCurLabel(curId, inputTitle, inputDescription, inputBackgroundColor, inputTextColor);
 	};
 
 	return (
@@ -167,7 +192,7 @@ const AddNewLabel = ({
 						</FormControl>
 					</StyledTextColor>
 				</StyledColorSelect>
-				{isEditing && (
+				{isEditing ? (
 					<>
 						<Button content={DONE} icon="AddBox" clickHandler={handleEditingLabel} />
 						<Button
@@ -177,8 +202,9 @@ const AddNewLabel = ({
 							clickHandler={handleCancelEditingLabel}
 						/>
 					</>
+				) : (
+					<Button content={DONE} icon="AddBox" clickHandler={handleAddNewLabel} />
 				)}
-				{!isEditing && <Button content={DONE} icon="AddBox" clickHandler={handleAddNewLabel} />}
 			</StyledAddNewLabelForm>
 		</StyledAddNewLabel>
 	);

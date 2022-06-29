@@ -30,8 +30,6 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 	const [isEditClicked, setIsEditClicked] = useState(false);
 
 	const handleLabelEdit = () => {
-		// TODO: 레이블 편집 구현
-		console.log("handleLabelEdit");
 		setIsEditClicked(!isEditClicked);
 	};
 
@@ -53,6 +51,7 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 					isEditing={true}
 					isEditClicked={isEditClicked}
 					setIsEditClicked={setIsEditClicked}
+					curId={id}
 					curName={name}
 					curDescription={description}
 					curLabelColor={labelColor}
@@ -77,7 +76,5 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 		</div>
 	);
 };
-
-// AddNewLabel에 지금 "edit인지, add인지", "name", "labelColor", "textColor"
 
 export default Cell;

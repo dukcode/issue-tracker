@@ -58,6 +58,32 @@ const labelsApi = {
 
 		return response;
 	},
+	editLabel: async (
+		token: string,
+		id: number,
+		name: string,
+		description: string,
+		labelColor: string,
+		textColor: string
+	) => {
+		const response = await client
+			.put(
+				`${id}`,
+				{ name, description, labelColor, textColor },
+				{
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			)
+			.catch((error: Error | AxiosError) => {
+				if (axios.isAxiosError(error)) return error.response as AxiosResponse;
+				return { data: error, status: null };
+			});
+
+		return response;
+	},
 };
 
 export default labelsApi;
