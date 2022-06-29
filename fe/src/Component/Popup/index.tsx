@@ -92,13 +92,13 @@ const Popup = ({ children, isLeft, title, contents, setOption, atom, loading }: 
 				isOpened={isOpened}
 				onAnimationEnd={handleAnimationEnd}
 			>
+				<div>{title}</div>
 				{!loading ? (
-					<>
-						<div>{title}</div>
-						{contentsList}
-					</>
+					contentsList
 				) : (
-					<LoadingAnimation color="label" size={50} border={10} />
+					<div>
+						<LoadingAnimation color="label" size={40} border={5} />
+					</div>
 				)}
 			</StyledPopup>
 		</StyledPopupWrapper>
