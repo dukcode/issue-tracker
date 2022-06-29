@@ -18,6 +18,8 @@ import {
 	Edit,
 	DeleteOutline,
 	Loop,
+	DriveFileRenameOutline,
+	InfoOutlined,
 } from "@mui/icons-material";
 import { TKeysColors } from "Styles/theme";
 
@@ -38,6 +40,8 @@ const muiIcons = {
 	Edit,
 	DeleteOutline,
 	Loop,
+	DriveFileRenameOutline,
+	InfoOutlined,
 };
 
 type TResultButton = {

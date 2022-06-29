@@ -6,6 +6,7 @@ import Login from "Pages/Login";
 import NewIssue from "Pages/NewIssue";
 import Loading from "Pages/Loading";
 import Labels from "Pages/Labels";
+import IssueDetail from "Pages/IssueDetail";
 
 const Router = () => {
 	return (
@@ -18,6 +19,7 @@ const Router = () => {
 					<Route index element={<Home />} />
 					<Route path="new-issue" element={<NewIssue />} />
 					<Route path="labels" element={<Labels />} />
+					<Route path="issue/:id" element={<IssueDetail />} />
 				</Route>
 			</Routes>
 		</BrowserRouter>

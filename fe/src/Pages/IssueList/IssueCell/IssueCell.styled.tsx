@@ -41,6 +41,7 @@ export const IssueCellRight = styled.div`
 export const Title = styled.div`
 	${({ theme: { colors } }) =>
 		css`
+			cursor: pointer;
 			color: ${colors.titleActive};
 			height: 32px;
 			display: flex;
