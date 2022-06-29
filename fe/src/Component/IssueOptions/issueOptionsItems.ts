@@ -2,6 +2,7 @@ import { labelsApi, usersApi, milestoneApi } from "Api";
 import atoms from "Atoms";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
+import useMilestones from "Hooks/useMilestones";
 import icons from "Util/Icons";
 import { StyledIssueOptionButton } from "./IssueOptions.styled";
 
@@ -111,7 +112,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 		title: "마일스톤",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: milestoneApi.getMilestone,
+		getData: useMilestones,
 		getPopupContents: getContentsByMilestone,
 		icons: {
 			UpIcon: AddBox,

@@ -1,12 +1,10 @@
 import { StyledComponent, DefaultTheme } from "styled-components";
-import { AxiosResponse } from "axios";
 import { RecoilState } from "recoil";
 
 import { TNewIssueOption } from "Atoms";
 import { TResultIcon } from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import { useState } from "react";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
 
 type TIcons = { DownIcon?: TResultIcon; UpIcon?: TResultIcon } | undefined;
 
@@ -15,13 +13,7 @@ type TOptionButtonWithPopupItem = {
 	title: "담당자" | "레이블" | "마일스톤" | "작성자";
 	isLeft: boolean;
 	popupContents: TPopupContentProps[];
-	getData: (token: string) => Promise<
-		| AxiosResponse<any, any>
-		| {
-				data: Error;
-				status: null;
-		  }
-	>;
+	getData: any;
 	getPopupContents: (data: any) => TPopupContentProps[];
 	StyledButton: StyledComponent<"button", DefaultTheme, {}, never>;
 	icons?: TIcons;
@@ -50,19 +42,24 @@ const OptionButtonWithPopup = ({
 }: TOptionButtonWithPopupProps) => {
 	const [contents, setContents] = useState(popupContents);
 	const [isDown, setIsDown] = useState(false);
-	const [isUpdated, setIsUpdated] = useState(false);
-	const { accessToken } = useCookieUserInfo();
+	const [isMouseEnter, setIsMouseEnter] = useState(false);
+	// const [isUpdated, setIsUpdated] = useState(false);
+	// const { accessToken } = useCookieUserInfo();
 	const showedIcon = getShowedIcon(icons, isDown);
+	const { data, isLoading } = getData({ enabled: isMouseEnter });
+	// console.log(milestonesData, isSuccess);
 
 	const handleMouseEnter = async () => {
-		if (isUpdated) return;
+		// if (isUpdated) return;
+		setIsMouseEnter(true);
 
-		const response = await getData(accessToken);
-		const { data } = response;
+		// const response = await getData(accessToken);
+		// const { data } = response;
 		const newContents = getPopupContents(data);
 
 		setContents(newContents);
-		setIsUpdated(!isUpdated);
+		console.log(isLoading);
+		// setIsUpdated(!isUpdated);
 	};
 
 	return (
@@ -72,6 +69,7 @@ const OptionButtonWithPopup = ({
 			title={`${title} 필터`}
 			setOption={setIsDown}
 			atom={atom}
+			loading={isLoading}
 		>
 			<StyledButton key={id} type="button" onMouseEnter={handleMouseEnter}>
 				<div>{title}</div>

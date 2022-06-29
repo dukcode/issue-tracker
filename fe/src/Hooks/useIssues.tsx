@@ -11,7 +11,12 @@ export type TIssuesInfo = {
 	};
 };
 
-export const useIssuesGet = (id?: string) => {
+type TUseIssuesGetParams = {
+	id?: string;
+	enabled?: boolean;
+};
+
+export const useIssuesGet = ({ id = undefined, enabled = true }: TUseIssuesGetParams) => {
 	const client = useFetch("issues");
 	const detail = id ? `/${id}` : "";
 
@@ -20,7 +25,9 @@ export const useIssuesGet = (id?: string) => {
 		return data;
 	};
 
-	const result = id ? useQuery("issue", issuesGetApi) : useQuery("issues", issuesGetApi);
+	const result = id
+		? useQuery("issue", issuesGetApi)
+		: useQuery("issues", issuesGetApi, { enabled });
 
 	return result;
 };

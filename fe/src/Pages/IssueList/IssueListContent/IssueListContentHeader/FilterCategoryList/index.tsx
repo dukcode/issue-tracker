@@ -1,6 +1,7 @@
-import { labelsApi, usersApi, milestoneApi } from "Api";
+import { labelsApi, usersApi } from "Api";
 
 import icons from "Util/Icons";
+import useMilestones from "Hooks/useMilestones";
 import OptionButtonWithPopup, { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
 import { StyledFilterCategoryList, StyledFilterCategory } from "./FilterCategoryList.styled";
@@ -107,7 +108,7 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 		title: "마일스톤",
 		isLeft: false,
 		popupContents: defaultPopupContents,
-		getData: milestoneApi.getMilestone,
+		getData: useMilestones,
 		getPopupContents: getContentsByMilestone,
 		icons: {
 			UpIcon: KeyboardArrowUp,

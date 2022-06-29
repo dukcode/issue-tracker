@@ -2,6 +2,7 @@ import React, { ReactNode, useState, useRef, useEffect, Dispatch, SetStateAction
 import { RecoilState } from "recoil";
 
 import { TNewIssueOption } from "Atoms";
+import LoadingAnimation from "Component/Loading";
 import { StyledPopup, StyledPopupWrapper } from "./Popup.styled";
 import PopupContent, { TContentProps } from "./PopupContent";
 
@@ -16,14 +17,16 @@ type TPopupProps = {
 	contents: TPopupContentProps[];
 	setOption?: Dispatch<SetStateAction<boolean>>;
 	atom?: RecoilState<TNewIssueOption[]>;
+	loading?: boolean;
 };
 
 const defaultPopupProps = {
 	setOption: undefined,
 	atom: undefined,
+	loading: false,
 };
 
-const Popup = ({ children, isLeft, title, contents, setOption, atom }: TPopupProps) => {
+const Popup = ({ children, isLeft, title, contents, setOption, atom, loading }: TPopupProps) => {
 	const contentsList = contents.map(
 		({ id, name, image, imageType, clickEventHandler, isCheckBox, disabledOption, option }) => (
 			<PopupContent
@@ -89,8 +92,14 @@ const Popup = ({ children, isLeft, title, contents, setOption, atom }: TPopupPro
 				isOpened={isOpened}
 				onAnimationEnd={handleAnimationEnd}
 			>
-				<div>{title}</div>
-				{contentsList}
+				{!loading ? (
+					<>
+						<div>{title}</div>
+						{contentsList}
+					</>
+				) : (
+					<LoadingAnimation color="label" size={50} border={10} />
+				)}
 			</StyledPopup>
 		</StyledPopupWrapper>
 	);
