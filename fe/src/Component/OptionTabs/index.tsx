@@ -1,17 +1,29 @@
-import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState, Dispatch, SetStateAction } from "react";
+import { Link, useLocation } from "react-router-dom";
 import icons from "Util/Icons";
 import Button from "Component/Button";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import { milestoneApi, labelsApi } from "Api";
-import { StyledOptionTabs, StyledTabsLabelMilestone } from "./OptionsTabs.styled";
+import { StyledOptionTabs, StyledTabsLabelMilestone, StyledTab } from "./OptionsTabs.styled";
 
 const { BookmarksOutlined, DirectionsOutlined } = icons;
 const LABEL = "레이블";
 const MILESTONE = "마일스톤";
 const ADD_ISSUE = "이슈 작성";
+const ADD_LABEL = "추가";
 
-const OptionTabs = () => {
+type TOptionTabs = {
+	addNewLabelIsClicked?: boolean;
+	setAddNewLabelIsClicked?: Dispatch<SetStateAction<boolean>>;
+};
+
+const defaultOptionTabs = {
+	addNewLabelIsClicked: false,
+	setAddNewLabelIsClicked: undefined,
+};
+
+const OptionTabs = ({ addNewLabelIsClicked, setAddNewLabelIsClicked }: TOptionTabs) => {
+	const location = useLocation();
 	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
 	const [milestoneCount, setMilestoneCount] = useState(0);
@@ -29,14 +41,18 @@ const OptionTabs = () => {
 			count: milestoneCount,
 		},
 	];
+	const isLabels = location.pathname === "/labels";
 
 	const tabs = tabsInfo.map(({ id, Icon, name, count }) => {
+		const nextPage = name === LABEL ? "/labels" : "/milestones";
 		return (
-			<div key={id}>
-				<Icon colorset="label" size={20} />
-				<div>{name}</div>
-				<div>({count})</div>
-			</div>
+			<Link to={nextPage}>
+				<StyledTab key={id} className={name}>
+					<Icon colorset="label" size={20} />
+					<div>{name}</div>
+					<div>({count})</div>
+				</StyledTab>
+			</Link>
 		);
 	});
 
@@ -55,14 +71,24 @@ const OptionTabs = () => {
 		getLabelMilestoneCount();
 	}, []);
 
+	const handleAddNewLabelIsClicked = () => {
+		if (setAddNewLabelIsClicked !== undefined) setAddNewLabelIsClicked(!addNewLabelIsClicked);
+	};
+
 	return (
-		<StyledOptionTabs>
+		<StyledOptionTabs isLabels={isLabels}>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
-			<Link to="new-issue">
-				<Button content={ADD_ISSUE} icon="AddBox" />
-			</Link>
+			{isLabels ? (
+				<Button content={ADD_LABEL} icon="AddBox" clickHandler={handleAddNewLabelIsClicked} />
+			) : (
+				<Link to="new-issue">
+					<Button content={ADD_ISSUE} icon="AddBox" />
+				</Link>
+			)}
 		</StyledOptionTabs>
 	);
 };
+
+OptionTabs.defaultProps = defaultOptionTabs;
 
 export default OptionTabs;

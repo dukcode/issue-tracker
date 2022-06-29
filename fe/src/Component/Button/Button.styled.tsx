@@ -2,10 +2,11 @@ import styled, { css } from "styled-components";
 
 type TStyledButtonProps = {
 	size?: "small" | "medium" | "large";
+	reverse?: boolean;
 };
 
 const StyledButton = styled.button<TStyledButtonProps>`
-	${({ theme: { colors, fonts }, size }) => css`
+	${({ theme: { colors, fonts }, size, reverse }) => css`
 		${size === "small" &&
 		css`
 			${fonts.textSmall};
@@ -16,7 +17,7 @@ const StyledButton = styled.button<TStyledButtonProps>`
 
 		${size === "medium" &&
 		css`
-			${fonts.linkMedium};
+			${fonts.linkSmall};
 			height: 55px;
 			width: 220px;
 			border-radius: 20px;
@@ -28,8 +29,28 @@ const StyledButton = styled.button<TStyledButtonProps>`
 		text-align: center;
 		justify-content: center;
 		gap: 5px;
-		color: ${colors.offWhite};
-		background-color: ${colors.blue};
+		color: ${!reverse ? colors.offWhite : colors.blue};
+		background-color: ${!reverse ? colors.blue : colors.offWhite};
+
+		${reverse &&
+		css`
+			border: 2px solid ${colors.blue};
+			svg {
+				color: ${colors.blue};
+			}
+		`}
+
+		:hover {
+			opacity: 0.8;
+		}
+
+		:active {
+			opacity: 1;
+		}
+
+		:disabled {
+			opacity: 0.5;
+		}
 
 		:hover {
 			opacity: 0.8;

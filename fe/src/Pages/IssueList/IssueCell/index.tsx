@@ -5,7 +5,7 @@ import icons from "Util/Icons";
 import Checkbox from "@mui/material/Checkbox";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
-import TIssueData from "Pages/IssueList/mockData";
+import { TIssueData } from "Pages/IssueList/mockData";
 import {
 	StyledIssueCell,
 	IssueCellLeft,
@@ -43,8 +43,8 @@ const IssueCell = ({
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
 	const { loginName, profileImage } = author;
 	const labels = labelsInfo
-		? labelsInfo.map(({ id: lableId, name, labelColor }) => (
-				<Label key={lableId} name={name} color={labelColor} />
+		? labelsInfo.map(({ id: lableId, name, labelColor, textColor }) => (
+				<Label key={lableId} name={name} labelColor={labelColor} textColor={textColor} />
 		  ))
 		: [];
 	const editedTime = <Moment fromNow>{createDate}</Moment>;

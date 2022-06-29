@@ -38,6 +38,15 @@ const IssueMockData = {
 	modifiedDate: "2022-06-19T11:16:39",
 };
 
-type TIssueData = typeof IssueMockData;
+const LabelMockData = {
+	id: 1,
+	name: "BE",
+	description: "백엔드 라벨",
+	labelColor: "#A5478A",
+	textColor: "LIGHT",
+};
 
-export default TIssueData;
+type TIssueData = typeof IssueMockData;
+type TLabelData = typeof LabelMockData;
+
+export type { TIssueData, TLabelData };
