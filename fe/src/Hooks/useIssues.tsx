@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useQuery, useMutation } from "react-query";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import useFetch from "./useFetch";
 
 export type TIssuesInfo = {
 	title: string;
@@ -13,15 +12,7 @@ export type TIssuesInfo = {
 };
 
 export const useIssuesGet = (id?: string) => {
-	const { accessToken } = useCookieUserInfo();
-	const baseURL = `${process.env.REACT_APP_API}/issues`;
-	const client = axios.create({
-		baseURL,
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${accessToken}`,
-		},
-	});
+	const client = useFetch("issues");
 	const detail = id ? `/${id}` : "";
 
 	const issuesGetApi = async () => {
@@ -35,15 +26,8 @@ export const useIssuesGet = (id?: string) => {
 };
 
 export const useIssuesPost = () => {
-	const { accessToken } = useCookieUserInfo();
-	const baseURL = `${process.env.REACT_APP_API}/issues`;
-	const client = axios.create({
-		baseURL,
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${accessToken}`,
-		},
-	});
+	const client = useFetch("issues");
+
 	const issuesPostApi = async (newIssuesInfo: TIssuesInfo) => {
 		const { data } = await client.post("", newIssuesInfo);
 		return data;

@@ -1,19 +1,11 @@
-import axios from "axios";
 import { useQuery } from "react-query";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import useFetch from "./useFetch";
 
 const useUsers = () => {
-	const { accessToken } = useCookieUserInfo();
-	const baseURL = `${process.env.REACT_APP_API}/users`;
-	const client = axios.create({
-		baseURL,
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${accessToken}`,
-		},
-	});
-	const usersApi = () => {
-		const data = client.get("").then((res) => res.data);
+	const client = useFetch("users");
+
+	const usersApi = async () => {
+		const { data } = await client.get("");
 		return data;
 	};
 
