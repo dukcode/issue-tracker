@@ -15,6 +15,9 @@ import {
 	FilePresent,
 	IndeterminateCheckBox,
 	RemoveCircleOutline,
+	Edit,
+	DeleteOutline,
+	Loop,
 } from "@mui/icons-material";
 import { TKeysColors } from "Styles/theme";
 
@@ -32,6 +35,9 @@ const muiIcons = {
 	FilePresent,
 	IndeterminateCheckBox,
 	RemoveCircleOutline,
+	Edit,
+	DeleteOutline,
+	Loop,
 };
 
 type TResultButton = {

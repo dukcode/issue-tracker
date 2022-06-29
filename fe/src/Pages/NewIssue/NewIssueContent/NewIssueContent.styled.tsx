@@ -72,7 +72,7 @@ export const StyledNewIssueDesc = styled.div`
 
 export const StyledUploadImg = styled.label`
 	${({ theme: { colors, fonts } }) => css`
-		${fonts.textXSamll};
+		${fonts.textXSmall};
 		color: ${colors.label};
 		cursor: pointer;
 		display: flex;

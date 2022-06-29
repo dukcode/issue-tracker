@@ -8,6 +8,7 @@ type TButtonProps = {
 	size?: "small" | "medium" | "large";
 	clickHandler?: (event: React.MouseEvent) => void;
 	disableOption?: boolean;
+	reverse?: boolean;
 };
 
 const defaultButtonProps = {
@@ -15,17 +16,23 @@ const defaultButtonProps = {
 	size: "small",
 	clickHandler: undefined,
 	disableOption: undefined,
+	reverse: false,
 };
 
-const Button = ({ content, icon, size, clickHandler, disableOption }: TButtonProps) => {
+const Button = ({ content, icon, size, clickHandler, disableOption, reverse }: TButtonProps) => {
 	const Icon = icon ? icons[icon] : null;
 	const handleButtonClick = (event: React.MouseEvent) => {
 		if (clickHandler) clickHandler(event);
 	};
 
 	return (
-		<StyledButton size={size} onClick={handleButtonClick} disabled={disableOption}>
-			{Icon && <Icon colorset="offWhite" size={20} />}
+		<StyledButton
+			size={size}
+			onClick={handleButtonClick}
+			disabled={disableOption}
+			reverse={reverse}
+		>
+			{Icon && <Icon colorset={!reverse ? "offWhite" : "blue"} size={20} />}
 			{content}
 		</StyledButton>
 	);

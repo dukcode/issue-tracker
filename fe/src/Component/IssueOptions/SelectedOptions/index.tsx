@@ -33,7 +33,7 @@ export const SelectedOptionLabels = ({ atom }: TSeletedOptionsProps) => {
 	const selectedOptionLabels = atomState.map(({ name, image, id }) => {
 		if (!image) return null;
 
-		return <Label name={name} color={image} key={id} />;
+		return <Label name={name} labelColor={image} textColor="DARK" key={id} />;
 	});
 	return <StyledSelectedOptionLabel>{selectedOptionLabels}</StyledSelectedOptionLabel>;
 };
