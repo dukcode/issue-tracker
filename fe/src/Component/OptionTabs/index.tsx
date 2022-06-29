@@ -79,14 +79,7 @@ const OptionTabs = ({ addNewLabelIsClicked, setAddNewLabelIsClicked }: TOptionTa
 		<StyledOptionTabs isLabels={isLabels}>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
 			{isLabels ? (
-				<div
-					onClick={handleAddNewLabelIsClicked}
-					onKeyUp={handleAddNewLabelIsClicked}
-					role="button"
-					tabIndex={0}
-				>
-					<Button content={ADD_LABEL} icon="AddBox" />
-				</div>
+				<Button content={ADD_LABEL} icon="AddBox" clickHandler={handleAddNewLabelIsClicked} />
 			) : (
 				<Link to="new-issue">
 					<Button content={ADD_ISSUE} icon="AddBox" />

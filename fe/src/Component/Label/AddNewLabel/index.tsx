@@ -132,9 +132,11 @@ const AddNewLabel = () => {
 						</FormControl>
 					</StyledTextColor>
 				</StyledColorSelect>
-				<div onClick={handleAddNewLabel} onKeyUp={handleAddNewLabel} role="button" tabIndex={0}>
+				{/* <div onClick={handleAddNewLabel} onKeyUp={handleAddNewLabel} role="button" tabIndex={0}>
 					<Button content={DONE} icon="AddBox" />
-				</div>
+				</div> */}
+				{/* <div  onKeyUp={handleAddNewLabel} role="button" tabIndex={0}> */}
+				<Button content={DONE} icon="AddBox" clickHandler={handleAddNewLabel} />
 			</StyledAddNewLabelForm>
 		</StyledAddNewLabel>
 	);
