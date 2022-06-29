@@ -8,7 +8,7 @@ export const StyledIssueDetailHeaderInfo = styled.div`
 
 export const StyledIssueDetailStatus = styled.div`
 	${({ theme: { colors, fonts } }) => css`
-		${fonts.textXSamll};
+		${fonts.textXSmall};
 		color: ${colors.blue};
 		background-color: ${colors.lightBlue};
 		border: solid 1px ${colors.blue};
