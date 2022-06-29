@@ -55,7 +55,7 @@ const IssueDetailHeaderInfo = () => {
 				<InfoOutlined colorset="blue" size={14} />
 				{statusDesc}
 			</StyledIssueDetailStatus>
-			<StyledIssueDetailDesc>{`${commentsCountDesc} ∙ ${createDateDesc}`}</StyledIssueDetailDesc>
+			<StyledIssueDetailDesc>{`${createDateDesc} ∙ ${commentsCountDesc}`}</StyledIssueDetailDesc>
 		</StyledIssueDetailHeaderInfo>
 	);
 };

@@ -3,6 +3,7 @@ import LoadingAnimation from "Component/Loading";
 import { useIssuesGet } from "Hooks/useIssues";
 import StyledIssueDetail from "./IssueDetail.styled";
 import IssueDetailHeader from "./IssueDetailHeader";
+import IssueDetailMain from "./IssueDetailMain";
 
 const IssueDetail = () => {
 	const id = useParams()?.id;
@@ -13,7 +14,10 @@ const IssueDetail = () => {
 			{isLoading ? (
 				<LoadingAnimation size={130} color="label" border={20} />
 			) : (
-				<IssueDetailHeader />
+				<>
+					<IssueDetailHeader />
+					<IssueDetailMain />
+				</>
 			)}
 		</StyledIssueDetail>
 	);
