@@ -11,7 +11,7 @@ const issuesApi = {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`,
 				},
-				params: { q, page: 0 },
+				params: { q },
 			})
 			.catch((error: Error | AxiosError) => {
 				if (axios.isAxiosError(error)) return error.response as AxiosResponse;

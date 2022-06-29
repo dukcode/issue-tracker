@@ -1,7 +1,6 @@
 import { useState, useEffect, Dispatch, SetStateAction } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import issuesApi from "Api/issuesApi";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import { useIssuesGet } from "Hooks/useIssues";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import IssueCell from "Pages/IssueList/IssueCell";
 import { TIssueData } from "Pages/IssueList/mockData";
@@ -44,31 +43,17 @@ const getNewIssueCells = ({
 const IssueListContent = () => {
 	const [counts, setCounts] = useState(countsDefault);
 	const [issueCells, setIssueCells] = useState([<IssuesNotification key="1" />]);
-	const cookieUserInfo = useCookieUserInfo();
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
 	const [isAllChecked, setIsAllChecked] = useState(false);
 	const [checkedIssues, setCheckedIssues] = useState(new Set<number>());
 	const [allCheckedCount, setAllCheckedCount] = useState(0);
+	const { data: issuesData, isFetching, isError } = useIssuesGet({ query: q });
 
-	const getIssueList = async () => {
-		const { accessToken } = cookieUserInfo;
-		if (!accessToken) {
-			navigate("/login");
-			return;
-		}
-
-		const issueListResponse = await issuesApi.getIssues(accessToken, q);
-		const {
-			data: { data, openCount, closedCount },
-			status,
-		} = issueListResponse;
-		if (status !== 200) {
-			navigate("/login");
-			return;
-		}
-
+	const updateIssueList = () => {
+		if (!issuesData) return;
+		const { data, openCount, closedCount } = issuesData;
 		const newIssueCells = getNewIssueCells({
 			data,
 			isAllChecked,
@@ -76,26 +61,25 @@ const IssueListContent = () => {
 			setCheckedIssues,
 			setAllCheckedCount,
 		});
-
 		setIssueCells(newIssueCells);
 		setCounts({ openCount, closedCount });
 	};
 
 	useEffect(() => {
-		setIssueCells([<IssuesNotification key="1" />]);
-		getIssueList();
-		checkedIssues.clear();
-		setCheckedIssues(checkedIssues);
-	}, [searchParams]);
-
-	useEffect(() => {
-		getIssueList();
-	}, [isAllChecked]);
-
-	useEffect(() => {
 		if (allCheckedCount && checkedIssues.size === allCheckedCount) setIsAllChecked(true);
 		if (checkedIssues.size === 0) setIsAllChecked(false);
 	}, [checkedIssues]);
+
+	useEffect(() => {
+		if (isFetching) return;
+		checkedIssues.clear();
+		setCheckedIssues(checkedIssues);
+		updateIssueList();
+	}, [isFetching]);
+
+	useEffect(() => {
+		if (isError) navigate("/login");
+	}, [isError]);
 
 	return (
 		<StyledContent>
@@ -105,7 +89,7 @@ const IssueListContent = () => {
 				setIsAllChecked={setIsAllChecked}
 				checkedIssues={checkedIssues}
 			/>
-			{issueCells}
+			{!isFetching ? issueCells : <IssuesNotification />}
 		</StyledContent>
 	);
 };

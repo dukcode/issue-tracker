@@ -14,20 +14,28 @@ export type TIssuesInfo = {
 type TUseIssuesGetParams = {
 	id?: string;
 	enabled?: boolean;
+	query?: string | null;
 };
 
-export const useIssuesGet = ({ id = undefined, enabled = true }: TUseIssuesGetParams) => {
+export const useIssuesGet = ({
+	id = undefined,
+	enabled = true,
+	query = null,
+}: TUseIssuesGetParams) => {
 	const client = useFetch("issues");
 	const detail = id ? `/${id}` : "";
 
-	const issuesGetApi = async () => {
-		const { data } = await client.get(detail);
+	const issuesGetApi = async (q: string | null) => {
+		const { data } = await client.get(detail, { params: { q } });
 		return data;
 	};
 
 	const result = id
-		? useQuery("issue", issuesGetApi)
-		: useQuery("issues", issuesGetApi, { enabled });
+		? useQuery("issue", () => issuesGetApi(null))
+		: useQuery(["issues", query], () => issuesGetApi(query), {
+				enabled,
+				refetchOnWindowFocus: false,
+		  });
 
 	return result;
 };
