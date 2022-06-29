@@ -1,6 +1,17 @@
 import { useQuery, useMutation } from "react-query";
 import useFetch from "./useFetch";
 
+type TUseIssuesGetParams = {
+	id?: string;
+	enabled?: boolean;
+	query?: string | null;
+};
+
+type TEditedIssuesOptions = {
+	issueIds: number[];
+	status: "OPEN" | "CLOSED";
+};
+
 export type TIssuesInfo = {
 	title: string;
 	assigneeIds: number[];
@@ -9,12 +20,6 @@ export type TIssuesInfo = {
 	commentCreateRequest: {
 		content: string;
 	};
-};
-
-type TUseIssuesGetParams = {
-	id?: string;
-	enabled?: boolean;
-	query?: string | null;
 };
 
 export const useIssuesGet = ({
@@ -47,6 +52,19 @@ export const useIssuesPost = () => {
 		const { data } = await client.post("", newIssuesInfo);
 		return data;
 	};
+
 	const mutation = useMutation(issuesPostApi);
+	return mutation;
+};
+
+export const useIssuesPatch = () => {
+	const client = useFetch("issues");
+
+	const issuesPatchApi = async (editedIssuesOptions: TEditedIssuesOptions) => {
+		const { data } = await client.patch("", editedIssuesOptions);
+		return data;
+	};
+
+	const mutation = useMutation(issuesPatchApi);
 	return mutation;
 };
