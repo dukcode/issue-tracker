@@ -65,7 +65,15 @@ const Labels = () => {
 				addNewLabelIsClicked={addNewLabelIsClicked}
 				setAddNewLabelIsClicked={setAddNewLabelIsClicked}
 			/>
-			{addNewLabelIsClicked && <AddNewLabel />}
+			{addNewLabelIsClicked && (
+				<AddNewLabel
+					isEditing={false}
+					curName=""
+					curDescription=""
+					curLabelColor=""
+					curTextColor=""
+				/>
+			)}
 
 			<StyledContent>
 				<StyledLabelsHeader>{mention}</StyledLabelsHeader>

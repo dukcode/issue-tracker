@@ -4,13 +4,17 @@ interface IStyledAddNewLabelForm {
 	hasInput: string;
 }
 
-export const StyledAddNewLabel = styled.div`
-	${({ theme: { colors } }) => css`
-		border: solid 1px ${colors.line};
-		border-radius: 16px;
-		background: ${colors.offWhite};
+interface IStyledAddNewLabel {
+	isEditing: boolean;
+}
+
+export const StyledAddNewLabel = styled.div<IStyledAddNewLabel>`
+	${({ theme: { colors }, isEditing }) => css`
 		height: 345px;
-		margin-top: 24px;
+		${!isEditing && `border: solid 1px ${colors.line};`}
+		${!isEditing && `border-radius: 16px;`}
+		${!isEditing && `margin-top: 24px;`}
+		${!isEditing && `background: ${colors.offWhite};`}
 	`}
 	display: flex;
 `;
