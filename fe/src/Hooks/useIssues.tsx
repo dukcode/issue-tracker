@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useQuery, useMutation } from "react-query";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import useFetch from "./useFetch";
 
 export type TIssuesInfo = {
 	title: string;
@@ -12,48 +11,23 @@ export type TIssuesInfo = {
 	};
 };
 
-type TUseIssuessMethod = "GET" | "POST";
-
-const useIssues = (method: TUseIssuessMethod) => {
-	const { accessToken } = useCookieUserInfo();
-	const baseURL = `${process.env.REACT_APP_API}/issues`;
-	const client = axios.create({
-		baseURL,
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${accessToken}`,
-		},
-	});
+export const useIssuesGet = (id?: string) => {
+	const client = useFetch("issues");
+	const detail = id ? `/${id}` : "";
 
 	const issuesGetApi = async () => {
-		const { data } = await client.get("");
+		const { data } = await client.get(detail);
 		return data;
 	};
 
-	const issuesPostApi = async (newIssuesInfo: TIssuesInfo) => {
-		const { data } = await client.post("", newIssuesInfo);
-		return data;
-	};
+	const result = id ? useQuery("issue", issuesGetApi) : useQuery("issues", issuesGetApi);
 
-	const queryOptions = {
-		GET: useQuery("issues", issuesGetApi),
-		POST: useMutation(issuesPostApi),
-	};
-
-	const result = queryOptions[method];
 	return result;
 };
 
 export const useIssuesPost = () => {
-	const { accessToken } = useCookieUserInfo();
-	const baseURL = `${process.env.REACT_APP_API}/issues`;
-	const client = axios.create({
-		baseURL,
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${accessToken}`,
-		},
-	});
+	const client = useFetch("issues");
+
 	const issuesPostApi = async (newIssuesInfo: TIssuesInfo) => {
 		const { data } = await client.post("", newIssuesInfo);
 		return data;
@@ -61,5 +35,3 @@ export const useIssuesPost = () => {
 	const mutation = useMutation(issuesPostApi);
 	return mutation;
 };
-
-export default useIssues;
