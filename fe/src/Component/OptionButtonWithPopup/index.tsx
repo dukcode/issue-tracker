@@ -4,7 +4,7 @@ import { RecoilState } from "recoil";
 import { TNewIssueOption } from "Atoms";
 import { TResultIcon } from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type TIcons = { DownIcon?: TResultIcon; UpIcon?: TResultIcon } | undefined;
 
@@ -43,24 +43,22 @@ const OptionButtonWithPopup = ({
 	const [contents, setContents] = useState(popupContents);
 	const [isDown, setIsDown] = useState(false);
 	const [isMouseEnter, setIsMouseEnter] = useState(false);
-	// const [isUpdated, setIsUpdated] = useState(false);
-	// const { accessToken } = useCookieUserInfo();
 	const showedIcon = getShowedIcon(icons, isDown);
-	const { data, isLoading } = getData({ enabled: isMouseEnter });
-	// console.log(milestonesData, isSuccess);
+	const { data, isSuccess } = getData({ enabled: isMouseEnter });
 
-	const handleMouseEnter = async () => {
-		// if (isUpdated) return;
+	const handleMouseEnter = () => {
 		setIsMouseEnter(true);
-
-		// const response = await getData(accessToken);
-		// const { data } = response;
-		const newContents = getPopupContents(data);
-
-		setContents(newContents);
-		console.log(isLoading);
-		// setIsUpdated(!isUpdated);
 	};
+
+	const handleMouseLeave = () => {
+		setIsMouseEnter(false);
+	};
+
+	useEffect(() => {
+		if (!isSuccess) return;
+		const newContents = getPopupContents(data);
+		setContents(newContents);
+	}, [isSuccess]);
 
 	return (
 		<Popup
@@ -69,9 +67,14 @@ const OptionButtonWithPopup = ({
 			title={`${title} 필터`}
 			setOption={setIsDown}
 			atom={atom}
-			loading={isLoading}
+			loading={!isSuccess}
 		>
-			<StyledButton key={id} type="button" onMouseEnter={handleMouseEnter}>
+			<StyledButton
+				key={id}
+				type="button"
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
+			>
 				<div>{title}</div>
 				{showedIcon}
 			</StyledButton>
