@@ -7,10 +7,12 @@ import com.team31.codesquad.issuetracker.domain.issue.IssueLabel;
 import com.team31.codesquad.issuetracker.domain.issue.IssueLabelRepository;
 import com.team31.codesquad.issuetracker.domain.issue.IssueQueryRepository;
 import com.team31.codesquad.issuetracker.domain.issue.IssueRepository;
+import com.team31.codesquad.issuetracker.domain.label.IssueLabelQueryRepository;
 import com.team31.codesquad.issuetracker.domain.label.LabelRepository;
 import com.team31.codesquad.issuetracker.domain.milestone.Milestone;
 import com.team31.codesquad.issuetracker.domain.milestone.MilestoneRepository;
 import com.team31.codesquad.issuetracker.domain.user.AssignedUser;
+import com.team31.codesquad.issuetracker.domain.user.AssignedUserQueryRepository;
 import com.team31.codesquad.issuetracker.domain.user.AssignedUserRepository;
 import com.team31.codesquad.issuetracker.domain.user.User;
 import com.team31.codesquad.issuetracker.domain.user.UserRepository;
@@ -54,6 +56,8 @@ public class IssueServiceImpl implements IssueService {
     private final CommentRepository commentRepository;
     private final AssignedUserRepository assignedUserRepository;
     private final IssueLabelRepository issueLabelRepository;
+    private final AssignedUserQueryRepository assignedUserQueryRepository;
+    private final IssueLabelQueryRepository issueLabelQueryRepository;
 
     @Override
     public OpenClosedCountResult<List<IssueResponse>> findAll(Integer page, String query) {
@@ -96,8 +100,13 @@ public class IssueServiceImpl implements IssueService {
 
     @Override
     public IssueDetailResponse getIssue(Long issueId) {
-        Issue issue = findIssueWithExistValidation(issueId);
-        return new IssueDetailResponse(issue);
+        Issue issue = issueQueryRepository.findIssueWithAuthorAndMilestone(issueId);
+        List<AssignedUser> assignedUsers =
+                assignedUserQueryRepository.findAssignedUsersWithUsersByIssue(issue);
+        List<IssueLabel> issueLabels = issueLabelQueryRepository.findIssueLabelWithLabelByIssue(
+                issue);
+        List<Comment> comments = commentRepository.findAllByIssue(issue);
+        return new IssueDetailResponse(issue, assignedUsers, issueLabels, comments);
     }
 
     @Transactional
