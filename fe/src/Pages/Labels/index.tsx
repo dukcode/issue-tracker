@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { labelsApi } from "Api";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
 import Cell from "Component/Cell";

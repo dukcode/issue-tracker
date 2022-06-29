@@ -1,7 +1,7 @@
 import Label from "Component/Label";
 import icons from "Util/Icons";
 import { labelsApi } from "Api";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import {
 	StyledCell,
 	StyledCellDescription,

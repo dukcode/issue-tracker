@@ -1,6 +1,6 @@
 import { useState, ChangeEvent } from "react";
 import { labelsApi } from "Api";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import icons from "Util/Icons";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -132,10 +132,6 @@ const AddNewLabel = () => {
 						</FormControl>
 					</StyledTextColor>
 				</StyledColorSelect>
-				{/* <div onClick={handleAddNewLabel} onKeyUp={handleAddNewLabel} role="button" tabIndex={0}>
-					<Button content={DONE} icon="AddBox" />
-				</div> */}
-				{/* <div  onKeyUp={handleAddNewLabel} role="button" tabIndex={0}> */}
 				<Button content={DONE} icon="AddBox" clickHandler={handleAddNewLabel} />
 			</StyledAddNewLabelForm>
 		</StyledAddNewLabel>

@@ -25,13 +25,11 @@ export const StyledAddNewLabelForm = styled.div<IStyledAddNewLabelForm>`
 		width: 936px;
 		margin-top: 96px;
 
-		> :last-child {
-			div {
-				margin-left: auto;
-				margin-right: 20px;
-				margin-top: 24px;
-				${!hasInput && `opacity: 0.5`}
-			}
+		button {
+			margin-right: 20px;
+			margin-top: 24px;
+			float: right;
+			${!hasInput && `opacity: 0.5`}
 		}
 	`}
 `;
