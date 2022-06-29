@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from "react";
 import { atom } from "recoil";
 
 type TNewIssueOption = {
@@ -19,6 +20,11 @@ const atoms = {
 	issueList: {
 		isCheckedAll: atom({ key: "isCheckedAll", default: false }),
 		checkedIssues: atom<Set<number>>({ key: "checkedIssues", default: new Set() }),
+		filterValue: atom({ key: "filterValue", default: "is:open " }),
+		submitFilterValue: atom<Dispatch<SetStateAction<string>>>({
+			key: "submitFilterValue",
+			default: () => {},
+		}),
 	},
 };
 

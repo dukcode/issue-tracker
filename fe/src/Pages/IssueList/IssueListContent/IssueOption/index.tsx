@@ -13,14 +13,14 @@ type TIssueOptionProps = {
 };
 
 const CLOSED = "closed";
-const getOptionString = (option: string) => `is:${option}`;
+const getOptionString = (option: string) => `is:${option} `;
 
 const IssueOption = ({ counts, Icon, isOpened, name, option }: TIssueOptionProps) => {
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");
-	const isClosed = q?.includes(getOptionString(CLOSED));
-	const isSelected = isOpened === isClosed;
+	const isClosed = !!q?.includes(getOptionString(CLOSED));
+	const isSelected = isClosed === isOpened;
 
 	const handleClickIssueOption = (optionString: string) => {
 		const tester = { q: getOptionString(optionString) };

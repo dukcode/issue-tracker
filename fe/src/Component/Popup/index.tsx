@@ -28,7 +28,17 @@ const defaultPopupProps = {
 
 const Popup = ({ children, isLeft, title, contents, setOption, atom, loading }: TPopupProps) => {
 	const contentsList = contents.map(
-		({ id, name, image, imageType, clickEventHandler, isCheckBox, disabledOption, option }) => (
+		({
+			id,
+			name,
+			image,
+			imageType,
+			clickEventHandler,
+			isCheckBox,
+			disabledOption,
+			option,
+			filterName,
+		}) => (
 			<PopupContent
 				id={id}
 				key={id}
@@ -40,6 +50,7 @@ const Popup = ({ children, isLeft, title, contents, setOption, atom, loading }: 
 				disabledOption={disabledOption}
 				atom={atom}
 				option={option}
+				filterName={filterName}
 			/>
 		)
 	);

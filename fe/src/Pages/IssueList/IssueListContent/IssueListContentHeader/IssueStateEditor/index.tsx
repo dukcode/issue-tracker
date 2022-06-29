@@ -18,8 +18,8 @@ const IssueStateEditor = () => {
 	const [searchParams] = useSearchParams();
 	const { mutate, isSuccess } = useIssuesPatch();
 	const query = searchParams.get("q");
-	const isQueryOpen = query === "is:open" || !query;
-	const isQueryClosed = query === "is:closed";
+	const isQueryOpen = query === "is:open " || !query;
+	const isQueryClosed = query === "is:closed ";
 
 	const editClickedIssuesState = async (status: "OPEN" | "CLOSED") => {
 		const isSameQuery =
