@@ -6,6 +6,7 @@ export const StyledCommentBox = styled.div`
 		border-radius: 15px;
 		height: 300px;
 		display: flex;
+		width: 100%;
 		flex-direction: column;
 		overflow: hidden;
 
