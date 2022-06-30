@@ -1,3 +1,4 @@
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import { StyledUserImg, StyledUserImgWrapper } from "./UserImg.styled";
 
 type TUserImgProps = {
@@ -7,9 +8,11 @@ type TUserImgProps = {
 };
 
 const UserImg = ({ img = undefined, size, color = undefined }: TUserImgProps) => {
+	const { profileImage } = useCookieUserInfo();
+	const srcImg = img || profileImage;
 	return (
 		<StyledUserImgWrapper size={size} color={color}>
-			<StyledUserImg src={img} alt="logo" size={size} color={color} />
+			<StyledUserImg src={srcImg} alt="logo" size={size} color={color} />
 		</StyledUserImgWrapper>
 	);
 };
