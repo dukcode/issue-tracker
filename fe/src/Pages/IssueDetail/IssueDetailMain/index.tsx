@@ -16,7 +16,7 @@ const defaultComment: TComment[] = [
 			profileImage: "",
 		},
 		content: "",
-		createData: "",
+		createDate: "",
 		id: 0,
 		modifiedDate: "",
 		reactions: {},
@@ -28,9 +28,9 @@ const IssueDetailMain = () => {
 	const id = useParams()?.id;
 	const [comments, setComments] = useState<TComment[]>(defaultComment);
 	const { data, isSuccess } = useIssuesGet({ id });
-	const commentsList = comments.map((comment) => (
-		<IssueDetailComment key={comment.id} comment={comment} />
-	));
+	const commentsList = comments.map(
+		(comment) => !comment.systemMessage && <IssueDetailComment key={comment.id} comment={comment} />
+	);
 
 	useEffect(() => {
 		const {

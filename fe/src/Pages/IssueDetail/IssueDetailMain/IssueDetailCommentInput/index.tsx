@@ -22,6 +22,7 @@ const IssueDetailComment = () => {
 			setFileName(name);
 		}
 	};
+
 	return (
 		<StyledIssueDetailCommentInput>
 			<UserImg size="medium" />
