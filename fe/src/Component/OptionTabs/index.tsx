@@ -49,8 +49,8 @@ const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) 
 	const tabs = tabsInfo.map(({ id, Icon, name, count }) => {
 		const nextPage = name === LABEL ? "/labels" : "/milestones";
 		return (
-			<Link to={nextPage}>
-				<StyledTab key={id} tabType={name} isLabels={isLabels}>
+			<Link to={nextPage} key={id}>
+				<StyledTab tabType={name} isLabels={isLabels}>
 					<Icon colorset="label" size={20} />
 					<div>{name}</div>
 					<div>({count})</div>
@@ -59,8 +59,8 @@ const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) 
 		);
 	});
 
-	const handleAddNewLabelIsClicked = () => {
-		if (setAddNewLabelIsClicked !== undefined) setAddNewLabelIsClicked(!addNewLabelIsClicked);
+	const handleLabelFormIsClicked = () => {
+		if (setLabelFormIsClicked !== undefined) setLabelFormIsClicked(!labelFormIsClicked);
 	};
 
 	useEffect(() => {
