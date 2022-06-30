@@ -33,8 +33,10 @@ const PopupContent = ({
 	option = undefined,
 }: TContentProps) => {
 	const navigate = useNavigate();
-	const [filterValue, setFilterValue] = useRecoilState(atoms.issueList.filterValue);
-	const isWritten = filterValue.includes(name);
+	const [filterValue, setFilterValue] = filterName
+		? useRecoilState(atoms.issueList.filterValue)
+		: [null, null];
+	const isWritten = filterName ? !!filterValue?.includes(name) : false;
 	const [checked, setChecked] = useState(isWritten);
 	const [atomState, setAtomState] = atom ? useRecoilState(atom) : [null, null];
 	const contentTag = clickEventHandler ? "button" : "div";
@@ -55,7 +57,7 @@ const PopupContent = ({
 	};
 
 	const setNewFilterValue = () => {
-		if (!filterName) return;
+		if (!filterName || filterValue === null) return;
 
 		const editedFilterName = `${filterName}:${name} `;
 		const newFilterValue = filterValue.includes(editedFilterName)
@@ -73,10 +75,13 @@ const PopupContent = ({
 	const handleClickContent = (event: React.MouseEvent) => {
 		if (clickEventHandler) clickEventHandler(event);
 
+		console.log("here");
 		setNewAtomState();
-		setChecked(!checked);
 		setNewFilterValue();
+		setChecked(!checked);
 	};
+
+	console.log(checked);
 
 	return (
 		<StyledPopupContent
@@ -92,7 +97,7 @@ const PopupContent = ({
 			</StyledPopupName>
 			{isCheckBox && (
 				<Checkbox
-					checked={isWritten && checked}
+					checked={isWritten || checked}
 					onChange={handleChange}
 					size="small"
 					color="default"
