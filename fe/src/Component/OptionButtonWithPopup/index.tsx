@@ -1,12 +1,10 @@
 import { StyledComponent, DefaultTheme } from "styled-components";
-import { AxiosResponse } from "axios";
 import { RecoilState } from "recoil";
 
 import { TNewIssueOption } from "Atoms";
 import { TResultIcon } from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
-import { useState } from "react";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import { useEffect, useState } from "react";
 
 type TIcons = { DownIcon?: TResultIcon; UpIcon?: TResultIcon } | undefined;
 
@@ -15,13 +13,7 @@ type TOptionButtonWithPopupItem = {
 	title: "담당자" | "레이블" | "마일스톤" | "작성자";
 	isLeft: boolean;
 	popupContents: TPopupContentProps[];
-	getData: (token: string) => Promise<
-		| AxiosResponse<any, any>
-		| {
-				data: Error;
-				status: null;
-		  }
-	>;
+	getData: any;
 	getPopupContents: (data: any) => TPopupContentProps[];
 	StyledButton: StyledComponent<"button", DefaultTheme, {}, never>;
 	icons?: TIcons;
@@ -50,20 +42,23 @@ const OptionButtonWithPopup = ({
 }: TOptionButtonWithPopupProps) => {
 	const [contents, setContents] = useState(popupContents);
 	const [isDown, setIsDown] = useState(false);
-	const [isUpdated, setIsUpdated] = useState(false);
-	const { accessToken } = useCookieUserInfo();
+	const [isMouseEnter, setIsMouseEnter] = useState(false);
 	const showedIcon = getShowedIcon(icons, isDown);
+	const { data, isSuccess } = getData({ enabled: isMouseEnter });
 
-	const handleMouseEnter = async () => {
-		if (isUpdated) return;
-
-		const response = await getData(accessToken);
-		const { data } = response;
-		const newContents = getPopupContents(data);
-
-		setContents(newContents);
-		setIsUpdated(!isUpdated);
+	const handleMouseEnter = () => {
+		setIsMouseEnter(true);
 	};
+
+	const handleMouseLeave = () => {
+		setIsMouseEnter(false);
+	};
+
+	useEffect(() => {
+		if (!isSuccess) return;
+		const newContents = getPopupContents(data);
+		setContents(newContents);
+	}, [isSuccess]);
 
 	return (
 		<Popup
@@ -72,8 +67,14 @@ const OptionButtonWithPopup = ({
 			title={`${title} 필터`}
 			setOption={setIsDown}
 			atom={atom}
+			loading={!isSuccess}
 		>
-			<StyledButton key={id} type="button" onMouseEnter={handleMouseEnter}>
+			<StyledButton
+				key={id}
+				type="button"
+				onMouseEnter={handleMouseEnter}
+				onMouseLeave={handleMouseLeave}
+			>
 				<div>{title}</div>
 				{showedIcon}
 			</StyledButton>

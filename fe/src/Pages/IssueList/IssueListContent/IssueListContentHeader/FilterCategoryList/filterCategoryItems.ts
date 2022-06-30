@@ -1,11 +1,10 @@
-import atoms from "Atoms";
-import useLabels from "Hooks/useLabels";
-import useMilestones from "Hooks/useMilestones";
+import icons from "Util/Icons";
 import useUsers from "Hooks/useUsers";
+import useMilestones from "Hooks/useMilestones";
+import useLabels from "Hooks/useLabels";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
-import icons from "Util/Icons";
-import { StyledIssueOptionButton } from "./IssueOptions.styled";
+import { StyledFilterCategory } from "./FilterCategoryList.styled";
 
 type TLabelData = {
 	id: number;
@@ -23,8 +22,6 @@ type TLabelResponseData = {
 type TMilestoneData = {
 	id: number;
 	title: string;
-	countOpen: number;
-	countClosed: number;
 };
 
 type TMilestoneResponseData = {
@@ -40,7 +37,8 @@ type TUsersData = {
 	profileImage: string;
 };
 
-const { IndeterminateCheckBox, AddBox } = icons;
+const { KeyboardArrowDown, KeyboardArrowUp } = icons;
+
 const defaultPopupContents: TPopupContentProps[] = [];
 
 const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[] => {
@@ -50,6 +48,7 @@ const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[]
 			name,
 			image: labelColor,
 			imageType: "color" as "color",
+			filterName: "label",
 		};
 	});
 	return newContents;
@@ -62,24 +61,25 @@ const getContentsByUsers = (data: TUsersData[]): TPopupContentProps[] => {
 			name: loginName,
 			image: profileImage,
 			imageType: "image" as "image",
+			filterName: "assignee",
 		};
 	});
 	return newContents;
 };
 
 const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContentProps[] => {
-	const newContents = data.map(({ id, title, countOpen, countClosed }: TMilestoneData) => {
+	const newContents = data.map(({ id, title }: TMilestoneData) => {
 		return {
 			id,
 			name: title,
-			option: { countOpen, countClosed },
+			filterName: "milestone",
 		};
 	});
 
 	return newContents;
 };
 
-const issueOptionsItems: TOptionButtonWithPopupItem[] = [
+const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 	{
 		id: 1,
 		title: "담당자",
@@ -88,11 +88,10 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 		getData: useUsers,
 		getPopupContents: getContentsByUsers,
 		icons: {
-			UpIcon: AddBox,
-			DownIcon: IndeterminateCheckBox,
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
 		},
-		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.users,
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 2,
@@ -102,26 +101,37 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 		getData: useLabels,
 		getPopupContents: getContentsByLabels,
 		icons: {
-			UpIcon: AddBox,
-			DownIcon: IndeterminateCheckBox,
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
 		},
-		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.labels,
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 3,
 		title: "마일스톤",
-		isLeft: true,
+		isLeft: false,
 		popupContents: defaultPopupContents,
 		getData: useMilestones,
 		getPopupContents: getContentsByMilestone,
 		icons: {
-			UpIcon: AddBox,
-			DownIcon: IndeterminateCheckBox,
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
 		},
-		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.milestones,
+		StyledButton: StyledFilterCategory,
+	},
+	{
+		id: 4,
+		title: "작성자",
+		isLeft: false,
+		popupContents: defaultPopupContents,
+		getData: useUsers,
+		getPopupContents: getContentsByUsers,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
+		StyledButton: StyledFilterCategory,
 	},
 ];
 
-export default issueOptionsItems;
+export default filterCategoryItems;

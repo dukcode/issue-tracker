@@ -7,7 +7,7 @@ import IssueDetailMain from "./IssueDetailMain";
 
 const IssueDetail = () => {
 	const id = useParams()?.id;
-	const { isLoading } = useIssuesGet(id);
+	const { isLoading } = useIssuesGet({ id });
 
 	return (
 		<StyledIssueDetail>

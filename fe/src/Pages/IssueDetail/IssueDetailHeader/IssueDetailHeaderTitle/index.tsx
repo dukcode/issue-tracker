@@ -10,7 +10,7 @@ import {
 
 const IssueDetailHeaderTitle = () => {
 	const id = useParams()?.id;
-	const { data } = useIssuesGet(id);
+	const { data } = useIssuesGet({ id });
 	const title = data?.title;
 
 	return (

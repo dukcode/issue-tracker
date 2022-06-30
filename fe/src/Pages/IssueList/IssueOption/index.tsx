@@ -13,7 +13,7 @@ type TIssueOptionProps = {
 };
 
 const CLOSED = "closed";
-const getOptionString = (option: string) => `is:${option}`;
+const getOptionString = (option: string) => `is:${option} `;
 
 const IssueOption = ({ counts, Icon, isOpened, name, option }: TIssueOptionProps) => {
 	const navigate = useNavigate();

@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent } from "react";
 import { RecoilState, useRecoilState } from "recoil";
-import { TNewIssueOption } from "Atoms";
+import atoms, { TNewIssueOption } from "Atoms";
+import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "@mui/material";
 import UserImg from "Component/UserImg";
@@ -15,6 +16,7 @@ type TContentProps = {
 	clickEventHandler?: (event: React.MouseEvent) => void;
 	disabledOption?: boolean;
 	atom?: RecoilState<TNewIssueOption[]>;
+	filterName?: string;
 	option?: { countOpen: number; countClosed: number };
 };
 
@@ -24,6 +26,7 @@ const defaultContentProps = {
 	isCheckBox: true,
 	clickEventHandler: undefined,
 	disabledOption: false,
+	filterName: undefined,
 	atom: undefined,
 	option: undefined,
 };
@@ -37,9 +40,13 @@ const PopupContent = ({
 	clickEventHandler,
 	disabledOption,
 	atom,
+	filterName,
 	option,
 }: TContentProps) => {
-	const [checked, setChecked] = useState(false);
+	const navigate = useNavigate();
+	const [filterValue, setFilterValue] = useRecoilState(atoms.issueList.filterValue);
+	const isWritten = filterValue.includes(name);
+	const [checked, setChecked] = useState(isWritten);
 	const [atomState, setAtomState] = atom ? useRecoilState(atom) : [null, null];
 	const contentTag = clickEventHandler ? "button" : "div";
 
@@ -52,19 +59,39 @@ const PopupContent = ({
 		setAtomState(newAtomState);
 	};
 
+	const submitFilterValue = (newFilterValue: string) => {
+		const query = { q: newFilterValue };
+		const params = new URLSearchParams(query);
+		navigate(`/?${params.toString()}`);
+	};
+
+	const setNewFilterValue = () => {
+		if (!filterName) return;
+
+		const editedFilterName = `${filterName}:${name} `;
+		const newFilterValue = filterValue.includes(editedFilterName)
+			? filterValue.replace(editedFilterName, "")
+			: `${filterValue}${editedFilterName}`;
+
+		setFilterValue(newFilterValue);
+		submitFilterValue(newFilterValue);
+	};
+
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		setChecked(event.target.checked);
 	};
 
 	const handleClickContent = (event: React.MouseEvent) => {
 		if (clickEventHandler) clickEventHandler(event);
+
 		setNewAtomState();
 		setChecked(!checked);
+		setNewFilterValue();
 	};
 
 	return (
 		<StyledPopupContent
-			checked={checked}
+			checked={isWritten || checked}
 			onClick={handleClickContent}
 			as={contentTag}
 			disabled={disabledOption}
@@ -75,7 +102,12 @@ const PopupContent = ({
 				{name}
 			</StyledPopupName>
 			{isCheckBox && (
-				<Checkbox checked={checked} onChange={handleChange} size="small" color="default" />
+				<Checkbox
+					checked={isWritten && checked}
+					onChange={handleChange}
+					size="small"
+					color="default"
+				/>
 			)}
 		</StyledPopupContent>
 	);

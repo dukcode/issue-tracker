@@ -1,16 +1,16 @@
 import styled, { css } from "styled-components";
 
 type TStyledIssueOption = {
-	isClosed: boolean;
+	isSelected: boolean;
 };
 
 const StyledIssueOption = styled.button<TStyledIssueOption>`
-	${({ theme: { colors, fonts }, isClosed }) =>
+	${({ theme: { colors, fonts }, isSelected }) =>
 		css`
 			color: ${colors.titleActive};
 
 			${fonts.linkMedium};
-			${isClosed &&
+			${isSelected &&
 			css`
 				${fonts.textMedium};
 				color: ${colors.placeholder};
