@@ -68,19 +68,12 @@ const PopupContent = ({
 	const setNewFilterValue = () => {
 		if (!filterName) return;
 
-		let newFilterValue = "";
-		const isFilterName = filterValue.includes(name);
-		if (isFilterName) {
-			newFilterValue = filterValue.replace(name, "");
-			setFilterValue(newFilterValue);
-		} else {
-			const isFilter = filterValue.includes(filterName);
-			newFilterValue = isFilter
-				? filterValue.replace(`${filterName}:`, `${filterName}:${name} `)
-				: `${filterValue} ${filterName}:${name}`;
-			setFilterValue(newFilterValue);
-		}
+		const editedFilterName = `${filterName}:${name} `;
+		const newFilterValue = filterValue.includes(editedFilterName)
+			? filterValue.replace(editedFilterName, "")
+			: `${filterValue}${editedFilterName}`;
 
+		setFilterValue(newFilterValue);
 		submitFilterValue(newFilterValue);
 	};
 
@@ -98,7 +91,7 @@ const PopupContent = ({
 
 	return (
 		<StyledPopupContent
-			checked={isWritten && checked}
+			checked={isWritten || checked}
 			onClick={handleClickContent}
 			as={contentTag}
 			disabled={disabledOption}

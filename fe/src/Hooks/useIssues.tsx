@@ -40,6 +40,8 @@ export const useIssuesGet = ({
 		: useQuery(["issues", query], () => issuesGetApi(query), {
 				enabled,
 				refetchOnWindowFocus: false,
+				refetchInterval: 3000,
+				retry: 1,
 		  });
 
 	return result;
