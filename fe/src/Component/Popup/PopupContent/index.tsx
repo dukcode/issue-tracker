@@ -20,28 +20,17 @@ type TContentProps = {
 	option?: { countOpen: number; countClosed: number };
 };
 
-const defaultContentProps = {
-	image: undefined,
-	imageType: undefined,
-	isCheckBox: true,
-	clickEventHandler: undefined,
-	disabledOption: false,
-	filterName: undefined,
-	atom: undefined,
-	option: undefined,
-};
-
 const PopupContent = ({
 	id,
 	name,
-	image,
-	imageType,
-	isCheckBox,
-	clickEventHandler,
-	disabledOption,
-	atom,
-	filterName,
-	option,
+	image = undefined,
+	imageType = undefined,
+	isCheckBox = true,
+	clickEventHandler = undefined,
+	disabledOption = false,
+	filterName = undefined,
+	atom = undefined,
+	option = undefined,
 }: TContentProps) => {
 	const navigate = useNavigate();
 	const [filterValue, setFilterValue] = useRecoilState(atoms.issueList.filterValue);
@@ -112,8 +101,6 @@ const PopupContent = ({
 		</StyledPopupContent>
 	);
 };
-
-PopupContent.defaultProps = defaultContentProps;
 
 export default PopupContent;
 export type { TContentProps };
