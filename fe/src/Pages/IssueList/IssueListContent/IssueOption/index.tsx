@@ -1,21 +1,24 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+
+import atoms from "Atoms";
 import { DefaultTheme, StyledComponent } from "styled-components";
 import { TResultButton } from "Util/Icons";
 import { SvgIconComponent } from "@mui/icons-material";
 import StyledIssueOption from "./IssueOption.styled";
 
 type TIssueOptionProps = {
-	counts: { [key in string]: number };
 	Icon: StyledComponent<SvgIconComponent, DefaultTheme, TResultButton>;
 	isOpened: boolean;
 	name: string;
-	option: string;
+	option: "open" | "closed";
 };
 
 const CLOSED = "closed";
 const getOptionString = (option: string) => `is:${option} `;
 
-const IssueOption = ({ counts, Icon, isOpened, name, option }: TIssueOptionProps) => {
+const IssueOption = ({ Icon, isOpened, name, option }: TIssueOptionProps) => {
+	const counts = useRecoilValue(atoms.issueList.counts);
 	const navigate = useNavigate();
 	const [searchParams] = useSearchParams();
 	const q = searchParams.get("q");

@@ -66,7 +66,7 @@ const NewIssueFooter = () => {
 				content="완료"
 				size="medium"
 				clickHandler={handleButtonClick}
-				disableOption={isLoading}
+				disableOption={isLoading || !title.length || !desc.length}
 			/>
 		</StyledNewIssueFooter>
 	);

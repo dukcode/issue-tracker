@@ -25,6 +25,8 @@ const atoms = {
 			key: "submitFilterValue",
 			default: () => {},
 		}),
+		counts: atom({ key: "issueStateCounts", default: { openCount: 0, closedCount: 0 } }),
+		listCount: atom({ key: "issueListCount", default: 0 }),
 	},
 };
 

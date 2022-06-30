@@ -1,9 +1,14 @@
 import styled, { css } from "styled-components";
 
 export const StyledIssueCell = styled.div`
-	height: 100px;
-	display: flex;
-	justify-content: space-between;
+	${({ theme: { colors } }) => css`
+		height: 100px;
+		display: flex;
+		justify-content: space-between;
+		:hover {
+			background-color: ${colors.background};
+		}
+	`}
 `;
 
 export const IssueCellLeft = styled.div`
@@ -54,6 +59,10 @@ export const Title = styled.div`
 
 			svg {
 				margin-top: -3px;
+			}
+
+			:hover {
+				color: ${colors.darkBlue};
 			}
 		`}
 `;

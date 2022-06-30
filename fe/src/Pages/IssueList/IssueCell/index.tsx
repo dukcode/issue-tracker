@@ -1,9 +1,9 @@
-import { useEffect, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
 import moment from "moment";
 import "moment/locale/ko";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import atoms from "Atoms";
 import icons from "Util/Icons";
@@ -28,15 +28,15 @@ import {
 const { ErrorOutline, EmojiFlags } = icons;
 
 type TIssueItem = {
-	dataSize: number;
 	item: TIssueData;
-	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
-const IssueCell = ({ dataSize, item, setAllCheckedCount }: TIssueItem) => {
+const IssueCell = ({ item }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
 	const [isCheckedAll, setIsCheckedAll] = useRecoilState(atoms.issueList.isCheckedAll);
-	const setCheckedIssues = useSetRecoilState(atoms.issueList.checkedIssues);
+	const [checkIssues, setCheckedIssues] = useRecoilState(atoms.issueList.checkedIssues);
+	const listCount = useRecoilValue(atoms.issueList.listCount);
+	const [checked, setChecked] = useState(false);
 	const { loginName, profileImage } = author;
 	const labels = labelsInfo
 		? labelsInfo.map(({ id: lableId, name, labelColor, textColor }) => (
@@ -45,17 +45,15 @@ const IssueCell = ({ dataSize, item, setAllCheckedCount }: TIssueItem) => {
 		: [];
 	const createDateMention = createDate ? moment(createDate).fromNow() : "0초 전";
 	const createDateDesc = `이 이슈가 ${createDateMention}에 ${loginName}님에 의해 작성되었습니다`;
-	const [checked, setChecked] = useState(false);
 	const navigate = useNavigate();
 
-	const handleClickIssueCell = () => {
+	const handleClickIssueTitle = () => {
 		navigate(`/issue/${id}`);
 	};
 
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		event.stopPropagation();
+	const changeChecked = () => {
 		if (checked) {
-			if (!isCheckedAll) setIsCheckedAll(false);
+			if (isCheckedAll) setIsCheckedAll(false);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
 				newCheckedIssues.delete(id);
@@ -67,8 +65,22 @@ const IssueCell = ({ dataSize, item, setAllCheckedCount }: TIssueItem) => {
 				newCheckedIssues.add(id);
 				return newCheckedIssues;
 			});
+
+			if (listCount === checkIssues.size + 1) {
+				setIsCheckedAll(true);
+			}
 		}
-		setChecked(event.target.checked);
+		setChecked(!checked);
+	};
+
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		event.stopPropagation();
+		changeChecked();
+	};
+
+	const handleClickIssueCell = (event: React.MouseEvent) => {
+		event.stopPropagation();
+		changeChecked();
 	};
 
 	useEffect(() => {
@@ -79,29 +91,26 @@ const IssueCell = ({ dataSize, item, setAllCheckedCount }: TIssueItem) => {
 				newCheckedIssues.add(id);
 				return newCheckedIssues;
 			});
-		} else {
+		}
+		if (!isCheckedAll && listCount === checkIssues.size) {
 			setChecked(false);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
-				newCheckedIssues.clear();
+				newCheckedIssues.delete(id);
 				return newCheckedIssues;
 			});
 		}
 	}, [isCheckedAll]);
 
-	useEffect(() => {
-		setAllCheckedCount(dataSize);
-	}, []);
-
 	return (
-		<StyledIssueCell>
+		<StyledIssueCell onClick={handleClickIssueCell}>
 			<IssueCellLeft>
 				<StyledCheckbox>
 					<Checkbox size="small" color="default" checked={checked} onChange={handleChange} />
 				</StyledCheckbox>
 				<IssueInfo>
 					<IssueInfoTop>
-						<Title onClick={handleClickIssueCell}>
+						<Title onClick={handleClickIssueTitle}>
 							<ErrorOutline colorset="blue" size={18} />
 							{title}
 						</Title>
