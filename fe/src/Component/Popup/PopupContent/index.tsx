@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { RecoilState, useRecoilState } from "recoil";
-import atoms, { TNewIssueOption } from "Atoms";
+import atoms, { TIssueOption } from "Atoms";
 import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "@mui/material";
@@ -15,7 +15,7 @@ type TContentProps = {
 	isCheckBox?: boolean;
 	clickEventHandler?: (event: React.MouseEvent) => void;
 	disabledOption?: boolean;
-	atom?: RecoilState<TNewIssueOption[]>;
+	atom?: RecoilState<TIssueOption[]>;
 	filterName?: string;
 	option?: { countOpen: number; countClosed: number };
 };
