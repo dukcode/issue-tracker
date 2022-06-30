@@ -1,7 +1,7 @@
 import LoadingAnimation from "Component/Loading";
 import { StyledNotification, StyledMention } from "./IssuesNotification.styled";
 
-const IssuesNotification = ({ mention }: { mention?: string }) => {
+const IssuesNotification = ({ mention = undefined }: { mention?: string }) => {
 	const notificationContent = mention ? (
 		<StyledMention>{mention}</StyledMention>
 	) : (
@@ -9,10 +9,6 @@ const IssuesNotification = ({ mention }: { mention?: string }) => {
 	);
 
 	return <StyledNotification>{notificationContent}</StyledNotification>;
-};
-
-IssuesNotification.defaultProps = {
-	mention: "",
 };
 
 export default IssuesNotification;

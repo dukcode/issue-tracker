@@ -6,19 +6,12 @@ type TUserImgProps = {
 	color?: string;
 };
 
-const defaultUserImgProps = {
-	img: undefined,
-	color: undefined,
-};
-
-const UserImg = ({ img, size, color }: TUserImgProps) => {
+const UserImg = ({ img = undefined, size, color = undefined }: TUserImgProps) => {
 	return (
 		<StyledUserImgWrapper size={size} color={color}>
 			<StyledUserImg src={img} alt="logo" size={size} color={color} />
 		</StyledUserImgWrapper>
 	);
 };
-
-UserImg.defaultProps = defaultUserImgProps;
 
 export default UserImg;
