@@ -5,7 +5,7 @@ import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
 import Cell from "Component/Cell";
 import OptionTabs from "Component/OptionTabs";
-import AddNewLabel from "Component/Label/AddNewLabel";
+import LabelForm from "Component/Label/LabelForm";
 import StyledLabelsHeader from "./Labels.styled";
 
 type TLabelData = {
@@ -21,7 +21,7 @@ const Labels = () => {
 	const [labelCount, setLabelCount] = useState(0);
 	const [labelData, setLabelData] = useState<TLabelData[]>([]);
 	const [cells, setCells] = useState([<IssuesNotification key="1" />]);
-	const [addNewLabelIsClicked, setAddNewLabelIsClicked] = useState(false);
+	const [labelFormIsClicked, setLabelFormIsClicked] = useState(false);
 
 	const getLabelData = async () => {
 		const labelCountResponse = await labelsApi.getLabels(accessToken, true);
@@ -62,10 +62,18 @@ const Labels = () => {
 	return (
 		<>
 			<OptionTabs
-				addNewLabelIsClicked={addNewLabelIsClicked}
-				setAddNewLabelIsClicked={setAddNewLabelIsClicked}
+				labelFormIsClicked={labelFormIsClicked}
+				setLabelFormIsClicked={setLabelFormIsClicked}
 			/>
-			{addNewLabelIsClicked && <AddNewLabel />}
+			{labelFormIsClicked && (
+				<LabelForm
+					isEditing={false}
+					curName=""
+					curDescription=""
+					curLabelColor=""
+					curTextColor=""
+				/>
+			)}
 
 			<StyledContent>
 				<StyledLabelsHeader>{mention}</StyledLabelsHeader>

@@ -1,26 +1,30 @@
 import styled, { css } from "styled-components";
 
-interface IStyledAddNewLabelForm {
+interface IStyledLabelFormWrapper {
 	hasInput: string;
 }
 
-export const StyledAddNewLabel = styled.div`
-	${({ theme: { colors } }) => css`
-		border: solid 1px ${colors.line};
-		border-radius: 16px;
-		background: ${colors.offWhite};
+interface IStyledLabelForm {
+	isEditing: boolean;
+}
+
+export const StyledLabelForm = styled.div<IStyledLabelForm>`
+	${({ theme: { colors }, isEditing }) => css`
 		height: 345px;
-		margin-top: 24px;
+		${!isEditing && `border: solid 1px ${colors.line};`}
+		${!isEditing && `border-radius: 16px;`}
+		${!isEditing && `margin-top: 24px;`}
+		${!isEditing && `background: ${colors.offWhite};`}
 	`}
 	display: flex;
 `;
 
-export const StyledAddNewLabelTitle = styled.div`
+export const StyledLabelFormTitle = styled.div`
 	width: 344px;
 	position: relative;
 `;
 
-export const StyledAddNewLabelForm = styled.div<IStyledAddNewLabelForm>`
+export const StyledLabelFormForm = styled.div<IStyledLabelFormWrapper>`
 	${({ hasInput }) => css`
 		width: 936px;
 		margin-top: 96px;
