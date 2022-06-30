@@ -19,12 +19,10 @@ type TOptionTabs = {
 	setLabelFormIsClicked?: Dispatch<SetStateAction<boolean>>;
 };
 
-const defaultOptionTabs = {
-	labelFormIsClicked: false,
-	setLabelFormIsClicked: undefined,
-};
-
-const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) => {
+const OptionTabs = ({
+	labelFormIsClicked = false,
+	setLabelFormIsClicked = undefined,
+}: TOptionTabs) => {
 	const location = useLocation();
 	const { data: labelsData, isSuccess: isLabelsSuccess } = useLabels({ isCount: true });
 	const { data: milestonesData, isSuccess: isMilestonesSuccess } = useMilestones({ isCount: true });
@@ -87,7 +85,5 @@ const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) 
 		</StyledOptionTabs>
 	);
 };
-
-OptionTabs.defaultProps = defaultOptionTabs;
 
 export default OptionTabs;

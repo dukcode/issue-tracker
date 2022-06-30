@@ -40,30 +40,24 @@ const getRandomColorCode = () => {
 
 type TLabelForm = {
 	isEditing: boolean;
-	isEditClicked?: boolean;
-	setIsEditClicked?: Dispatch<SetStateAction<boolean>>;
-	curId?: number;
 	curName: string;
 	curDescription: string;
 	curLabelColor: string;
 	curTextColor: string;
-};
-
-const defaultLabelForm = {
-	curId: 1,
-	isEditClicked: false,
-	setIsEditClicked: undefined,
+	isEditClicked?: boolean;
+	setIsEditClicked?: Dispatch<SetStateAction<boolean>>;
+	curId?: number;
 };
 
 const LabelForm = ({
 	isEditing,
-	isEditClicked,
-	setIsEditClicked,
-	curId,
 	curName,
 	curDescription,
 	curLabelColor,
 	curTextColor,
+	isEditClicked = false,
+	setIsEditClicked = undefined,
+	curId = 1,
 }: TLabelForm) => {
 	const { accessToken } = useCookieUserInfo();
 	const [inputTitle, setInputTitle] = useState(curName);
@@ -209,7 +203,5 @@ const LabelForm = ({
 		</StyledLabelForm>
 	);
 };
-
-LabelForm.defaultProps = defaultLabelForm;
 
 export default LabelForm;

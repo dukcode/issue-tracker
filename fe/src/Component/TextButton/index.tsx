@@ -22,30 +22,23 @@ type TTextButtonProps = {
 	isHover?: boolean;
 };
 
-const TextButton = ({ icon, content, handleClick, color, size, isHover }: TTextButtonProps) => {
+const TextButton = ({
+	icon,
+	content,
+	handleClick = undefined,
+	color = "titleActive",
+	size = "textSmall",
+	isHover = true,
+}: TTextButtonProps) => {
 	const Icon = icons[icon];
-	const resultSize = size || "textSmall";
-	const resultColor = color || "titleActive";
-	const iconSize = iconSizeData[resultSize];
+	const iconSize = iconSizeData[size];
 
 	return (
-		<StyledTextButton
-			onClick={handleClick}
-			color={resultColor}
-			size={resultSize}
-			isHover={isHover === true}
-		>
-			<Icon size={iconSize} colorset={resultColor} />
+		<StyledTextButton onClick={handleClick} color={color} size={size} isHover={isHover === true}>
+			<Icon size={iconSize} colorset={color} />
 			{content}
 		</StyledTextButton>
 	);
-};
-
-TextButton.defaultProps = {
-	handleClick: undefined,
-	color: undefined,
-	size: "medium",
-	isHover: true,
 };
 
 export default TextButton;

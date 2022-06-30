@@ -20,13 +20,15 @@ type TPopupProps = {
 	loading?: boolean;
 };
 
-const defaultPopupProps = {
-	setOption: undefined,
-	atom: undefined,
-	loading: false,
-};
-
-const Popup = ({ children, isLeft, title, contents, setOption, atom, loading }: TPopupProps) => {
+const Popup = ({
+	children,
+	isLeft,
+	title,
+	contents,
+	setOption = undefined,
+	atom = undefined,
+	loading = false,
+}: TPopupProps) => {
 	const contentsList = contents.map(
 		({
 			id,
@@ -115,8 +117,6 @@ const Popup = ({ children, isLeft, title, contents, setOption, atom, loading }: 
 		</StyledPopupWrapper>
 	);
 };
-
-Popup.defaultProps = defaultPopupProps;
 
 export default Popup;
 export type { TPopupContentProps };
