@@ -194,10 +194,10 @@ const LabelForm = ({
 				</StyledColorSelect>
 				{isEditing ? (
 					<>
-						<Button content={DONE} icon="AddBox" clickHandler={handleEditingLabel} />
+						<Button content={DONE} icon="Edit" clickHandler={handleEditingLabel} />
 						<Button
 							content={CANCEL}
-							icon="AddBox"
+							icon="RemoveCircleOutline"
 							reverse={true}
 							clickHandler={handleCancelEditingLabel}
 						/>
