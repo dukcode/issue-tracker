@@ -1,9 +1,17 @@
 import styled, { css } from "styled-components";
+import { TKeysColors, TKeysFonts } from "Styles/theme";
 
-const StyledTextButton = styled.div`
-	${({ theme: { colors, fonts } }) => css`
-		${fonts.linkSmall};
-		color: ${colors.label};
+type TStyledTextButton = {
+	color: TKeysColors;
+	size: TKeysFonts;
+	isHover: boolean;
+};
+
+const StyledTextButton = styled.div<TStyledTextButton>`
+	${({ theme: { colors, fonts }, color, size, isHover }) => css`
+		${fonts[size]};
+		cursor: pointer;
+		color: ${colors[color]};
 		display: flex;
 		align-items: center;
 		gap: 3px;
@@ -12,23 +20,21 @@ const StyledTextButton = styled.div`
 			margin-top: -3px;
 		}
 
-		:hover {
-			color: ${colors.body};
-			svg {
-				color: ${colors.body};
+		${isHover &&
+		css`
+			opacity: 0.6;
+			:hover {
+				opacity: 0.8;
 			}
-		}
 
-		:active {
-			color: ${colors.titleActive};
-			svg {
-				color: ${colors.titleActive};
+			:active {
+				opacity: 1;
 			}
-		}
 
-		:disabled {
-			opacity: 0.5;
-		}
+			:disabled {
+				opacity: 0.5;
+			}
+		`}
 	`}
 `;
 
