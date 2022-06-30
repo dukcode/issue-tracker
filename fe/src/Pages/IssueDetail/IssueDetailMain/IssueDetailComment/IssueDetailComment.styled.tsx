@@ -64,6 +64,10 @@ export const StyledWriterOption = styled.div<TStyledWriterOptionProps>`
 			visibility: hidden;
 			pointer-events: none;
 		`}
+
+		svg {
+			margin-top: -1px;
+		}
 	`}
 `;
 

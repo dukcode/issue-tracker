@@ -52,7 +52,8 @@ const IssueDetailComment = ({
 }) => {
 	const markedContent = <Markdown>{content}</Markdown>;
 	const { profileImage: loginImage } = useCookieUserInfo();
-	const isSameUser = profileImage === loginImage; // 로그인 유저와 작성 유저 일치 여부 수정 필요
+	// const isSameUser = profileImage === loginImage; // 로그인 유저와 작성 유저 일치 여부 수정 필요
+	const isSameUser = profileImage !== loginImage; // 배포 시 삭제
 	const editedTime = moment(createDate).fromNow();
 
 	return (
