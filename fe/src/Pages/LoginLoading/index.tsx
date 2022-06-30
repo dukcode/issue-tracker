@@ -20,7 +20,7 @@ const LoginLoading = () => {
 	const isDev = process.env.NODE_ENV === "development";
 	if (isDev) {
 		const date = new Date();
-		date.setHours(date.getHours() + 1);
+		date.setHours(date.getHours() + 100);
 		setCookie(
 			key,
 			{
