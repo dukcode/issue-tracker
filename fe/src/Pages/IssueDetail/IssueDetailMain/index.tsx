@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
 import { useIssuesGet } from "Hooks/useIssues";
+import NewIssueOptions from "Component/IssueOptions";
 import IssueDetailCommentInput from "./IssueDetailCommentInput";
 import IssueDetailComment, { TComment } from "./IssueDetailComment";
+import issueDetailOptionsItems from "./issueDetailOptionsItems";
 import { StyledIssueDetailMain, StyledIssueDetailContent } from "./IssueDetailMain.styled";
 
 const defaultComment: TComment[] = [
@@ -54,7 +56,7 @@ const IssueDetailMain = () => {
 				{commentsList}
 				<IssueDetailCommentInput />
 			</StyledIssueDetailContent>
-			<div>OPTIONS</div>
+			<NewIssueOptions items={issueDetailOptionsItems} />
 		</StyledIssueDetailMain>
 	);
 };

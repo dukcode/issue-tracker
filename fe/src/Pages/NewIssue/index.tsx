@@ -1,7 +1,8 @@
-import NewIssueOptions from "Component/IssueOptions";
+import IssueOptions from "Component/IssueOptions";
 import NewIssueHeader from "Pages/NewIssue/NewIssueHeader";
 import NewIssueContent from "./NewIssueContent";
 import NewIssueFooter from "./NewIssueFooter";
+import issueOptionsItems from "./newIssueOptionsItems";
 import { StyledNewIssue, StyledNewIssueMain } from "./NewIssue.styled";
 
 const NewIssue = () => {
@@ -10,7 +11,7 @@ const NewIssue = () => {
 			<NewIssueHeader />
 			<StyledNewIssueMain>
 				<NewIssueContent />
-				<NewIssueOptions />
+				<IssueOptions items={issueOptionsItems} />
 			</StyledNewIssueMain>
 			<NewIssueFooter />
 		</StyledNewIssue>

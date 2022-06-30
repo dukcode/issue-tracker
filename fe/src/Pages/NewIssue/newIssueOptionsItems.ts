@@ -1,11 +1,12 @@
+import styled, { css } from "styled-components";
+
 import atoms from "Atoms";
-import useLabelsGet from "Hooks/useLabels";
+import { useLabelsGet } from "Hooks/useLabels";
 import useMilestones from "Hooks/useMilestones";
 import useUsers from "Hooks/useUsers";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
 import icons from "Util/Icons";
-import { StyledIssueOptionButton } from "./IssueDetailOptions.styled";
 
 type TLabelData = {
 	id: number;
@@ -42,6 +43,20 @@ type TUsersData = {
 
 const { IndeterminateCheckBox, AddBox } = icons;
 const defaultPopupContents: TPopupContentProps[] = [];
+
+const StyledIssueOptionButton = styled.button`
+	${({ theme: { colors, fonts } }) => css`
+		${fonts.linkSmall};
+		color: ${colors.label};
+		cursor: pointer;
+		display: flex;
+		width: 100%;
+		height: 50px;
+
+		align-items: center;
+		justify-content: space-between;
+	`}
+`;
 
 const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[] => {
 	const newContents = data.map(({ id, name, labelColor }: TLabelData) => {
@@ -92,7 +107,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.issueDetail.users,
+		atom: atoms.newIssue.users,
 	},
 	{
 		id: 2,
@@ -106,7 +121,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.issueDetail.labels,
+		atom: atoms.newIssue.labels,
 	},
 	{
 		id: 3,
@@ -120,7 +135,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.issueDetail.milestones,
+		atom: atoms.newIssue.milestones,
 	},
 ];
 
