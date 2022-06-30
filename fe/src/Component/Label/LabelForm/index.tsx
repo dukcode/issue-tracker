@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from "react";
+import { useState, ChangeEvent, Dispatch, SetStateAction } from "react";
 import { labelsApi } from "Api";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import icons from "Util/Icons";
@@ -9,9 +9,9 @@ import FormControl from "@mui/material/FormControl";
 import Label from "Component/Label";
 import Button from "Component/Button";
 import {
-	StyledAddNewLabel,
-	StyledAddNewLabelTitle,
-	StyledAddNewLabelForm,
+	StyledLabelForm,
+	StyledLabelFormTitle,
+	StyledLabelFormForm,
 	StyledMention,
 	StyledLabelWrapper,
 	StyledInputArea,
@@ -19,29 +19,59 @@ import {
 	StyledTextColor,
 	StyledBackgroundColor,
 	StyledInputBackgroundColor,
-} from "./AddNewLabel.styled";
+} from "./LabelForm.styled";
 
 const NAME = "레이블 이름";
 const DefaultBackgroundColor = "#c2e0c6";
 const DARK = "DARK";
-const MENTION = "새로운 레이블 추가";
+const MENTION_ADD = "새로운 레이블 추가";
+const MENTION_EDIT = "레이블 편집";
 const defaultInputTitle = "레이블 이름";
 const defaultInputDescription = "설명(선택)";
 const BACKGROUNDCOLOR = "배경 색상";
 const TEXTCOLOR = "텍스트 색상";
 const DONE = "완료";
+const CANCEL = "취소";
 const { Loop } = icons;
 
 const getRandomColorCode = () => {
 	return Math.round(Math.random() * 0xffffff).toString(16);
 };
 
-const AddNewLabel = () => {
+type TLabelForm = {
+	isEditing: boolean;
+	isEditClicked?: boolean;
+	setIsEditClicked?: Dispatch<SetStateAction<boolean>>;
+	curId?: number;
+	curName: string;
+	curDescription: string;
+	curLabelColor: string;
+	curTextColor: string;
+};
+
+const defaultLabelForm = {
+	curId: 1,
+	isEditClicked: false,
+	setIsEditClicked: undefined,
+};
+
+const LabelForm = ({
+	isEditing,
+	isEditClicked,
+	setIsEditClicked,
+	curId,
+	curName,
+	curDescription,
+	curLabelColor,
+	curTextColor,
+}: TLabelForm) => {
 	const { accessToken } = useCookieUserInfo();
-	const [inputTitle, setInputTitle] = useState("");
-	const [inputDescription, setInputDescription] = useState("");
-	const [inputBackgroundColor, setInputBackgroundColor] = useState(DefaultBackgroundColor);
-	const [inputTextColor, setInputTextColor] = useState(DARK);
+	const [inputTitle, setInputTitle] = useState(curName);
+	const [inputDescription, setInputDescription] = useState(curDescription);
+	const [inputBackgroundColor, setInputBackgroundColor] = useState(
+		curLabelColor || DefaultBackgroundColor
+	);
+	const [inputTextColor, setInputTextColor] = useState(curTextColor || DARK);
 	const handleInputTitle = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
 		setInputTitle(value);
@@ -78,14 +108,44 @@ const AddNewLabel = () => {
 		if (statusNum && statusNum < 300) window.location.reload();
 	};
 
-	const handleAddNewLabel = () => {
+	const handleLabelForm = () => {
 		postNewLabel(inputTitle, inputDescription, inputBackgroundColor, inputTextColor);
 	};
 
+	const handleCancelEditingLabel = () => {
+		if (setIsEditClicked) setIsEditClicked(!isEditClicked);
+	};
+
+	const editCurLabel = async (
+		id: number,
+		title: string,
+		description: string,
+		backgroundColor: string,
+		textColor: string
+	) => {
+		const response = await labelsApi.editLabel(
+			accessToken,
+			id,
+			title,
+			description,
+			backgroundColor,
+			textColor
+		);
+
+		const { status: statusNum } = response;
+
+		if (statusNum && statusNum < 300) window.location.reload();
+	};
+
+	const handleEditingLabel = () => {
+		if (curId)
+			editCurLabel(curId, inputTitle, inputDescription, inputBackgroundColor, inputTextColor);
+	};
+
 	return (
-		<StyledAddNewLabel>
-			<StyledAddNewLabelTitle>
-				<StyledMention>{MENTION}</StyledMention>
+		<StyledLabelForm isEditing={isEditing}>
+			<StyledLabelFormTitle>
+				<StyledMention>{isEditing ? MENTION_EDIT : MENTION_ADD}</StyledMention>
 				<StyledLabelWrapper>
 					<Label
 						name={!inputTitle ? NAME : inputTitle}
@@ -93,8 +153,8 @@ const AddNewLabel = () => {
 						textColor={inputTextColor}
 					/>
 				</StyledLabelWrapper>
-			</StyledAddNewLabelTitle>
-			<StyledAddNewLabelForm hasInput={inputTitle}>
+			</StyledLabelFormTitle>
+			<StyledLabelFormForm hasInput={inputTitle}>
 				<StyledInputArea>
 					<input
 						placeholder={defaultInputTitle}
@@ -132,10 +192,24 @@ const AddNewLabel = () => {
 						</FormControl>
 					</StyledTextColor>
 				</StyledColorSelect>
-				<Button content={DONE} icon="AddBox" clickHandler={handleAddNewLabel} />
-			</StyledAddNewLabelForm>
-		</StyledAddNewLabel>
+				{isEditing ? (
+					<>
+						<Button content={DONE} icon="Edit" clickHandler={handleEditingLabel} />
+						<Button
+							content={CANCEL}
+							icon="RemoveCircleOutline"
+							reverse={true}
+							clickHandler={handleCancelEditingLabel}
+						/>
+					</>
+				) : (
+					<Button content={DONE} icon="AddBox" clickHandler={handleLabelForm} />
+				)}
+			</StyledLabelFormForm>
+		</StyledLabelForm>
 	);
 };
 
-export default AddNewLabel;
+LabelForm.defaultProps = defaultLabelForm;
+
+export default LabelForm;

@@ -11,18 +11,19 @@ const LABEL = "레이블";
 const MILESTONE = "마일스톤";
 const ADD_ISSUE = "이슈 작성";
 const ADD_LABEL = "추가";
+const ADD_LABEL_CLOSE = "닫기";
 
 type TOptionTabs = {
-	addNewLabelIsClicked?: boolean;
-	setAddNewLabelIsClicked?: Dispatch<SetStateAction<boolean>>;
+	labelFormIsClicked?: boolean;
+	setLabelFormIsClicked?: Dispatch<SetStateAction<boolean>>;
 };
 
 const defaultOptionTabs = {
-	addNewLabelIsClicked: false,
-	setAddNewLabelIsClicked: undefined,
+	labelFormIsClicked: false,
+	setLabelFormIsClicked: undefined,
 };
 
-const OptionTabs = ({ addNewLabelIsClicked, setAddNewLabelIsClicked }: TOptionTabs) => {
+const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) => {
 	const location = useLocation();
 	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
@@ -47,7 +48,7 @@ const OptionTabs = ({ addNewLabelIsClicked, setAddNewLabelIsClicked }: TOptionTa
 		const nextPage = name === LABEL ? "/labels" : "/milestones";
 		return (
 			<Link to={nextPage}>
-				<StyledTab key={id} className={name}>
+				<StyledTab key={id} tabType={name} isLabels={isLabels}>
 					<Icon colorset="label" size={20} />
 					<div>{name}</div>
 					<div>({count})</div>
@@ -71,15 +72,20 @@ const OptionTabs = ({ addNewLabelIsClicked, setAddNewLabelIsClicked }: TOptionTa
 		getLabelMilestoneCount();
 	}, []);
 
-	const handleAddNewLabelIsClicked = () => {
-		if (setAddNewLabelIsClicked !== undefined) setAddNewLabelIsClicked(!addNewLabelIsClicked);
+	const handleLabelFormIsClicked = () => {
+		if (setLabelFormIsClicked !== undefined) setLabelFormIsClicked(!labelFormIsClicked);
 	};
 
 	return (
 		<StyledOptionTabs isLabels={isLabels}>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
 			{isLabels ? (
-				<Button content={ADD_LABEL} icon="AddBox" clickHandler={handleAddNewLabelIsClicked} />
+				<Button
+					content={labelFormIsClicked ? ADD_LABEL_CLOSE : ADD_LABEL}
+					icon={labelFormIsClicked ? "RemoveCircleOutline" : "AddBox"}
+					reverse={labelFormIsClicked}
+					clickHandler={handleLabelFormIsClicked}
+				/>
 			) : (
 				<Link to="new-issue">
 					<Button content={ADD_ISSUE} icon="AddBox" />

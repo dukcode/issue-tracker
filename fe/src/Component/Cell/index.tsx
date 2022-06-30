@@ -1,7 +1,9 @@
+import { useState } from "react";
 import Label from "Component/Label";
 import icons from "Util/Icons";
 import { labelsApi } from "Api";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import LabelForm from "Component/Label/LabelForm";
 import {
 	StyledCell,
 	StyledCellDescription,
@@ -25,10 +27,10 @@ const DELETE = "삭제";
 
 const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 	const { accessToken } = useCookieUserInfo();
+	const [isEditClicked, setIsEditClicked] = useState(false);
 
 	const handleLabelEdit = () => {
-		// TODO: 레이블 편집 구현
-		console.log("handleLabelEdit");
+		setIsEditClicked(!isEditClicked);
 	};
 
 	const deleteLabel = async (issueNumber: number) => {
@@ -43,20 +45,35 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 	};
 
 	return (
-		<StyledCell>
-			<Label key={id} name={name} labelColor={labelColor} textColor={textColor} />
-			<StyledCellDescription>{description}</StyledCellDescription>
-			<StyledButtons>
-				<StyledButton onClick={handleLabelEdit}>
-					<Edit size={20} colorset="label" />
-					<StyledButtonName buttonColor="label">{EDIT}</StyledButtonName>
-				</StyledButton>
-				<StyledButton onClick={handleLabelDelete}>
-					<DeleteOutline size={20} colorset="red" />
-					<StyledButtonName buttonColor="red">{DELETE}</StyledButtonName>
-				</StyledButton>
-			</StyledButtons>
-		</StyledCell>
+		<div>
+			{isEditClicked ? (
+				<LabelForm
+					isEditing={true}
+					isEditClicked={isEditClicked}
+					setIsEditClicked={setIsEditClicked}
+					curId={id}
+					curName={name}
+					curDescription={description}
+					curLabelColor={labelColor}
+					curTextColor={textColor}
+				/>
+			) : (
+				<StyledCell>
+					<Label key={id} name={name} labelColor={labelColor} textColor={textColor} />
+					<StyledCellDescription>{description}</StyledCellDescription>
+					<StyledButtons>
+						<StyledButton onClick={handleLabelEdit}>
+							<Edit size={20} colorset="label" />
+							<StyledButtonName buttonColor="label">{EDIT}</StyledButtonName>
+						</StyledButton>
+						<StyledButton onClick={handleLabelDelete}>
+							<DeleteOutline size={20} colorset="red" />
+							<StyledButtonName buttonColor="red">{DELETE}</StyledButtonName>
+						</StyledButton>
+					</StyledButtons>
+				</StyledCell>
+			)}
+		</div>
 	);
 };
 

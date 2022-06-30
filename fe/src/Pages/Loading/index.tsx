@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import tokenApi from "Api/tokenApi";
+import useUsers from "Hooks/useUsers";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import { StyledLoading, StyledLoadingMention, StyledLoadingAnimation } from "./Loading.styled";
 
@@ -10,28 +10,40 @@ const CODE = "code";
 
 const Loading = () => {
 	const cookieUserInfo = useCookieUserInfo();
-	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
+	const { accessToken: token, setCookie, key } = cookieUserInfo;
+	const isDev = process.env.NODE_ENV === "development";
+	if (isDev) {
+		const date = new Date();
+		date.setHours(date.getHours() + 1);
+		setCookie(
+			key,
+			{
+				profileImage: "https://avatars.githubusercontent.com/u/67730358?v=4",
+				accessToken: process.env.REACT_APP_MASTERKEY,
+			},
+			{ path: "/", expires: date }
+		);
+		navigate("/");
+	}
+	if (token) navigate("/");
+
+	const [searchParams] = useSearchParams();
 	const code = searchParams.get(CODE);
+	const { data: userData, isSuccess, isError } = useUsers({ code });
 
-	const getCookie = async () => {
-		const { accessToken: token, setCookie, key } = cookieUserInfo;
-		if (token) navigate("/");
-
-		const response = await tokenApi.getTokenResponse(code);
-		const { data, status } = response;
-		if (status !== 200) navigate("/login");
-
-		const { profileImage, accessToken } = data;
+	useEffect(() => {
+		if (!isSuccess) return;
+		const { profileImage, accessToken } = userData;
 		const date = new Date();
 		date.setHours(date.getHours() + 1);
 		setCookie(key, { profileImage, accessToken }, { path: "/", expires: date });
 		navigate("/");
-	};
+	}, [isSuccess]);
 
 	useEffect(() => {
-		getCookie();
-	}, []);
+		if (isError) navigate("/login");
+	}, [isError]);
 
 	return (
 		<StyledLoading>

@@ -4,6 +4,11 @@ interface IStyledOptionTabs {
 	isLabels: boolean;
 }
 
+interface IStyledTab {
+	tabType: string;
+	isLabels: boolean;
+}
+
 const StyledOptionTabs = styled.div<IStyledOptionTabs>`
 	${({ isLabels }) => {
 		return (
@@ -31,8 +36,8 @@ const StyledTabsLabelMilestone = styled.div`
 	`}
 `;
 
-const StyledTab = styled.div`
-	${({ theme: { colors } }) => css`
+const StyledTab = styled.div<IStyledTab>`
+	${({ theme: { colors }, tabType, isLabels }) => css`
 		color: ${colors.label};
 		cursor: pointer;
 		display: flex;
@@ -45,6 +50,15 @@ const StyledTab = styled.div`
 		svg {
 			margin-top: -2px;
 		}
+
+		:hover {
+			background: ${colors.inputBackground};
+		}
+
+		${isLabels && tabType === "레이블" && `background: ${colors.line};`}
+		${tabType === "레이블"
+			? `border-radius: 10px 0px 0px 10px;`
+			: `border-radius: 0px 10px 10px 0px;`}
 	`}
 `;
 
