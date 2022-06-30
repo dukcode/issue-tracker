@@ -47,7 +47,7 @@ const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) 
 		const nextPage = name === LABEL ? "/labels" : "/milestones";
 		return (
 			<Link to={nextPage}>
-				<StyledTab key={id} className={name}>
+				<StyledTab key={id} tabType={name} isLabels={isLabels}>
 					<Icon colorset="label" size={20} />
 					<div>{name}</div>
 					<div>({count})</div>
