@@ -1,13 +1,14 @@
 import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
 
+import atoms from "Atoms";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import icons from "Util/Icons";
 import { StyledFilterBar, StyledFilterSelector, StyledFilterInputArea } from "./FilterBar.styled";
 
 const FILTER = "필터";
 const { KeyboardArrowDown, KeyboardArrowUp, Search } = icons;
-const defaultInputValue = "is:open";
 const popupTitle = "이슈 필터";
 const popupContents: TPopupContentProps[] = [
 	{ id: 1, name: "열린 이슈" },
@@ -19,25 +20,25 @@ const popupContents: TPopupContentProps[] = [
 
 const FilterBar = () => {
 	const [isDown, setIsDown] = useState(false);
-	const [inputValue, setInputValue] = useState(defaultInputValue);
+	const [filterValue, setFilterValue] = useRecoilState(atoms.issueList.filterValue);
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
 
 	const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		setInputValue(value);
+		setFilterValue(value);
 	};
 
 	const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		const query = { q: inputValue };
+		const query = { q: filterValue };
 		const params = new URLSearchParams(query);
 		navigate(`/?${params.toString()}`);
 	};
 
 	useEffect(() => {
 		const q = searchParams.get("q");
-		if (q) setInputValue(q);
+		if (q) setFilterValue(q);
 	}, [searchParams]);
 
 	return (
@@ -54,7 +55,7 @@ const FilterBar = () => {
 			</Popup>
 			<StyledFilterInputArea onSubmit={handleSubmit}>
 				<Search colorset="placeholder" size={20} />
-				<input value={inputValue} onChange={handleInput} placeholder="SEARCH ALL ISSUES" />
+				<input value={filterValue} onChange={handleInput} placeholder="SEARCH ALL ISSUES" />
 			</StyledFilterInputArea>
 		</StyledFilterBar>
 	);

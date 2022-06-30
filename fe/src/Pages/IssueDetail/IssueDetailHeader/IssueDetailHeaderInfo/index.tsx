@@ -25,7 +25,7 @@ const { InfoOutlined } = icons;
 
 const IssueDetailHeaderInfo = () => {
 	const id = useParams()?.id;
-	const { data, isLoading, isSuccess } = useIssuesGet(id);
+	const { data, isLoading, isSuccess } = useIssuesGet({ id });
 	const [infos, setInfos] = useState<TIssueDetailHeaderInfos>({});
 	const { status, createDate, commentsCount } = infos;
 	const statusDesc = status ? statusName[status] : null;

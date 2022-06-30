@@ -1,9 +1,11 @@
-import { useEffect, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
+import React, { useEffect, useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Checkbox from "@mui/material/Checkbox";
-import Moment from "react-moment";
+import moment from "moment";
 import "moment/locale/ko";
+import { useRecoilState, useRecoilValue } from "recoil";
 
+import atoms from "Atoms";
 import icons from "Util/Icons";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
@@ -26,41 +28,32 @@ import {
 const { ErrorOutline, EmojiFlags } = icons;
 
 type TIssueItem = {
-	dataSize: number;
 	item: TIssueData;
-	isAllChecked: boolean;
-	setIsAllChecked: Dispatch<SetStateAction<boolean>>;
-	setCheckedIssues: Dispatch<SetStateAction<Set<number>>>;
-	setAllCheckedCount: Dispatch<SetStateAction<number>>;
 };
 
-const IssueCell = ({
-	dataSize,
-	item,
-	isAllChecked,
-	setIsAllChecked,
-	setCheckedIssues,
-	setAllCheckedCount,
-}: TIssueItem) => {
+const IssueCell = ({ item }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
+	const [isCheckedAll, setIsCheckedAll] = useRecoilState(atoms.issueList.isCheckedAll);
+	const [checkIssues, setCheckedIssues] = useRecoilState(atoms.issueList.checkedIssues);
+	const listCount = useRecoilValue(atoms.issueList.listCount);
+	const [checked, setChecked] = useState(false);
 	const { loginName, profileImage } = author;
 	const labels = labelsInfo
 		? labelsInfo.map(({ id: lableId, name, labelColor, textColor }) => (
 				<Label key={lableId} name={name} labelColor={labelColor} textColor={textColor} />
 		  ))
 		: [];
-	const editedTime = <Moment fromNow>{createDate}</Moment>;
-	const [checked, setChecked] = useState(false);
+	const createDateMention = createDate ? moment(createDate).fromNow() : "0초 전";
+	const createDateDesc = `이 이슈가 ${createDateMention}에 ${loginName}님에 의해 작성되었습니다`;
 	const navigate = useNavigate();
 
-	const handleClickIssueCell = () => {
+	const handleClickIssueTitle = () => {
 		navigate(`/issue/${id}`);
 	};
 
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-		event.stopPropagation();
+	const changeChecked = () => {
 		if (checked) {
-			if (!isAllChecked) setIsAllChecked(false);
+			if (isCheckedAll) setIsCheckedAll(false);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
 				newCheckedIssues.delete(id);
@@ -72,41 +65,52 @@ const IssueCell = ({
 				newCheckedIssues.add(id);
 				return newCheckedIssues;
 			});
+
+			if (listCount === checkIssues.size + 1) {
+				setIsCheckedAll(true);
+			}
 		}
-		setChecked(event.target.checked);
+		setChecked(!checked);
+	};
+
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		event.stopPropagation();
+		changeChecked();
+	};
+
+	const handleClickIssueCell = (event: React.MouseEvent) => {
+		event.stopPropagation();
+		changeChecked();
 	};
 
 	useEffect(() => {
-		if (isAllChecked) {
+		if (isCheckedAll) {
 			setChecked(true);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
 				newCheckedIssues.add(id);
 				return newCheckedIssues;
 			});
-		} else {
+		}
+		if (!isCheckedAll && listCount === checkIssues.size) {
 			setChecked(false);
 			setCheckedIssues((prevCheckedIssues) => {
 				const newCheckedIssues = new Set(prevCheckedIssues);
-				newCheckedIssues.clear();
+				newCheckedIssues.delete(id);
 				return newCheckedIssues;
 			});
 		}
-	}, [isAllChecked]);
-
-	useEffect(() => {
-		setAllCheckedCount(dataSize);
-	}, []);
+	}, [isCheckedAll]);
 
 	return (
-		<StyledIssueCell>
+		<StyledIssueCell onClick={handleClickIssueCell}>
 			<IssueCellLeft>
 				<StyledCheckbox>
 					<Checkbox size="small" color="default" checked={checked} onChange={handleChange} />
 				</StyledCheckbox>
 				<IssueInfo>
 					<IssueInfoTop>
-						<Title onClick={handleClickIssueCell}>
+						<Title onClick={handleClickIssueTitle}>
 							<ErrorOutline colorset="blue" size={18} />
 							{title}
 						</Title>
@@ -114,9 +118,7 @@ const IssueCell = ({
 					</IssueInfoTop>
 					<IssueInfoBottom>
 						<IssueNumber>#{id}</IssueNumber>
-						<AuthorTimeStamp>
-							이 이슈가 {editedTime}, {loginName}님에 의해 작성되었습니다.
-						</AuthorTimeStamp>
+						<AuthorTimeStamp>{createDateDesc}</AuthorTimeStamp>
 						{milestone && (
 							<MileStone>
 								<EmojiFlags colorset="label" size={18} />

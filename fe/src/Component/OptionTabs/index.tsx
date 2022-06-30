@@ -1,9 +1,10 @@
 import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { Link, useLocation } from "react-router-dom";
+
+import useLabels from "Hooks/useLabels";
+import useMilestones from "Hooks/useMilestones";
 import icons from "Util/Icons";
 import Button from "Component/Button";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
-import { milestoneApi, labelsApi } from "Api";
 import { StyledOptionTabs, StyledTabsLabelMilestone, StyledTab } from "./OptionsTabs.styled";
 
 const { BookmarksOutlined, DirectionsOutlined } = icons;
@@ -25,7 +26,8 @@ const defaultOptionTabs = {
 
 const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) => {
 	const location = useLocation();
-	const { accessToken } = useCookieUserInfo();
+	const { data: labelsData, isSuccess: isLabelsSuccess } = useLabels({ isCount: true });
+	const { data: milestonesData, isSuccess: isMilestonesSuccess } = useMilestones({ isCount: true });
 	const [labelCount, setLabelCount] = useState(0);
 	const [milestoneCount, setMilestoneCount] = useState(0);
 	const tabsInfo = [
@@ -47,8 +49,8 @@ const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) 
 	const tabs = tabsInfo.map(({ id, Icon, name, count }) => {
 		const nextPage = name === LABEL ? "/labels" : "/milestones";
 		return (
-			<Link to={nextPage}>
-				<StyledTab key={id} tabType={name} isLabels={isLabels}>
+			<Link to={nextPage} key={id}>
+				<StyledTab tabType={name} isLabels={isLabels}>
 					<Icon colorset="label" size={20} />
 					<div>{name}</div>
 					<div>({count})</div>
@@ -57,24 +59,15 @@ const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) 
 		);
 	});
 
-	const getLabelMilestoneCount = async () => {
-		const milestoneResponse = await milestoneApi.getMilestone(accessToken, true);
-		const labelResponse = await labelsApi.getLabels(accessToken, true);
-
-		const { data: milestoneData } = milestoneResponse;
-		const { data: labelData } = labelResponse;
-
-		setMilestoneCount(milestoneData);
-		setLabelCount(labelData);
-	};
-
-	useEffect(() => {
-		getLabelMilestoneCount();
-	}, []);
-
 	const handleLabelFormIsClicked = () => {
 		if (setLabelFormIsClicked !== undefined) setLabelFormIsClicked(!labelFormIsClicked);
 	};
+
+	useEffect(() => {
+		if (!isLabelsSuccess || !isMilestonesSuccess) return;
+		setLabelCount(labelsData);
+		setMilestoneCount(milestonesData);
+	}, [isLabelsSuccess, isMilestonesSuccess]);
 
 	return (
 		<StyledOptionTabs isLabels={isLabels}>
