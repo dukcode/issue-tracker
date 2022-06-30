@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-export const StyledLoading = styled.div`
+export const StyledLoginLoading = styled.div`
 	${({ theme: { colors } }) => css`
 		display: flex;
 		flex-direction: column;
@@ -11,7 +11,7 @@ export const StyledLoading = styled.div`
 	`}
 `;
 
-export const StyledLoadingMention = styled.div`
+export const StyledLoginLoadingMention = styled.div`
 	${({ theme: { colors, fonts } }) => css`
 		${fonts.title};
 		font-weight: 700;
@@ -24,7 +24,7 @@ export const StyledLoadingMention = styled.div`
 	`}
 `;
 
-export const StyledLoadingAnimation = styled.div`
+export const StyledLoginLoadingAnimation = styled.div`
 	${({ theme: { colors } }) => css`
 		margin: 0 auto;
 		border: solid 15px red;
