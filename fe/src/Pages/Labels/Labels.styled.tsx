@@ -2,13 +2,12 @@ import styled, { css } from "styled-components";
 
 const StyledLabelsHeader = styled.div`
 	${({ theme: { colors, fonts } }) => css`
-		color: ${colors.label};
-		height: 64px;
 		${fonts.linkSmall};
+		color: ${colors.label};
+		display: flex;
+		align-items: center;
+		padding: 20px 30px;
 	`};
-	display: flex;
-	align-items: center;
-	padding-left: 32px;
 `;
 
 export default StyledLabelsHeader;

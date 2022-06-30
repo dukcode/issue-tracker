@@ -132,7 +132,8 @@ const theme = {
 };
 
 type TTheme = typeof theme;
+type TKeysFonts = keyof typeof fonts;
 type TKeysColors = keyof typeof colors;
 
-export type { TTheme, TKeysColors };
+export type { TTheme, TKeysColors, TKeysFonts };
 export default theme;
