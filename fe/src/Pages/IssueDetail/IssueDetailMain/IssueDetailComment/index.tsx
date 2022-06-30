@@ -1,38 +1,52 @@
-import React, { useState } from "react";
-
-import CommentBox from "Component/CommentBox";
+import Markdown from "marked-react";
 import UserImg from "Component/UserImg";
-import { StyledIssueDetailCommentInput } from "./IssueDetailComment.styled";
+import {
+	StyledIssueDetailCommentWrapper,
+	StyledIssueDetailComment,
+	StyledIssueDetailCommentTitle,
+	StyledIssueDetailCommentDesc,
+} from "./IssueDetailComment.styled";
 
-const ADD_FILE = "파일 첨부하기";
+type TReactions = {
+	[key in string]: number;
+};
 
-const IssueDetailComment = () => {
-	const [comment, setComment] = useState("");
-	const [fileName, setFileName] = useState(ADD_FILE);
-
-	const handleCommentChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-		const { value } = event.target;
-		setComment(value);
+type TComment = {
+	author: {
+		id: number;
+		loginName: string;
+		name: string;
+		email: string | null;
+		profileImage: string;
 	};
+	content: string;
+	createData: string;
+	id: number;
+	modifiedDate: string;
+	reactions: TReactions;
+	systemMessage: boolean;
+};
 
-	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const { files } = event.target;
-		if (files) {
-			const { name } = files[0];
-			setFileName(name);
-		}
-	};
+const IssueDetailComment = ({
+	comment: {
+		content,
+		author: { loginName, profileImage },
+	},
+}: {
+	comment: TComment;
+}) => {
+	const markedContent = <Markdown>{content}</Markdown>;
+
 	return (
-		<StyledIssueDetailCommentInput>
-			<UserImg size="medium" />
-			<CommentBox
-				value={comment}
-				handleChangeValue={handleCommentChange}
-				handleChangeFile={handleFileChange}
-				fileName={fileName}
-			/>
-		</StyledIssueDetailCommentInput>
+		<StyledIssueDetailCommentWrapper>
+			<UserImg img={profileImage} size="medium" />
+			<StyledIssueDetailComment>
+				<StyledIssueDetailCommentTitle>{loginName}</StyledIssueDetailCommentTitle>
+				<StyledIssueDetailCommentDesc>{markedContent}</StyledIssueDetailCommentDesc>
+			</StyledIssueDetailComment>
+		</StyledIssueDetailCommentWrapper>
 	);
 };
 
 export default IssueDetailComment;
+export type { TComment };
