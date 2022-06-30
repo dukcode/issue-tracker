@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useLabels } from "Hooks/useLabels";
+import { useLabelsGet } from "Hooks/useLabels";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
 import Cell from "Component/Cell";
@@ -21,8 +21,12 @@ const Labels = () => {
 	const [cells, setCells] = useState([<IssuesNotification key="1" />]);
 	const [labelFormIsClicked, setLabelFormIsClicked] = useState(false);
 
-	const { data: labelCountData, isSuccess: isLabelCountDataSuccess } = useLabels({ isCount: true });
-	const { data: labelListData, isSuccess: isLabelListDataSuccess } = useLabels({ isCount: false });
+	const { data: labelCountData, isSuccess: isLabelCountDataSuccess } = useLabelsGet({
+		isCount: true,
+	});
+	const { data: labelListData, isSuccess: isLabelListDataSuccess } = useLabelsGet({
+		isCount: false,
+	});
 
 	const getLabelData = () => {
 		setLabelCount(labelCountData);

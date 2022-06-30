@@ -29,7 +29,7 @@ type TUseLabelsDelete = {
 	id: number;
 };
 
-export const useLabels = ({ enabled = true, isCount = false }: TUseLabelsParams) => {
+export const useLabelsGet = ({ enabled = true, isCount = false }: TUseLabelsParams) => {
 	const client = useFetch("labels");
 
 	const labelsApi = async (count: boolean) => {

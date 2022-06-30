@@ -1,5 +1,5 @@
 import atoms from "Atoms";
-import { useLabels } from "Hooks/useLabels";
+import { useLabelsGet } from "Hooks/useLabels";
 import useMilestones from "Hooks/useMilestones";
 import useUsers from "Hooks/useUsers";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
@@ -99,7 +99,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 		title: "레이블",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: useLabels,
+		getData: useLabelsGet,
 		getPopupContents: getContentsByLabels,
 		icons: {
 			UpIcon: AddBox,

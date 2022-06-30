@@ -1,7 +1,7 @@
 import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import { useLabels } from "Hooks/useLabels";
+import { useLabelsGet } from "Hooks/useLabels";
 import useMilestones from "Hooks/useMilestones";
 import icons from "Util/Icons";
 import Button from "Component/Button";
@@ -24,7 +24,7 @@ const OptionTabs = ({
 	setLabelFormIsClicked = undefined,
 }: TOptionTabs) => {
 	const location = useLocation();
-	const { data: labelsData, isSuccess: isLabelsSuccess } = useLabels({ isCount: true });
+	const { data: labelsData, isSuccess: isLabelsSuccess } = useLabelsGet({ isCount: true });
 	const { data: milestonesData, isSuccess: isMilestonesSuccess } = useMilestones({ isCount: true });
 	const [labelCount, setLabelCount] = useState(0);
 	const [milestoneCount, setMilestoneCount] = useState(0);

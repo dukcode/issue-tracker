@@ -1,7 +1,7 @@
 import icons from "Util/Icons";
 import useUsers from "Hooks/useUsers";
 import useMilestones from "Hooks/useMilestones";
-import { useLabels } from "Hooks/useLabels";
+import { useLabelsGet } from "Hooks/useLabels";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
 import { StyledFilterCategory } from "./FilterCategoryList.styled";
@@ -98,7 +98,7 @@ const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 		title: "레이블",
 		isLeft: true,
 		popupContents: defaultPopupContents,
-		getData: useLabels,
+		getData: useLabelsGet,
 		getPopupContents: getContentsByLabels,
 		icons: {
 			UpIcon: KeyboardArrowUp,
