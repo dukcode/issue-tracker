@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { labelsApi } from "Api";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import useLabels from "Hooks/useLabels";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
 import Cell from "Component/Cell";
@@ -17,23 +16,18 @@ type TLabelData = {
 };
 
 const Labels = () => {
-	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
 	const [labelData, setLabelData] = useState<TLabelData[]>([]);
 	const [cells, setCells] = useState([<IssuesNotification key="1" />]);
 	const [labelFormIsClicked, setLabelFormIsClicked] = useState(false);
 
-	const getLabelData = async () => {
-		const labelCountResponse = await labelsApi.getLabels(accessToken, true);
-		const labelListResponse = await labelsApi.getLabels(accessToken, false);
+	const { data: labelCountData, isSuccess: isLabelCountData } = useLabels({ isCount: true });
 
-		const { data: labelCountData } = labelCountResponse;
-		const {
-			data: { data: labelListData },
-		} = labelListResponse;
+	const { data: labelListData, isSuccess: isLabelListData } = useLabels({ isCount: false }); // 여기 구조분해할당 갑자기 안 됨 why ..?
 
+	const getLabelData = () => {
 		setLabelCount(labelCountData);
-		setLabelData(labelListData);
+		setLabelData(labelListData.data);
 	};
 
 	const getCellData = () => {
@@ -50,8 +44,9 @@ const Labels = () => {
 	};
 
 	useEffect(() => {
+		if (!isLabelListData || !isLabelCountData) return;
 		getLabelData();
-	}, []);
+	}, [isLabelListData, isLabelCountData]);
 
 	useEffect(() => {
 		setCells(getCellData());
