@@ -22,6 +22,7 @@ const getNewIssueCells = ({ data }: TGetNewIssueCells) => {
 const IssueListContent = () => {
 	const setCounts = useSetRecoilState(atoms.issueList.counts);
 	const setListCount = useSetRecoilState(atoms.issueList.listCount);
+	const setCheckedIssues = useSetRecoilState(atoms.issueList.checkedIssues);
 	const [issueCells, setIssueCells] = useState([<IssuesNotification key="1" />]);
 	const [isShowed, setIsShowed] = useState(false);
 	const navigate = useNavigate();
@@ -41,6 +42,11 @@ const IssueListContent = () => {
 	};
 
 	useEffect(() => {
+		setCheckedIssues((prevIssues) => {
+			const newCheckedIssues = new Set(prevIssues);
+			newCheckedIssues.clear();
+			return newCheckedIssues;
+		});
 		setIsShowed(false);
 	}, [searchParams]);
 
