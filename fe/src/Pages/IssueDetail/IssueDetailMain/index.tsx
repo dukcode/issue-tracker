@@ -27,17 +27,26 @@ const defaultComment: TComment[] = [
 const IssueDetailMain = () => {
 	const id = useParams()?.id;
 	const [comments, setComments] = useState<TComment[]>(defaultComment);
-	const { data, isSuccess } = useIssuesGet({ id });
+	const { data, isSuccess, isFetching } = useIssuesGet({ id });
 	const commentsList = comments.map(
 		(comment) => !comment.systemMessage && <IssueDetailComment key={comment.id} comment={comment} />
 	);
 
-	useEffect(() => {
+	const setNewComments = () => {
 		const {
 			comments: { data: newComments },
 		} = data;
 		setComments(newComments);
+	};
+
+	useEffect(() => {
+		setNewComments();
 	}, [isSuccess]);
+
+	useEffect(() => {
+		if (isFetching) return;
+		setNewComments();
+	}, [isFetching]);
 
 	return (
 		<StyledIssueDetailMain>
@@ -45,7 +54,7 @@ const IssueDetailMain = () => {
 				{commentsList}
 				<IssueDetailCommentInput />
 			</StyledIssueDetailContent>
-			<div>2</div>
+			<div>OPTIONS</div>
 		</StyledIssueDetailMain>
 	);
 };

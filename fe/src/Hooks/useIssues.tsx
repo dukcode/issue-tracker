@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import useFetch from "./useFetch";
 
 type TUseIssuesGetParams = {
@@ -10,6 +10,10 @@ type TUseIssuesGetParams = {
 type TEditedIssuesOptions = {
 	issueIds: number[];
 	status: "OPEN" | "CLOSED";
+};
+
+type TCommentContent = {
+	content: string;
 };
 
 export type TIssuesInfo = {
@@ -36,7 +40,7 @@ export const useIssuesGet = ({
 	};
 
 	const result = id
-		? useQuery("issue", () => issuesGetApi(null))
+		? useQuery("issue", () => issuesGetApi(null), { refetchInterval: 3000 })
 		: useQuery(["issues", query], () => issuesGetApi(query), {
 				enabled,
 				refetchOnWindowFocus: false,
@@ -59,14 +63,36 @@ export const useIssuesPost = () => {
 	return mutation;
 };
 
+export const useIssuesCommentPost = ({ id = "NONE" }: { id?: string }) => {
+	const client = useFetch("issues");
+	const queryClient = useQueryClient();
+
+	const issuesPostCommentApi = async (commentContent: TCommentContent) => {
+		const { data } = await client.post(`${id}/comments`, commentContent);
+		return data;
+	};
+
+	const mutation = useMutation(issuesPostCommentApi, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("issue");
+		},
+	});
+	return mutation;
+};
+
 export const useIssuesPatch = () => {
 	const client = useFetch("issues");
+	const queryClient = useQueryClient();
 
 	const issuesPatchApi = async (editedIssuesOptions: TEditedIssuesOptions) => {
 		const { data } = await client.patch("", editedIssuesOptions);
 		return data;
 	};
 
-	const mutation = useMutation(issuesPatchApi);
+	const mutation = useMutation(issuesPatchApi, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("issues");
+		},
+	});
 	return mutation;
 };
