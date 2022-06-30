@@ -9,9 +9,9 @@ import FormControl from "@mui/material/FormControl";
 import Label from "Component/Label";
 import Button from "Component/Button";
 import {
-	StyledAddNewLabel,
-	StyledAddNewLabelTitle,
-	StyledAddNewLabelForm,
+	StyledLabelForm,
+	StyledLabelFormTitle,
+	StyledLabelFormForm,
 	StyledMention,
 	StyledLabelWrapper,
 	StyledInputArea,
@@ -19,7 +19,7 @@ import {
 	StyledTextColor,
 	StyledBackgroundColor,
 	StyledInputBackgroundColor,
-} from "./AddNewLabel.styled";
+} from "./LabelForm.styled";
 
 const NAME = "레이블 이름";
 const DefaultBackgroundColor = "#c2e0c6";
@@ -38,7 +38,7 @@ const getRandomColorCode = () => {
 	return Math.round(Math.random() * 0xffffff).toString(16);
 };
 
-type TAddNewLabel = {
+type TLabelForm = {
 	isEditing: boolean;
 	isEditClicked?: boolean;
 	setIsEditClicked?: Dispatch<SetStateAction<boolean>>;
@@ -49,13 +49,13 @@ type TAddNewLabel = {
 	curTextColor: string;
 };
 
-const defaultAddNewLabel = {
+const defaultLabelForm = {
 	curId: 1,
 	isEditClicked: false,
 	setIsEditClicked: undefined,
 };
 
-const AddNewLabel = ({
+const LabelForm = ({
 	isEditing,
 	isEditClicked,
 	setIsEditClicked,
@@ -64,7 +64,7 @@ const AddNewLabel = ({
 	curDescription,
 	curLabelColor,
 	curTextColor,
-}: TAddNewLabel) => {
+}: TLabelForm) => {
 	const { accessToken } = useCookieUserInfo();
 	const [inputTitle, setInputTitle] = useState(curName);
 	const [inputDescription, setInputDescription] = useState(curDescription);
@@ -108,7 +108,7 @@ const AddNewLabel = ({
 		if (statusNum && statusNum < 300) window.location.reload();
 	};
 
-	const handleAddNewLabel = () => {
+	const handleLabelForm = () => {
 		postNewLabel(inputTitle, inputDescription, inputBackgroundColor, inputTextColor);
 	};
 
@@ -143,8 +143,8 @@ const AddNewLabel = ({
 	};
 
 	return (
-		<StyledAddNewLabel isEditing={isEditing}>
-			<StyledAddNewLabelTitle>
+		<StyledLabelForm isEditing={isEditing}>
+			<StyledLabelFormTitle>
 				<StyledMention>{isEditing ? MENTION_EDIT : MENTION_ADD}</StyledMention>
 				<StyledLabelWrapper>
 					<Label
@@ -153,8 +153,8 @@ const AddNewLabel = ({
 						textColor={inputTextColor}
 					/>
 				</StyledLabelWrapper>
-			</StyledAddNewLabelTitle>
-			<StyledAddNewLabelForm hasInput={inputTitle}>
+			</StyledLabelFormTitle>
+			<StyledLabelFormForm hasInput={inputTitle}>
 				<StyledInputArea>
 					<input
 						placeholder={defaultInputTitle}
@@ -203,13 +203,13 @@ const AddNewLabel = ({
 						/>
 					</>
 				) : (
-					<Button content={DONE} icon="AddBox" clickHandler={handleAddNewLabel} />
+					<Button content={DONE} icon="AddBox" clickHandler={handleLabelForm} />
 				)}
-			</StyledAddNewLabelForm>
-		</StyledAddNewLabel>
+			</StyledLabelFormForm>
+		</StyledLabelForm>
 	);
 };
 
-AddNewLabel.defaultProps = defaultAddNewLabel;
+LabelForm.defaultProps = defaultLabelForm;
 
-export default AddNewLabel;
+export default LabelForm;

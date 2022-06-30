@@ -13,16 +13,16 @@ const ADD_ISSUE = "이슈 작성";
 const ADD_LABEL = "추가";
 
 type TOptionTabs = {
-	addNewLabelIsClicked?: boolean;
-	setAddNewLabelIsClicked?: Dispatch<SetStateAction<boolean>>;
+	labelFormIsClicked?: boolean;
+	setLabelFormIsClicked?: Dispatch<SetStateAction<boolean>>;
 };
 
 const defaultOptionTabs = {
-	addNewLabelIsClicked: false,
-	setAddNewLabelIsClicked: undefined,
+	labelFormIsClicked: false,
+	setLabelFormIsClicked: undefined,
 };
 
-const OptionTabs = ({ addNewLabelIsClicked, setAddNewLabelIsClicked }: TOptionTabs) => {
+const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) => {
 	const location = useLocation();
 	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
@@ -71,15 +71,15 @@ const OptionTabs = ({ addNewLabelIsClicked, setAddNewLabelIsClicked }: TOptionTa
 		getLabelMilestoneCount();
 	}, []);
 
-	const handleAddNewLabelIsClicked = () => {
-		if (setAddNewLabelIsClicked !== undefined) setAddNewLabelIsClicked(!addNewLabelIsClicked);
+	const handleLabelFormIsClicked = () => {
+		if (setLabelFormIsClicked !== undefined) setLabelFormIsClicked(!labelFormIsClicked);
 	};
 
 	return (
 		<StyledOptionTabs isLabels={isLabels}>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
 			{isLabels ? (
-				<Button content={ADD_LABEL} icon="AddBox" clickHandler={handleAddNewLabelIsClicked} />
+				<Button content={ADD_LABEL} icon="AddBox" clickHandler={handleLabelFormIsClicked} />
 			) : (
 				<Link to="new-issue">
 					<Button content={ADD_ISSUE} icon="AddBox" />

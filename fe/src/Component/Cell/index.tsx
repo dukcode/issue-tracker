@@ -3,7 +3,7 @@ import Label from "Component/Label";
 import icons from "Util/Icons";
 import { labelsApi } from "Api";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
-import AddNewLabel from "Component/Label/AddNewLabel";
+import LabelForm from "Component/Label/LabelForm";
 import {
 	StyledCell,
 	StyledCellDescription,
@@ -47,7 +47,7 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 	return (
 		<div>
 			{isEditClicked ? (
-				<AddNewLabel
+				<LabelForm
 					isEditing={true}
 					isEditClicked={isEditClicked}
 					setIsEditClicked={setIsEditClicked}

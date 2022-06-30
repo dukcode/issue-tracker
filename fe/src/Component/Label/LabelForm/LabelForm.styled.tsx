@@ -1,14 +1,14 @@
 import styled, { css } from "styled-components";
 
-interface IStyledAddNewLabelForm {
+interface IStyledLabelFormWrapper {
 	hasInput: string;
 }
 
-interface IStyledAddNewLabel {
+interface IStyledLabelForm {
 	isEditing: boolean;
 }
 
-export const StyledAddNewLabel = styled.div<IStyledAddNewLabel>`
+export const StyledLabelForm = styled.div<IStyledLabelForm>`
 	${({ theme: { colors }, isEditing }) => css`
 		height: 345px;
 		${!isEditing && `border: solid 1px ${colors.line};`}
@@ -19,12 +19,12 @@ export const StyledAddNewLabel = styled.div<IStyledAddNewLabel>`
 	display: flex;
 `;
 
-export const StyledAddNewLabelTitle = styled.div`
+export const StyledLabelFormTitle = styled.div`
 	width: 344px;
 	position: relative;
 `;
 
-export const StyledAddNewLabelForm = styled.div<IStyledAddNewLabelForm>`
+export const StyledLabelFormForm = styled.div<IStyledLabelFormWrapper>`
 	${({ hasInput }) => css`
 		width: 936px;
 		margin-top: 96px;
