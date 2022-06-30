@@ -61,6 +61,7 @@ const NewIssueFooter = () => {
 				icon="RemoveCircleOutline"
 				content="작성 취소"
 				handleClick={handleTextButtonClick}
+				size="linkSmall"
 			/>
 			<Button
 				content="완료"

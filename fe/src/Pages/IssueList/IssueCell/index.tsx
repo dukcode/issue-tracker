@@ -47,7 +47,8 @@ const IssueCell = ({ item }: TIssueItem) => {
 	const createDateDesc = `이 이슈가 ${createDateMention}에 ${loginName}님에 의해 작성되었습니다`;
 	const navigate = useNavigate();
 
-	const handleClickIssueTitle = () => {
+	const handleClickIssueTitle = (event: React.MouseEvent) => {
+		event.stopPropagation();
 		navigate(`/issue/${id}`);
 	};
 

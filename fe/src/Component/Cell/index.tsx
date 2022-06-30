@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Label from "Component/Label";
-import icons from "Util/Icons";
+import TextButton from "Component/TextButton";
 import { labelsApi } from "Api";
 import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import LabelForm from "Component/Label/LabelForm";
@@ -8,11 +8,8 @@ import {
 	StyledCell,
 	StyledCellDescription,
 	StyledButtons,
-	StyledButton,
-	StyledButtonName,
+	StyledLabelWrapper,
 } from "./Cell.styled";
-
-const { Edit, DeleteOutline } = icons;
 
 type TLabelData = {
 	id: number;
@@ -59,17 +56,27 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 				/>
 			) : (
 				<StyledCell>
-					<Label key={id} name={name} labelColor={labelColor} textColor={textColor} />
-					<StyledCellDescription>{description}</StyledCellDescription>
+					<StyledLabelWrapper>
+						<Label key={id} name={name} labelColor={labelColor} textColor={textColor} />
+						<StyledCellDescription>{description}</StyledCellDescription>
+					</StyledLabelWrapper>
 					<StyledButtons>
-						<StyledButton onClick={handleLabelEdit}>
-							<Edit size={20} colorset="label" />
-							<StyledButtonName buttonColor="label">{EDIT}</StyledButtonName>
-						</StyledButton>
-						<StyledButton onClick={handleLabelDelete}>
-							<DeleteOutline size={20} colorset="red" />
-							<StyledButtonName buttonColor="red">{DELETE}</StyledButtonName>
-						</StyledButton>
+						<TextButton
+							icon="Edit"
+							content={EDIT}
+							handleClick={handleLabelEdit}
+							size="linkXSmall"
+							color="label"
+							isHover={false}
+						/>
+						<TextButton
+							icon="DeleteOutline"
+							content={DELETE}
+							handleClick={handleLabelDelete}
+							size="linkXSmall"
+							color="red"
+							isHover={false}
+						/>
 					</StyledButtons>
 				</StyledCell>
 			)}
