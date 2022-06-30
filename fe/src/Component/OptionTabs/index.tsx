@@ -11,6 +11,7 @@ const LABEL = "레이블";
 const MILESTONE = "마일스톤";
 const ADD_ISSUE = "이슈 작성";
 const ADD_LABEL = "추가";
+const ADD_LABEL_CLOSE = "닫기";
 
 type TOptionTabs = {
 	labelFormIsClicked?: boolean;
@@ -79,7 +80,12 @@ const OptionTabs = ({ labelFormIsClicked, setLabelFormIsClicked }: TOptionTabs) 
 		<StyledOptionTabs isLabels={isLabels}>
 			<StyledTabsLabelMilestone>{tabs}</StyledTabsLabelMilestone>
 			{isLabels ? (
-				<Button content={ADD_LABEL} icon="AddBox" clickHandler={handleLabelFormIsClicked} />
+				<Button
+					content={labelFormIsClicked ? ADD_LABEL_CLOSE : ADD_LABEL}
+					icon={labelFormIsClicked ? "RemoveCircleOutline" : "AddBox"}
+					reverse={labelFormIsClicked}
+					clickHandler={handleLabelFormIsClicked}
+				/>
 			) : (
 				<Link to="new-issue">
 					<Button content={ADD_ISSUE} icon="AddBox" />
