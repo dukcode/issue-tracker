@@ -1,24 +1,9 @@
-import { AxiosResponse } from "axios";
-
 import { labelsApi, usersApi, milestoneApi } from "Api";
-import { TPopupContentProps } from "Component/Popup";
-import StyledFilterCategory from "./FilterCategory.styled";
-import FilterCategory from "./FilterCategory";
 
-type TFilterCategoryItem = {
-	id: number;
-	title: string;
-	isLeft: boolean;
-	popupContents: TPopupContentProps[];
-	getData: (token: string) => Promise<
-		| AxiosResponse<any, any>
-		| {
-				data: Error;
-				status: null;
-		  }
-	>;
-	getPopupContents: (data: any) => TPopupContentProps[];
-};
+import icons from "Util/Icons";
+import OptionButtonWithPopup, { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
+import { TPopupContentProps } from "Component/Popup";
+import { StyledFilterCategoryList, StyledFilterCategory } from "./FilterCategoryList.styled";
 
 type TLabelData = {
 	id: number;
@@ -50,6 +35,8 @@ type TUsersData = {
 	name: string;
 	profileImage: string;
 };
+
+const { KeyboardArrowDown, KeyboardArrowUp } = icons;
 
 const defaultPopupContents: TPopupContentProps[] = [];
 
@@ -88,7 +75,7 @@ const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContent
 	return newContents;
 };
 
-const filterCategoryItems: TFilterCategoryItem[] = [
+const filterCategoryItems: TOptionButtonWithPopupItem[] = [
 	{
 		id: 1,
 		title: "담당자",
@@ -96,6 +83,11 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: usersApi.getUsers,
 		getPopupContents: getContentsByUsers,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 2,
@@ -104,6 +96,11 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: labelsApi.getLabels,
 		getPopupContents: getContentsByLabels,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 3,
@@ -112,6 +109,11 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: milestoneApi.getMilestone,
 		getPopupContents: getContentsByMilestone,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
+		StyledButton: StyledFilterCategory,
 	},
 	{
 		id: 4,
@@ -120,16 +122,20 @@ const filterCategoryItems: TFilterCategoryItem[] = [
 		popupContents: defaultPopupContents,
 		getData: usersApi.getUsers,
 		getPopupContents: getContentsByUsers,
+		icons: {
+			UpIcon: KeyboardArrowUp,
+			DownIcon: KeyboardArrowDown,
+		},
+		StyledButton: StyledFilterCategory,
 	},
 ];
 
 const FilterCategoryList = () => {
-	const categoryList = filterCategoryItems.map((item: TFilterCategoryItem) => (
-		<FilterCategory item={item} />
+	const filterCategoryList = filterCategoryItems.map((item: TOptionButtonWithPopupItem) => (
+		<OptionButtonWithPopup item={item} key={item.id} />
 	));
 
-	return <StyledFilterCategory>{categoryList}</StyledFilterCategory>;
+	return <StyledFilterCategoryList>{filterCategoryList}</StyledFilterCategoryList>;
 };
 
-export type { TFilterCategoryItem as listItem };
 export default FilterCategoryList;

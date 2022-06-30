@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import { useRecoilState } from "recoil";
 
+import atoms from "Atoms";
 import UserImg from "Component/UserImg";
 import user from "Img/user.jpeg";
 import icons from "Util/Icons";
@@ -17,18 +19,18 @@ const ADD_FILE = "파일 첨부하기";
 const { FilePresent } = icons;
 
 const NewIssueContent = () => {
-	const [issueTitle, setIssueTitle] = useState("");
-	const [issueDesc, setIssueDesc] = useState("");
+	const [newIssueTitle, setNewIssueTitle] = useRecoilState(atoms.newIssue.title);
+	const [newIssueDesc, setNewIssueDesc] = useRecoilState(atoms.newIssue.desc);
 	const [fileName, setFileName] = useState(ADD_FILE);
 
 	const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
-		setIssueTitle(value);
+		setNewIssueTitle(value);
 	};
 
 	const handleDescChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const { value } = event.target;
-		setIssueDesc(value);
+		setNewIssueDesc(value);
 	};
 
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,10 +46,18 @@ const NewIssueContent = () => {
 			<UserImg img={user} size="medium" />
 			<StyledNewIssueContent>
 				<StyledNewIssueTitle>
-					<input value={issueTitle} onChange={handleTitleChange} placeholder={defaultIssueTitle} />
+					<input
+						value={newIssueTitle}
+						onChange={handleTitleChange}
+						placeholder={defaultIssueTitle}
+					/>
 				</StyledNewIssueTitle>
 				<StyledNewIssueDesc>
-					<textarea value={issueDesc} onChange={handleDescChange} placeholder={defaultIssueDesc} />
+					<textarea
+						value={newIssueDesc}
+						onChange={handleDescChange}
+						placeholder={defaultIssueDesc}
+					/>
 					<input type="file" id="upload_img" onChange={handleFileChange} />
 					<StyledUploadImg htmlFor="upload_img">
 						<FilePresent colorset="label" size={16} />

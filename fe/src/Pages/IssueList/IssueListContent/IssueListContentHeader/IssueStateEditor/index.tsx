@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { issuesApi } from "Api";
-import useCookieUserInfo from "Hooks";
+import useCookieUserInfo from "Hooks/useCookieUserInfo";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import icons from "Util/Icons";
 import StyledIssueStateEditor from "./IssueStateEditor.styled";

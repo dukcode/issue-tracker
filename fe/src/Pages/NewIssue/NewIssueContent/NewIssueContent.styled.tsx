@@ -18,11 +18,17 @@ export const StyledNewIssueTitle = styled.div`
 
 		input {
 			${fonts.textSmall};
-			background-color: ${colors.inputBackground};
-			color: ${colors.placeholder};
+			background-color: inherit;
+			color: inherit;
 			width: 100%;
 			outline: none;
 			border: none;
+		}
+
+		:focus-within {
+			color: ${colors.titleActive};
+			background-color: ${colors.offWhite};
+			border: solid 2px ${colors.titleActive};
 		}
 	`}
 `;
@@ -34,11 +40,23 @@ export const StyledNewIssueDesc = styled.div`
 		height: 300px;
 		display: flex;
 		flex-direction: column;
+		overflow: hidden;
+
+		:focus-within {
+			color: ${colors.titleActive};
+			background-color: ${colors.offWhite};
+			border: solid 2px ${colors.titleActive};
+
+			label {
+				border-color: ${colors.titleActive};
+				color: ${colors.titleActive};
+			}
+		}
 
 		textarea {
 			${fonts.textSmall};
-			background-color: ${colors.inputBackground};
-			color: ${colors.placeholder};
+			background-color: inherit;
+			color: inherit;
 			box-sizing: border-box;
 			margin: 10px 20px;
 			flex-grow: 12;
@@ -49,17 +67,12 @@ export const StyledNewIssueDesc = styled.div`
 		input {
 			display: none;
 		}
-
-		:focus {
-			background-color: ${colors.offWhite};
-			color: ${colors.titleActive};
-		}
 	`}
 `;
 
 export const StyledUploadImg = styled.label`
 	${({ theme: { colors, fonts } }) => css`
-		${fonts.textXSamll};
+		${fonts.textXSmall};
 		color: ${colors.label};
 		cursor: pointer;
 		display: flex;
@@ -68,6 +81,9 @@ export const StyledUploadImg = styled.label`
 		gap: 5px;
 		border-top: dashed 2px ${colors.line};
 		padding: 10px 20px;
+
+		:focus-within {
+		}
 
 		:hover {
 			color: ${colors.titleActive};

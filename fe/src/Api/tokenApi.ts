@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 
-const baseURL = process.env.REACT_APP_LOGIN_SERVER;
+const baseURL = `${process.env.REACT_APP_API}/users/login/oauth2/redirect`;
 const client = axios.create({
 	baseURL,
 	headers: {

@@ -1,11 +1,13 @@
+import { useEffect, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
+import { useNavigate } from "react-router-dom";
+import Checkbox from "@mui/material/Checkbox";
 import Moment from "react-moment";
 import "moment/locale/ko";
-import { useEffect, useState, ChangeEvent, Dispatch, SetStateAction } from "react";
+
 import icons from "Util/Icons";
-import Checkbox from "@mui/material/Checkbox";
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
-import TIssueData from "Pages/IssueList/mockData";
+import { TIssueData } from "Pages/IssueList/mockData";
 import {
 	StyledIssueCell,
 	IssueCellLeft,
@@ -42,13 +44,21 @@ const IssueCell = ({
 }: TIssueItem) => {
 	const { id, title, author, createDate, milestone, labels: labelsInfo } = item;
 	const { loginName, profileImage } = author;
-	const labels = labelsInfo.map(({ id: lableId, name, labelColor }) => (
-		<Label key={lableId} name={name} color={labelColor} />
-	));
+	const labels = labelsInfo
+		? labelsInfo.map(({ id: lableId, name, labelColor, textColor }) => (
+				<Label key={lableId} name={name} labelColor={labelColor} textColor={textColor} />
+		  ))
+		: [];
 	const editedTime = <Moment fromNow>{createDate}</Moment>;
 	const [checked, setChecked] = useState(false);
+	const navigate = useNavigate();
+
+	const handleClickIssueCell = () => {
+		navigate(`/issue/${id}`);
+	};
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+		event.stopPropagation();
 		if (checked) {
 			if (!isAllChecked) setIsAllChecked(false);
 			setCheckedIssues((prevCheckedIssues) => {
@@ -96,7 +106,7 @@ const IssueCell = ({
 				</StyledCheckbox>
 				<IssueInfo>
 					<IssueInfoTop>
-						<Title>
+						<Title onClick={handleClickIssueCell}>
 							<ErrorOutline colorset="blue" size={18} />
 							{title}
 						</Title>
@@ -107,10 +117,12 @@ const IssueCell = ({
 						<AuthorTimeStamp>
 							이 이슈가 {editedTime}, {loginName}님에 의해 작성되었습니다.
 						</AuthorTimeStamp>
-						<MileStone>
-							<EmojiFlags colorset="label" size={18} />
-							{milestone.title}
-						</MileStone>
+						{milestone && (
+							<MileStone>
+								<EmojiFlags colorset="label" size={18} />
+								{milestone.title}
+							</MileStone>
+						)}
 					</IssueInfoBottom>
 				</IssueInfo>
 			</IssueCellLeft>

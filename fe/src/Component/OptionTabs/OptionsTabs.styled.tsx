@@ -1,6 +1,18 @@
 import styled, { css } from "styled-components";
 
-const StyledOptionTabs = styled.div`
+interface IStyledOptionTabs {
+	isLabels: boolean;
+}
+
+const StyledOptionTabs = styled.div<IStyledOptionTabs>`
+	${({ isLabels }) => {
+		return (
+			isLabels &&
+			css`
+				justify-content: space-between;
+			`
+		);
+	}}
 	display: flex;
 	gap: 15px;
 	align-items: center;
@@ -13,23 +25,25 @@ const StyledTabsLabelMilestone = styled.div`
 		border-radius: 10px;
 		display: flex;
 
-		> div {
-			color: ${colors.label};
-			cursor: pointer;
-			display: flex;
-			width: 160px;
-			height: 40px;
-			align-items: center;
-			justify-content: center;
-			gap: 10px;
+		> :first-child {
+			border-right: solid 1px ${colors.line};
+		}
+	`}
+`;
 
-			:first-child {
-				border-right: solid 1px ${colors.line};
-			}
+const StyledTab = styled.div`
+	${({ theme: { colors } }) => css`
+		color: ${colors.label};
+		cursor: pointer;
+		display: flex;
+		width: 160px;
+		height: 40px;
+		align-items: center;
+		justify-content: center;
+		gap: 10px;
 
-			svg {
-				margin-top: -2px;
-			}
+		svg {
+			margin-top: -2px;
 		}
 	`}
 `;
@@ -56,4 +70,4 @@ const StyledAddIssue = styled.div`
 	`}
 `;
 
-export { StyledOptionTabs, StyledTabsLabelMilestone, StyledAddIssue };
+export { StyledOptionTabs, StyledTabsLabelMilestone, StyledAddIssue, StyledTab };
