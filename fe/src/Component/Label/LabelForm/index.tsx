@@ -1,7 +1,5 @@
-import { useState, ChangeEvent, Dispatch, SetStateAction } from "react";
-import { useLabelsPost, TNewLabelInfo } from "Hooks/useLabels";
-// import { labelsApi } from "Api";
-// import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import { useState, ChangeEvent, Dispatch, SetStateAction, useEffect } from "react";
+import { useLabelsPost, TNewLabelInfo, useLabelsPut, TEditedLabelsInfo } from "Hooks/useLabels";
 import icons from "Util/Icons";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -60,13 +58,22 @@ const LabelForm = ({
 	setIsEditClicked = undefined,
 	curId = 1,
 }: TLabelForm) => {
-	// const { accessToken } = useCookieUserInfo();
+	const [id] = useState(curId);
 	const [name, setInputTitle] = useState(curName);
 	const [description, setInputDescription] = useState(curDescription);
 	const [labelColor, setInputBackgroundColor] = useState(curLabelColor || DefaultBackgroundColor);
 	const [textColor, setInputTextColor] = useState(curTextColor || DARK);
-	const { mutate } = useLabelsPost();
+	const { mutate: mutatePost, isSuccess: isPostSuccess } = useLabelsPost();
+	const { mutate: mutatePatch, isSuccess: isPatchSuccess } = useLabelsPut({ id });
 	const newLabelInfo: TNewLabelInfo = {
+		name,
+		description,
+		labelColor,
+		textColor,
+	};
+
+	const editedLabelInfo: TEditedLabelsInfo = {
+		id,
 		name,
 		description,
 		labelColor,
@@ -92,8 +99,7 @@ const LabelForm = ({
 	};
 
 	const postNewLabel = () => {
-		console.log(newLabelInfo);
-		mutate(newLabelInfo);
+		mutatePost(newLabelInfo);
 	};
 
 	const handleLabelForm = () => {
@@ -104,31 +110,17 @@ const LabelForm = ({
 		if (setIsEditClicked) setIsEditClicked(!isEditClicked);
 	};
 
-	// const editCurLabel = async (
-	// 	id: number,
-	// 	title: string,
-	// 	description: string,
-	// 	backgroundColor: string,
-	// 	textColor: string
-	// ) => {
-	// 	const response = await labelsApi.editLabel(
-	// 		accessToken,
-	// 		id,
-	// 		title,
-	// 		description,
-	// 		backgroundColor,
-	// 		textColor
-	// 	);
-
-	// 	const { status: statusNum } = response;
-
-	// 	if (statusNum && statusNum < 300) window.location.reload();
-	// };
+	const editCurLabel = () => {
+		mutatePatch(editedLabelInfo);
+	};
 
 	const handleEditingLabel = () => {
-		// if (curId) editCurLabel(curId, name, description, labelColor, textColor);
-		console.log(curId);
+		if (curId) editCurLabel();
 	};
+
+	useEffect(() => {
+		if (isPostSuccess || isPatchSuccess) window.location.reload();
+	}, [isPostSuccess, isPatchSuccess]);
 
 	return (
 		<StyledLabelForm isEditing={isEditing}>

@@ -21,10 +21,8 @@ const Labels = () => {
 	const [cells, setCells] = useState([<IssuesNotification key="1" />]);
 	const [labelFormIsClicked, setLabelFormIsClicked] = useState(false);
 
-	const { data: labelCountData, isSuccess: isLabelCountData } = useLabels({ isCount: true });
-
-	const { data: labelListData, isSuccess: isLabelListData } = useLabels({ isCount: false }); // 여기 구조분해할당 갑자기 안 됨 why ..?
-	// isSuccess 이름 바꾸기
+	const { data: labelCountData, isSuccess: isLabelCountDataSuccess } = useLabels({ isCount: true });
+	const { data: labelListData, isSuccess: isLabelListDataSuccess } = useLabels({ isCount: false });
 
 	const getLabelData = () => {
 		setLabelCount(labelCountData);
@@ -45,9 +43,9 @@ const Labels = () => {
 	};
 
 	useEffect(() => {
-		if (!isLabelListData || !isLabelCountData) return;
+		if (!isLabelListDataSuccess || !isLabelCountDataSuccess) return;
 		getLabelData();
-	}, [isLabelListData, isLabelCountData]);
+	}, [isLabelListDataSuccess, isLabelCountDataSuccess]);
 
 	useEffect(() => {
 		setCells(getCellData());
