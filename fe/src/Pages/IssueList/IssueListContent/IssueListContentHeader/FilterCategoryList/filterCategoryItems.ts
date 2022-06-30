@@ -1,7 +1,7 @@
 import icons from "Util/Icons";
 import useUsers from "Hooks/useUsers";
 import useMilestones from "Hooks/useMilestones";
-import useLabels from "Hooks/useLabels";
+import { useLabels } from "Hooks/useLabels";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
 import { StyledFilterCategory } from "./FilterCategoryList.styled";

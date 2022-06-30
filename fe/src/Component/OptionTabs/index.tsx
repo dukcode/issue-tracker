@@ -1,7 +1,7 @@
 import { useEffect, useState, Dispatch, SetStateAction } from "react";
 import { Link, useLocation } from "react-router-dom";
 
-import useLabels from "Hooks/useLabels";
+import { useLabels } from "Hooks/useLabels";
 import useMilestones from "Hooks/useMilestones";
 import icons from "Util/Icons";
 import Button from "Component/Button";

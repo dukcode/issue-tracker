@@ -1,5 +1,5 @@
 import atoms from "Atoms";
-import useLabels from "Hooks/useLabels";
+import { useLabels } from "Hooks/useLabels";
 import useMilestones from "Hooks/useMilestones";
 import useUsers from "Hooks/useUsers";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";

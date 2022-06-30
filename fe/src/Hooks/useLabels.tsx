@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useQuery, useMutation } from "react-query";
 import useFetch from "./useFetch";
 
 type TUseLabelsParams = {
@@ -6,7 +6,14 @@ type TUseLabelsParams = {
 	isCount?: boolean;
 };
 
-const useLabels = ({ enabled = true, isCount = false }: TUseLabelsParams) => {
+export type TNewLabelInfo = {
+	name: string;
+	description: string;
+	labelColor: string;
+	textColor: string;
+};
+
+export const useLabels = ({ enabled = true, isCount = false }: TUseLabelsParams) => {
 	const client = useFetch("labels");
 
 	const labelsApi = async (count: boolean) => {
@@ -20,4 +27,14 @@ const useLabels = ({ enabled = true, isCount = false }: TUseLabelsParams) => {
 	return response;
 };
 
-export default useLabels;
+export const useLabelsPost = () => {
+	const client = useFetch("labels");
+
+	const labelsPostApi = async (newLabelInfo: TNewLabelInfo) => {
+		const { data } = await client.post("", newLabelInfo);
+		return data;
+	};
+
+	const mutation = useMutation(labelsPostApi);
+	return mutation;
+};

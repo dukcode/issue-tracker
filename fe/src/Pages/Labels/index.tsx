@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useLabels from "Hooks/useLabels";
+import { useLabels } from "Hooks/useLabels";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
 import Cell from "Component/Cell";
@@ -24,6 +24,7 @@ const Labels = () => {
 	const { data: labelCountData, isSuccess: isLabelCountData } = useLabels({ isCount: true });
 
 	const { data: labelListData, isSuccess: isLabelListData } = useLabels({ isCount: false }); // 여기 구조분해할당 갑자기 안 됨 why ..?
+	// isSuccess 이름 바꾸기
 
 	const getLabelData = () => {
 		setLabelCount(labelCountData);
