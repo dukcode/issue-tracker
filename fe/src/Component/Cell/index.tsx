@@ -1,8 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Label from "Component/Label";
 import TextButton from "Component/TextButton";
-import { labelsApi } from "Api";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import { useLabelsDelete } from "Hooks/useLabels";
 import LabelForm from "Component/Label/LabelForm";
 import {
 	StyledCell,
@@ -23,23 +22,24 @@ const EDIT = "편집";
 const DELETE = "삭제";
 
 const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
-	const { accessToken } = useCookieUserInfo();
 	const [isEditClicked, setIsEditClicked] = useState(false);
+	const { mutate, isSuccess } = useLabelsDelete({ id });
 
 	const handleLabelEdit = () => {
 		setIsEditClicked(!isEditClicked);
 	};
 
-	const deleteLabel = async (issueNumber: number) => {
-		const response = await labelsApi.deleteLabel(accessToken, issueNumber);
-		const { status: statusNum } = response;
-
-		if (statusNum && statusNum < 300) window.location.reload();
+	const deleteLabel = () => {
+		mutate();
 	};
 
 	const handleLabelDelete = () => {
-		deleteLabel(id);
+		deleteLabel();
 	};
+
+	useEffect(() => {
+		if (isSuccess) window.location.reload();
+	}, [isSuccess]);
 
 	return (
 		<div>

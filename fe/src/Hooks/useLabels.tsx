@@ -25,6 +25,10 @@ type TUseLabelsPatch = {
 	id: number;
 };
 
+type TUseLabelsDelete = {
+	id: number;
+};
+
 export const useLabels = ({ enabled = true, isCount = false }: TUseLabelsParams) => {
 	const client = useFetch("labels");
 
@@ -66,6 +70,23 @@ export const useLabelsPut = ({ id }: TUseLabelsPatch) => {
 	};
 
 	const mutation = useMutation(labelsPutApi, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("labels");
+		},
+	});
+	return mutation;
+};
+
+export const useLabelsDelete = ({ id }: TUseLabelsDelete) => {
+	const client = useFetch("labels");
+	const queryClient = useQueryClient();
+
+	const labelsDeleteApi = async () => {
+		const { data } = await client.delete(`${id}`);
+		return data;
+	};
+
+	const mutation = useMutation(labelsDeleteApi, {
 		onSuccess: () => {
 			queryClient.invalidateQueries("labels");
 		},
