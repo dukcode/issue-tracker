@@ -4,20 +4,15 @@ interface IStyledButtonName {
 	buttonColor: string;
 }
 
-const StyledCell = styled.div`
-	height: 100px;
+export const StyledCell = styled.div`
+	padding: 30px;
 	display: flex;
 	align-items: center;
-	padding-left: 32px;
 	position: relative;
-
-	> :last-child {
-		margin-left: auto;
-		margin-right: 32px;
-	}
+	justify-content: space-between;
 `;
 
-const StyledCellDescription = styled.div`
+export const StyledCellDescription = styled.div`
 	${({ theme: { colors, fonts } }) => css`
 		color: ${colors.label};
 		${fonts.textSmall};
@@ -26,21 +21,29 @@ const StyledCellDescription = styled.div`
 	left: 240px;
 `;
 
-const StyledButtons = styled.div`
+export const StyledButtons = styled.div`
 	display: flex;
-	gap: 30px;
+	justify-content: left;
+	gap: 15px;
 `;
 
-const StyledButton = styled.div`
+export const StyledButton = styled.div`
 	display: flex;
 	gap: 5px;
 `;
 
-const StyledButtonName = styled.div<IStyledButtonName>`
+export const StyledButtonName = styled.div<IStyledButtonName>`
 	${({ theme: { colors, fonts }, buttonColor }) => css`
 		${fonts.linkXSmall};
 		${buttonColor === "label" ? `color: ${colors.label} ` : `color: ${colors.red} `};
 	`};
 `;
 
-export { StyledCell, StyledCellDescription, StyledButtons, StyledButton, StyledButtonName };
+export const StyledLabelWrapper = styled.div`
+	display: flex;
+	align-items: center;
+
+	> :nth-child(1) {
+		margin-right: 150px;
+	}
+`;
