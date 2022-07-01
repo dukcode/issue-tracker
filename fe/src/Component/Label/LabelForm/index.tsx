@@ -98,24 +98,16 @@ const LabelForm = ({
 		setInputBackgroundColor(`#${color}`);
 	};
 
-	const postNewLabel = () => {
+	const handleLabelPost = () => {
 		mutatePost(newLabelInfo);
-	};
-
-	const handleLabelForm = () => {
-		postNewLabel();
 	};
 
 	const handleCancelEditingLabel = () => {
 		if (setIsEditClicked) setIsEditClicked(!isEditClicked);
 	};
 
-	const editCurLabel = () => {
-		mutatePatch(editedLabelInfo);
-	};
-
-	const handleEditingLabel = () => {
-		if (curId) editCurLabel();
+	const handleLabelEdit = () => {
+		if (curId) mutatePatch(editedLabelInfo);
 	};
 
 	useEffect(() => {
@@ -170,7 +162,7 @@ const LabelForm = ({
 				</StyledColorSelect>
 				{isEditing ? (
 					<>
-						<Button content={DONE} icon="Edit" clickHandler={handleEditingLabel} />
+						<Button content={DONE} icon="Edit" clickHandler={handleLabelEdit} />
 						<Button
 							content={CANCEL}
 							icon="RemoveCircleOutline"
@@ -179,7 +171,7 @@ const LabelForm = ({
 						/>
 					</>
 				) : (
-					<Button content={DONE} icon="AddBox" clickHandler={handleLabelForm} />
+					<Button content={DONE} icon="AddBox" clickHandler={handleLabelPost} />
 				)}
 			</StyledLabelFormForm>
 		</StyledLabelForm>

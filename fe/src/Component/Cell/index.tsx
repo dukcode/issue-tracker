@@ -29,12 +29,8 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 		setIsEditClicked(!isEditClicked);
 	};
 
-	const deleteLabel = () => {
-		mutate();
-	};
-
 	const handleLabelDelete = () => {
-		deleteLabel();
+		mutate();
 	};
 
 	useEffect(() => {
