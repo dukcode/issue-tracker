@@ -1,5 +1,5 @@
 import { RecoilState, useRecoilValue } from "recoil";
-import { TNewIssueOption } from "Atoms";
+import { TIssueOption } from "Atoms";
 
 import UserImg from "Component/UserImg";
 import Label from "Component/Label";
@@ -12,7 +12,7 @@ import {
 } from "./SelectedOptions.styled";
 
 type TSeletedOptionsProps = {
-	atom: RecoilState<TNewIssueOption[]>;
+	atom: RecoilState<TIssueOption[]>;
 };
 
 export const SelectedOptionUsers = ({ atom }: TSeletedOptionsProps) => {

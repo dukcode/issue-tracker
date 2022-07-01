@@ -3,20 +3,15 @@ import { useRecoilState } from "recoil";
 
 import atoms from "Atoms";
 import UserImg from "Component/UserImg";
-import user from "Img/user.jpeg";
-import icons from "Util/Icons";
+import CommentBox from "Component/CommentBox";
 import {
 	StyledNewIssueContentWrapper,
 	StyledNewIssueContent,
 	StyledNewIssueTitle,
-	StyledNewIssueDesc,
-	StyledUploadImg,
 } from "./NewIssueContent.styled";
 
 const defaultIssueTitle = "제목";
-const defaultIssueDesc = "코멘트를 입력하세요";
 const ADD_FILE = "파일 첨부하기";
-const { FilePresent } = icons;
 
 const NewIssueContent = () => {
 	const [newIssueTitle, setNewIssueTitle] = useRecoilState(atoms.newIssue.title);
@@ -43,7 +38,7 @@ const NewIssueContent = () => {
 
 	return (
 		<StyledNewIssueContentWrapper>
-			<UserImg img={user} size="medium" />
+			<UserImg size="medium" />
 			<StyledNewIssueContent>
 				<StyledNewIssueTitle>
 					<input
@@ -52,18 +47,12 @@ const NewIssueContent = () => {
 						placeholder={defaultIssueTitle}
 					/>
 				</StyledNewIssueTitle>
-				<StyledNewIssueDesc>
-					<textarea
-						value={newIssueDesc}
-						onChange={handleDescChange}
-						placeholder={defaultIssueDesc}
-					/>
-					<input type="file" id="upload_img" onChange={handleFileChange} />
-					<StyledUploadImg htmlFor="upload_img">
-						<FilePresent colorset="label" size={16} />
-						{fileName}
-					</StyledUploadImg>
-				</StyledNewIssueDesc>
+				<CommentBox
+					value={newIssueDesc}
+					handleChangeValue={handleDescChange}
+					handleChangeFile={handleFileChange}
+					fileName={fileName}
+				/>
 			</StyledNewIssueContent>
 		</StyledNewIssueContentWrapper>
 	);

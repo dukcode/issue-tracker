@@ -1,7 +1,7 @@
 import { StyledComponent, DefaultTheme } from "styled-components";
 import { RecoilState } from "recoil";
 
-import { TNewIssueOption } from "Atoms";
+import { TIssueOption } from "Atoms";
 import { TResultIcon } from "Util/Icons";
 import Popup, { TPopupContentProps } from "Component/Popup";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ type TOptionButtonWithPopupItem = {
 	getPopupContents: (data: any) => TPopupContentProps[];
 	StyledButton: StyledComponent<"button", DefaultTheme, {}, never>;
 	icons?: TIcons;
-	atom?: RecoilState<TNewIssueOption[]>;
+	atom?: RecoilState<TIssueOption[]>;
 };
 
 type TOptionButtonWithPopupProps = {

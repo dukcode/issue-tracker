@@ -20,6 +20,7 @@ import {
 	Loop,
 	DriveFileRenameOutline,
 	InfoOutlined,
+	SentimentSatisfiedAlt,
 } from "@mui/icons-material";
 import { TKeysColors } from "Styles/theme";
 
@@ -42,6 +43,7 @@ const muiIcons = {
 	Loop,
 	DriveFileRenameOutline,
 	InfoOutlined,
+	SentimentSatisfiedAlt,
 };
 
 type TResultButton = {

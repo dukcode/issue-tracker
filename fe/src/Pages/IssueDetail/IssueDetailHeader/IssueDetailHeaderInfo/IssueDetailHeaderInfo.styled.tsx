@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import { TKeysColors } from "Styles/theme";
 
 export const StyledIssueDetailHeaderInfo = styled.div`
 	display: flex;
@@ -6,12 +7,12 @@ export const StyledIssueDetailHeaderInfo = styled.div`
 	gap: 10px;
 `;
 
-export const StyledIssueDetailStatus = styled.div`
-	${({ theme: { colors, fonts } }) => css`
+export const StyledIssueDetailStatus = styled.div<{ color: TKeysColors }>`
+	${({ theme: { colors, fonts }, color }) => css`
 		${fonts.textXSmall};
-		color: ${colors.blue};
-		background-color: ${colors.lightBlue};
-		border: solid 1px ${colors.blue};
+		color: ${colors[color]};
+		background-color: ${colors[color === "blue" ? "lightBlue" : "lightPurple"]};
+		border: solid 1px ${colors[color]};
 		border-radius: 30px;
 		padding: 10px 16px;
 		display: flex;

@@ -1,4 +1,4 @@
-import { useQuery, useMutation } from "react-query";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 import useFetch from "./useFetch";
 
 type TUseIssuesGetParams = {
@@ -8,8 +8,12 @@ type TUseIssuesGetParams = {
 };
 
 type TEditedIssuesOptions = {
-	issueIds: number[];
+	issueIds?: number[];
 	status: "OPEN" | "CLOSED";
+};
+
+type TCommentContent = {
+	content: string;
 };
 
 export type TIssuesInfo = {
@@ -36,10 +40,9 @@ export const useIssuesGet = ({
 	};
 
 	const result = id
-		? useQuery("issue", () => issuesGetApi(null))
+		? useQuery("issue", () => issuesGetApi(null), { refetchInterval: 3000 })
 		: useQuery(["issues", query], () => issuesGetApi(query), {
 				enabled,
-				refetchOnWindowFocus: false,
 				refetchInterval: 3000,
 				retry: 1,
 		  });
@@ -59,14 +62,50 @@ export const useIssuesPost = () => {
 	return mutation;
 };
 
-export const useIssuesPatch = () => {
+export const useIssuesCommentPost = ({ id = "NONE" }: { id?: string }) => {
 	const client = useFetch("issues");
+	const queryClient = useQueryClient();
 
-	const issuesPatchApi = async (editedIssuesOptions: TEditedIssuesOptions) => {
-		const { data } = await client.patch("", editedIssuesOptions);
+	const issuesPostCommentApi = async (commentContent: TCommentContent) => {
+		const { data } = await client.post(`${id}/comments`, commentContent);
 		return data;
 	};
 
-	const mutation = useMutation(issuesPatchApi);
+	const mutation = useMutation(issuesPostCommentApi, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("issue");
+		},
+	});
+	return mutation;
+};
+
+export const useIssuesPatch = ({ id = undefined }: { id?: string }) => {
+	const client = useFetch("issues");
+	const queryClient = useQueryClient();
+	const detail = id ? `${id}/status` : "";
+
+	const issuesPatchApi = async (editedIssuesOptions: TEditedIssuesOptions) => {
+		const { data } = await client.patch(detail, editedIssuesOptions);
+		return data;
+	};
+
+	const mutation = useMutation(issuesPatchApi, {
+		onSuccess: () => {
+			queryClient.invalidateQueries("issues");
+			queryClient.invalidateQueries("issue");
+		},
+	});
+	return mutation;
+};
+
+export const useIssuesDelete = (id?: string) => {
+	const client = useFetch("issues");
+
+	const issuesDeleteApi = async () => {
+		const { data } = await client.delete(`${id}`);
+		return data;
+	};
+
+	const mutation = useMutation(issuesDeleteApi);
 	return mutation;
 };

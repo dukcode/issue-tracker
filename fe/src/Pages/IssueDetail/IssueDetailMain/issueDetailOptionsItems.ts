@@ -1,3 +1,5 @@
+import styled, { css } from "styled-components";
+
 import atoms from "Atoms";
 import { useLabelsGet } from "Hooks/useLabels";
 import useMilestones from "Hooks/useMilestones";
@@ -5,7 +7,6 @@ import useUsers from "Hooks/useUsers";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import { TPopupContentProps } from "Component/Popup";
 import icons from "Util/Icons";
-import { StyledIssueOptionButton } from "./IssueOptions.styled";
 
 type TLabelData = {
 	id: number;
@@ -43,6 +44,20 @@ type TUsersData = {
 const { IndeterminateCheckBox, AddBox } = icons;
 const defaultPopupContents: TPopupContentProps[] = [];
 
+const StyledIssueOptionButton = styled.button`
+	${({ theme: { colors, fonts } }) => css`
+		${fonts.linkSmall};
+		color: ${colors.label};
+		cursor: pointer;
+		display: flex;
+		width: 100%;
+		height: 50px;
+
+		align-items: center;
+		justify-content: space-between;
+	`}
+`;
+
 const getContentsByLabels = ({ data }: TLabelResponseData): TPopupContentProps[] => {
 	const newContents = data.map(({ id, name, labelColor }: TLabelData) => {
 		return {
@@ -79,7 +94,7 @@ const getContentsByMilestone = ({ data }: TMilestoneResponseData): TPopupContent
 	return newContents;
 };
 
-const issueOptionsItems: TOptionButtonWithPopupItem[] = [
+const issueDetailOptionsItems: TOptionButtonWithPopupItem[] = [
 	{
 		id: 1,
 		title: "담당자",
@@ -92,7 +107,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.users,
+		atom: atoms.issueDetail.users,
 	},
 	{
 		id: 2,
@@ -106,7 +121,7 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.labels,
+		atom: atoms.issueDetail.labels,
 	},
 	{
 		id: 3,
@@ -120,8 +135,8 @@ const issueOptionsItems: TOptionButtonWithPopupItem[] = [
 			DownIcon: IndeterminateCheckBox,
 		},
 		StyledButton: StyledIssueOptionButton,
-		atom: atoms.newIssue.milestones,
+		atom: atoms.issueDetail.milestones,
 	},
 ];
 
-export default issueOptionsItems;
+export default issueDetailOptionsItems;
