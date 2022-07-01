@@ -8,7 +8,7 @@ import {
 	StyledCellDescription,
 	StyledButtons,
 	StyledLabelWrapper,
-} from "./Cell.styled";
+} from "./LabelCell.styled";
 
 type TLabelData = {
 	id: number;
@@ -21,7 +21,7 @@ type TLabelData = {
 const EDIT = "편집";
 const DELETE = "삭제";
 
-const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
+const LabelCell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 	const [isEditClicked, setIsEditClicked] = useState(false);
 	const { mutate, isSuccess } = useLabelsDelete({ id });
 
@@ -80,4 +80,4 @@ const Cell = ({ id, name, description, labelColor, textColor }: TLabelData) => {
 	);
 };
 
-export default Cell;
+export default LabelCell;

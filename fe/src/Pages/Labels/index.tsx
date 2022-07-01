@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useLabelsGet } from "Hooks/useLabels";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
-import Cell from "Component/Cell";
+import LabelCell from "Component/LabelCell";
 import OptionTabs from "Component/OptionTabs";
 import LabelForm from "Component/Label/LabelForm";
 import StyledLabelsHeader from "./Labels.styled";
@@ -35,7 +35,7 @@ const Labels = () => {
 
 	const getCellData = () => {
 		return labelData.map((item) => (
-			<Cell
+			<LabelCell
 				key={item.id}
 				id={item.id}
 				name={item.name}
@@ -55,7 +55,7 @@ const Labels = () => {
 		setCells(getCellData());
 	}, [labelData]);
 
-	const mention = `${labelCount}개의 레이블`;
+	const caption = `${labelCount}개의 레이블`;
 
 	return (
 		<>
@@ -74,7 +74,7 @@ const Labels = () => {
 			)}
 
 			<StyledContent>
-				<StyledLabelsHeader>{mention}</StyledLabelsHeader>
+				<StyledLabelsHeader>{caption}</StyledLabelsHeader>
 				{cells}
 			</StyledContent>
 		</>
