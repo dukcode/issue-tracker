@@ -1,5 +1,4 @@
-import OptionButtonWithPopup from "Component/OptionButtonWithPopup";
-import issueOptionsItems from "./issueOptionsItems";
+import OptionButtonWithPopup, { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
 import {
 	SelectedOptionUsers,
 	SelectedOptionLabels,
@@ -14,8 +13,8 @@ const selectedOptionComponents = {
 	작성자: SelectedOptionUsers,
 };
 
-const NewIssueOptions = () => {
-	const issueOptions = issueOptionsItems.map((item) => {
+const NewIssueOptions = ({ items }: { items: TOptionButtonWithPopupItem[] }) => {
+	const issueOptions = items.map((item) => {
 		const { atom, title } = item;
 		const SelectedOptionComponent = selectedOptionComponents[title];
 		return (

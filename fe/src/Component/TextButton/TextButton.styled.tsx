@@ -7,7 +7,7 @@ type TStyledTextButton = {
 	isHover: boolean;
 };
 
-const StyledTextButton = styled.div<TStyledTextButton>`
+const StyledTextButton = styled.button<TStyledTextButton>`
 	${({ theme: { colors, fonts }, color, size, isHover }) => css`
 		${fonts[size]};
 		cursor: pointer;

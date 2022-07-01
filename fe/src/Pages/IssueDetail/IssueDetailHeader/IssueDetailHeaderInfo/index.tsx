@@ -11,10 +11,19 @@ import {
 	StyledIssueDetailDesc,
 } from "./IssueDetailHeaderInfo.styled";
 
+type TAuthor = {
+	id: number;
+	loginName: string;
+	name: string;
+	email: string | null;
+	profileImage: string;
+};
+
 type TIssueDetailHeaderInfos = {
-	createDate?: string;
-	status?: "OPEN" | "CLOSED";
-	commentsCount?: number;
+	createDate: string;
+	status: "OPEN" | "CLOSED";
+	commentsCount: number;
+	author: TAuthor;
 };
 
 const statusName = {
@@ -22,16 +31,33 @@ const statusName = {
 	CLOSED: "닫힌 이슈",
 };
 const { InfoOutlined } = icons;
+const defaultInfo: TIssueDetailHeaderInfos = {
+	createDate: "2000-01-01T00:00:00",
+	status: "OPEN",
+	commentsCount: 0,
+	author: {
+		id: 0,
+		loginName: "",
+		name: "",
+		email: null,
+		profileImage: "",
+	},
+};
 
 const IssueDetailHeaderInfo = () => {
 	const id = useParams()?.id;
-	const { data, isLoading, isSuccess } = useIssuesGet({ id });
-	const [infos, setInfos] = useState<TIssueDetailHeaderInfos>({});
-	const { status, createDate, commentsCount } = infos;
+	const { data, isLoading, isSuccess, isFetching } = useIssuesGet({ id });
+	const [infos, setInfos] = useState<TIssueDetailHeaderInfos>(defaultInfo);
+	const {
+		status,
+		createDate,
+		commentsCount,
+		author: { name },
+	} = infos;
 	const statusDesc = status ? statusName[status] : null;
 	const commentsCountDesc = `코멘트 ${commentsCount || 0}개`;
 	const createDateMention = createDate ? moment(createDate).fromNow() : "0초 전";
-	const createDateDesc = `이 이슈가 ${createDateMention}에 님에 의해 열렸습니다`;
+	const createDateDesc = `이 이슈가 ${createDateMention}에 ${name}님에 의해 열렸습니다`;
 
 	useEffect(() => {
 		if (!isLoading && isSuccess) {
@@ -39,20 +65,22 @@ const IssueDetailHeaderInfo = () => {
 				status: newStatus,
 				createDate: newCreateDate,
 				comments: { count },
+				author,
 			} = data;
 			const newInfos: TIssueDetailHeaderInfos = {
 				status: newStatus,
 				commentsCount: count,
 				createDate: newCreateDate,
+				author,
 			};
 			setInfos(newInfos);
 		}
-	}, [isLoading]);
+	}, [isLoading, isFetching]);
 
 	return (
 		<StyledIssueDetailHeaderInfo>
-			<StyledIssueDetailStatus>
-				<InfoOutlined colorset="blue" size={14} />
+			<StyledIssueDetailStatus color={status === "OPEN" ? "blue" : "purple"}>
+				<InfoOutlined colorset={status === "OPEN" ? "blue" : "purple"} size={14} />
 				{statusDesc}
 			</StyledIssueDetailStatus>
 			<StyledIssueDetailDesc>{`${createDateDesc} ∙ ${commentsCountDesc}`}</StyledIssueDetailDesc>

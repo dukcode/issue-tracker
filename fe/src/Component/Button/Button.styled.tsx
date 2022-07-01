@@ -9,7 +9,7 @@ const StyledButton = styled.button<TStyledButtonProps>`
 	${({ theme: { colors, fonts }, size, reverse }) => css`
 		${size === "small" &&
 		css`
-			${fonts.textSmall};
+			${fonts.textXSmall};
 			height: 40px;
 			width: 120px;
 			border-radius: 10px;

@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import LoadingAnimation from "Component/Loading";
 import { useIssuesGet } from "Hooks/useIssues";
-import StyledIssueDetail from "./IssueDetail.styled";
+import { StyledIssueDetail, LoadingWrapper } from "./IssueDetail.styled";
 import IssueDetailHeader from "./IssueDetailHeader";
 import IssueDetailMain from "./IssueDetailMain";
 
@@ -12,7 +12,9 @@ const IssueDetail = () => {
 	return (
 		<StyledIssueDetail>
 			{isLoading ? (
-				<LoadingAnimation size={130} color="label" border={20} />
+				<LoadingWrapper>
+					<LoadingAnimation size={130} color="label" border={20} />
+				</LoadingWrapper>
 			) : (
 				<>
 					<IssueDetailHeader />

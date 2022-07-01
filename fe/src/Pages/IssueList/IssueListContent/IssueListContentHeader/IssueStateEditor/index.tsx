@@ -13,10 +13,10 @@ const CHANGE_STATE = "상태 변경";
 const EDIT_STATE = "상태 수정";
 
 const IssueStateEditor = () => {
-	const [checkedIssues] = useRecoilState(atoms.issueList.checkedIssues);
+	const [checkedIssues, setCheckedIssues] = useRecoilState(atoms.issueList.checkedIssues);
 	const [isDown, setIsDown] = useState(false);
 	const [searchParams] = useSearchParams();
-	const { mutate, isSuccess } = useIssuesPatch();
+	const { mutate, isLoading } = useIssuesPatch({});
 	const query = searchParams.get("q");
 	const isQueryOpen = query === "is:open " || !query;
 	const isQueryClosed = query === "is:closed ";
@@ -52,8 +52,14 @@ const IssueStateEditor = () => {
 	];
 
 	useEffect(() => {
-		if (isSuccess) window.location.reload();
-	}, [isSuccess]);
+		if (!isLoading) return;
+		setIsDown(false);
+		setCheckedIssues((prevCheckedIssues) => {
+			const newCheckedIssues = new Set(prevCheckedIssues);
+			newCheckedIssues.clear();
+			return newCheckedIssues;
+		});
+	}, [isLoading]);
 
 	return (
 		<Popup
@@ -62,7 +68,7 @@ const IssueStateEditor = () => {
 			contents={issueStateEditorContents}
 			setOption={setIsDown}
 		>
-			<StyledIssueStateEditor>
+			<StyledIssueStateEditor disabled={isLoading}>
 				<div>{EDIT_STATE}</div>
 				{isDown ? (
 					<KeyboardArrowDown colorset="label" size={20} />

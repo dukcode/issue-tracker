@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent } from "react";
 import { RecoilState, useRecoilState } from "recoil";
-import atoms, { TNewIssueOption } from "Atoms";
+import atoms, { TIssueOption } from "Atoms";
 import { useNavigate } from "react-router-dom";
 
 import { Checkbox } from "@mui/material";
@@ -15,7 +15,7 @@ type TContentProps = {
 	isCheckBox?: boolean;
 	clickEventHandler?: (event: React.MouseEvent) => void;
 	disabledOption?: boolean;
-	atom?: RecoilState<TNewIssueOption[]>;
+	atom?: RecoilState<TIssueOption[]>;
 	filterName?: string;
 	option?: { countOpen: number; countClosed: number };
 };
@@ -33,8 +33,10 @@ const PopupContent = ({
 	option = undefined,
 }: TContentProps) => {
 	const navigate = useNavigate();
-	const [filterValue, setFilterValue] = useRecoilState(atoms.issueList.filterValue);
-	const isWritten = filterValue.includes(name);
+	const [filterValue, setFilterValue] = filterName
+		? useRecoilState(atoms.issueList.filterValue)
+		: [null, null];
+	const isWritten = filterName ? !!filterValue?.includes(name) : false;
 	const [checked, setChecked] = useState(isWritten);
 	const [atomState, setAtomState] = atom ? useRecoilState(atom) : [null, null];
 	const contentTag = clickEventHandler ? "button" : "div";
@@ -55,7 +57,7 @@ const PopupContent = ({
 	};
 
 	const setNewFilterValue = () => {
-		if (!filterName) return;
+		if (!filterName || filterValue === null) return;
 
 		const editedFilterName = `${filterName}:${name} `;
 		const newFilterValue = filterValue.includes(editedFilterName)
@@ -74,8 +76,8 @@ const PopupContent = ({
 		if (clickEventHandler) clickEventHandler(event);
 
 		setNewAtomState();
-		setChecked(!checked);
 		setNewFilterValue();
+		setChecked(!checked);
 	};
 
 	return (
@@ -92,7 +94,7 @@ const PopupContent = ({
 			</StyledPopupName>
 			{isCheckBox && (
 				<Checkbox
-					checked={isWritten && checked}
+					checked={isWritten || checked}
 					onChange={handleChange}
 					size="small"
 					color="default"

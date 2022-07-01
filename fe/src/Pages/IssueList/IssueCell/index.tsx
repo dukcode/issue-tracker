@@ -103,6 +103,10 @@ const IssueCell = ({ item }: TIssueItem) => {
 		}
 	}, [isCheckedAll]);
 
+	useEffect(() => {
+		if (!checkIssues.has(id)) setChecked(false);
+	}, [checkIssues]);
+
 	return (
 		<StyledIssueCell onClick={handleClickIssueCell}>
 			<IssueCellLeft>
