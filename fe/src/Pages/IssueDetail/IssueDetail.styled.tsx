@@ -1,10 +1,15 @@
 import styled, { css } from "styled-components";
 
-const StyledIssueDetail = styled.div`
+export const StyledIssueDetail = styled.div`
 	${({ theme: { width } }) => css`
 		${width.main};
 		margin-top: 30px;
 	`}
 `;
 
-export default StyledIssueDetail;
+export const LoadingWrapper = styled.div`
+	height: 80vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+`;
