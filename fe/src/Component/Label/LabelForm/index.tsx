@@ -1,6 +1,5 @@
-import { useState, ChangeEvent, Dispatch, SetStateAction } from "react";
-import { labelsApi } from "Api";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import { useState, ChangeEvent, Dispatch, SetStateAction, useEffect } from "react";
+import { useLabelsPost, TNewLabelInfo, useLabelsPut, TEditedLabelsInfo } from "Hooks/useLabels";
 import icons from "Util/Icons";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
@@ -59,13 +58,28 @@ const LabelForm = ({
 	setIsEditClicked = undefined,
 	curId = 1,
 }: TLabelForm) => {
-	const { accessToken } = useCookieUserInfo();
-	const [inputTitle, setInputTitle] = useState(curName);
-	const [inputDescription, setInputDescription] = useState(curDescription);
-	const [inputBackgroundColor, setInputBackgroundColor] = useState(
-		curLabelColor || DefaultBackgroundColor
-	);
-	const [inputTextColor, setInputTextColor] = useState(curTextColor || DARK);
+	const [id] = useState(curId);
+	const [name, setInputTitle] = useState(curName);
+	const [description, setInputDescription] = useState(curDescription);
+	const [labelColor, setInputBackgroundColor] = useState(curLabelColor || DefaultBackgroundColor);
+	const [textColor, setInputTextColor] = useState(curTextColor || DARK);
+	const { mutate: mutatePost, isSuccess: isPostSuccess } = useLabelsPost();
+	const { mutate: mutatePatch, isSuccess: isPatchSuccess } = useLabelsPut({ id });
+	const newLabelInfo: TNewLabelInfo = {
+		name,
+		description,
+		labelColor,
+		textColor,
+	};
+
+	const editedLabelInfo: TEditedLabelsInfo = {
+		id,
+		name,
+		description,
+		labelColor,
+		textColor,
+	};
+
 	const handleInputTitle = (event: ChangeEvent<HTMLInputElement>) => {
 		const { value } = event.target;
 		setInputTitle(value);
@@ -84,75 +98,35 @@ const LabelForm = ({
 		setInputBackgroundColor(`#${color}`);
 	};
 
-	const postNewLabel = async (
-		title: string,
-		description: string,
-		backgroundColor: string,
-		textColor: string
-	) => {
-		const response = await labelsApi.postLabel(
-			accessToken,
-			title,
-			description,
-			backgroundColor,
-			textColor
-		);
-		const { status: statusNum } = response;
-
-		if (statusNum && statusNum < 300) window.location.reload();
-	};
-
-	const handleLabelForm = () => {
-		postNewLabel(inputTitle, inputDescription, inputBackgroundColor, inputTextColor);
+	const handleLabelPost = () => {
+		mutatePost(newLabelInfo);
 	};
 
 	const handleCancelEditingLabel = () => {
 		if (setIsEditClicked) setIsEditClicked(!isEditClicked);
 	};
 
-	const editCurLabel = async (
-		id: number,
-		title: string,
-		description: string,
-		backgroundColor: string,
-		textColor: string
-	) => {
-		const response = await labelsApi.editLabel(
-			accessToken,
-			id,
-			title,
-			description,
-			backgroundColor,
-			textColor
-		);
-
-		const { status: statusNum } = response;
-
-		if (statusNum && statusNum < 300) window.location.reload();
+	const handleLabelEdit = () => {
+		if (curId) mutatePatch(editedLabelInfo);
 	};
 
-	const handleEditingLabel = () => {
-		if (curId)
-			editCurLabel(curId, inputTitle, inputDescription, inputBackgroundColor, inputTextColor);
-	};
+	useEffect(() => {
+		if (isPostSuccess || isPatchSuccess) window.location.reload();
+	}, [isPostSuccess, isPatchSuccess]);
 
 	return (
 		<StyledLabelForm isEditing={isEditing}>
 			<StyledLabelFormTitle>
 				<StyledMention>{isEditing ? MENTION_EDIT : MENTION_ADD}</StyledMention>
 				<StyledLabelWrapper>
-					<Label
-						name={!inputTitle ? NAME : inputTitle}
-						labelColor={inputBackgroundColor}
-						textColor={inputTextColor}
-					/>
+					<Label name={!name ? NAME : name} labelColor={labelColor} textColor={textColor} />
 				</StyledLabelWrapper>
 			</StyledLabelFormTitle>
-			<StyledLabelFormForm hasInput={inputTitle}>
+			<StyledLabelFormForm hasInput={name}>
 				<StyledInputArea>
 					<input
 						placeholder={defaultInputTitle}
-						value={inputTitle}
+						value={name}
 						maxLength={30}
 						onChange={handleInputTitle}
 					/>
@@ -160,7 +134,7 @@ const LabelForm = ({
 				<StyledInputArea>
 					<input
 						placeholder={defaultInputDescription}
-						value={inputDescription}
+						value={description}
 						maxLength={50}
 						onChange={handleInputDescription}
 					/>
@@ -168,7 +142,7 @@ const LabelForm = ({
 				<StyledColorSelect>
 					<StyledBackgroundColor>
 						{BACKGROUNDCOLOR}
-						<StyledInputBackgroundColor> {inputBackgroundColor}</StyledInputBackgroundColor>
+						<StyledInputBackgroundColor> {labelColor}</StyledInputBackgroundColor>
 						<Loop size={20} colorset="label" onClick={handleColorPick} />
 					</StyledBackgroundColor>
 					<StyledTextColor>
@@ -177,7 +151,7 @@ const LabelForm = ({
 							<RadioGroup
 								row
 								name="textColor-radio-buttons-group"
-								value={inputTextColor}
+								value={textColor}
 								onChange={handleInputTextColor}
 							>
 								<FormControlLabel value="DARK" control={<Radio />} label="어두운 색" />
@@ -188,7 +162,7 @@ const LabelForm = ({
 				</StyledColorSelect>
 				{isEditing ? (
 					<>
-						<Button content={DONE} icon="Edit" clickHandler={handleEditingLabel} />
+						<Button content={DONE} icon="Edit" clickHandler={handleLabelEdit} />
 						<Button
 							content={CANCEL}
 							icon="RemoveCircleOutline"
@@ -197,7 +171,7 @@ const LabelForm = ({
 						/>
 					</>
 				) : (
-					<Button content={DONE} icon="AddBox" clickHandler={handleLabelForm} />
+					<Button content={DONE} icon="AddBox" clickHandler={handleLabelPost} />
 				)}
 			</StyledLabelFormForm>
 		</StyledLabelForm>
