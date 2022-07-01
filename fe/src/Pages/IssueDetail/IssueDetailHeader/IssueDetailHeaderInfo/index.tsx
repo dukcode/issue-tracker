@@ -46,7 +46,7 @@ const defaultInfo: TIssueDetailHeaderInfos = {
 
 const IssueDetailHeaderInfo = () => {
 	const id = useParams()?.id;
-	const { data, isLoading, isSuccess } = useIssuesGet({ id });
+	const { data, isLoading, isSuccess, isFetching } = useIssuesGet({ id });
 	const [infos, setInfos] = useState<TIssueDetailHeaderInfos>(defaultInfo);
 	const {
 		status,
@@ -75,7 +75,7 @@ const IssueDetailHeaderInfo = () => {
 			};
 			setInfos(newInfos);
 		}
-	}, [isLoading]);
+	}, [isLoading, isFetching]);
 
 	return (
 		<StyledIssueDetailHeaderInfo>
