@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
-import { labelsApi } from "Api";
-import useCookieUserInfo from "Hooks/useCookieUserInfo";
+import { useLabelsGet } from "Hooks/useLabels";
 import IssuesNotification from "Pages/IssueList/IssuesNotification";
 import StyledContent from "Component/StyledContent";
-import Cell from "Component/Cell";
+import LabelCell from "Component/LabelCell";
 import OptionTabs from "Component/OptionTabs";
 import LabelForm from "Component/Label/LabelForm";
 import StyledLabelsHeader from "./Labels.styled";
@@ -17,28 +16,26 @@ type TLabelData = {
 };
 
 const Labels = () => {
-	const { accessToken } = useCookieUserInfo();
 	const [labelCount, setLabelCount] = useState(0);
 	const [labelData, setLabelData] = useState<TLabelData[]>([]);
 	const [cells, setCells] = useState([<IssuesNotification key="1" />]);
 	const [labelFormIsClicked, setLabelFormIsClicked] = useState(false);
 
-	const getLabelData = async () => {
-		const labelCountResponse = await labelsApi.getLabels(accessToken, true);
-		const labelListResponse = await labelsApi.getLabels(accessToken, false);
+	const { data: labelCountData, isSuccess: isLabelCountDataSuccess } = useLabelsGet({
+		isCount: true,
+	});
+	const { data: labelListData, isSuccess: isLabelListDataSuccess } = useLabelsGet({
+		isCount: false,
+	});
 
-		const { data: labelCountData } = labelCountResponse;
-		const {
-			data: { data: labelListData },
-		} = labelListResponse;
-
+	const getLabelData = () => {
 		setLabelCount(labelCountData);
-		setLabelData(labelListData);
+		setLabelData(labelListData.data);
 	};
 
 	const getCellData = () => {
 		return labelData.map((item) => (
-			<Cell
+			<LabelCell
 				key={item.id}
 				id={item.id}
 				name={item.name}
@@ -50,14 +47,15 @@ const Labels = () => {
 	};
 
 	useEffect(() => {
+		if (!isLabelListDataSuccess || !isLabelCountDataSuccess) return;
 		getLabelData();
-	}, []);
+	}, [isLabelListDataSuccess, isLabelCountDataSuccess]);
 
 	useEffect(() => {
 		setCells(getCellData());
 	}, [labelData]);
 
-	const mention = `${labelCount}개의 레이블`;
+	const caption = `${labelCount}개의 레이블`;
 
 	return (
 		<>
@@ -76,7 +74,7 @@ const Labels = () => {
 			)}
 
 			<StyledContent>
-				<StyledLabelsHeader>{mention}</StyledLabelsHeader>
+				<StyledLabelsHeader>{caption}</StyledLabelsHeader>
 				{cells}
 			</StyledContent>
 		</>
