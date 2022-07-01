@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 import atoms from "Atoms";
-import useLabelsGet from "Hooks/useLabels";
+import { useLabelsGet } from "Hooks/useLabels";
 import useMilestones from "Hooks/useMilestones";
 import useUsers from "Hooks/useUsers";
 import { TOptionButtonWithPopupItem } from "Component/OptionButtonWithPopup";
