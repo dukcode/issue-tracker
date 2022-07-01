@@ -20,6 +20,7 @@ type TTextButtonProps = {
 	color?: TKeysColors;
 	size?: TTextButtonSize;
 	isHover?: boolean;
+	disabledOption?: boolean;
 };
 
 const TextButton = ({
@@ -29,12 +30,19 @@ const TextButton = ({
 	color = "titleActive",
 	size = "textSmall",
 	isHover = true,
+	disabledOption = false,
 }: TTextButtonProps) => {
 	const Icon = icons[icon];
 	const iconSize = iconSizeData[size];
 
 	return (
-		<StyledTextButton onClick={handleClick} color={color} size={size} isHover={isHover === true}>
+		<StyledTextButton
+			onClick={handleClick}
+			color={color}
+			size={size}
+			isHover={isHover === true}
+			disabled={disabledOption}
+		>
 			<Icon size={iconSize} colorset={color} />
 			{content}
 		</StyledTextButton>

@@ -75,13 +75,10 @@ const PopupContent = ({
 	const handleClickContent = (event: React.MouseEvent) => {
 		if (clickEventHandler) clickEventHandler(event);
 
-		console.log("here");
 		setNewAtomState();
 		setNewFilterValue();
 		setChecked(!checked);
 	};
-
-	console.log(checked);
 
 	return (
 		<StyledPopupContent

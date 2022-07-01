@@ -95,3 +95,15 @@ export const useIssuesPatch = () => {
 	});
 	return mutation;
 };
+
+export const useIssuesDelete = (id?: string) => {
+	const client = useFetch("issues");
+
+	const issuesDeleteApi = async () => {
+		const { data } = await client.delete(`${id}`);
+		return data;
+	};
+
+	const mutation = useMutation(issuesDeleteApi);
+	return mutation;
+};

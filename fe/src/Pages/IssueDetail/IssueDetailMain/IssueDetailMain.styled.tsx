@@ -23,3 +23,16 @@ export const StyledIssueDetailContent = styled.div`
 	flex-direction: column;
 	gap: 30px;
 `;
+
+export const IssueDetailOptionsWrapper = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+`;
+
+export const TextButtonWrapper = styled.div`
+	margin-right: 5px;
+	float: right;
+	display: flex;
+	justify-content: right;
+`;
