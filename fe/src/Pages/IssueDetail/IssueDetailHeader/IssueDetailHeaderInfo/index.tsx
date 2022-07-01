@@ -79,8 +79,8 @@ const IssueDetailHeaderInfo = () => {
 
 	return (
 		<StyledIssueDetailHeaderInfo>
-			<StyledIssueDetailStatus>
-				<InfoOutlined colorset="blue" size={14} />
+			<StyledIssueDetailStatus color={status === "OPEN" ? "blue" : "purple"}>
+				<InfoOutlined colorset={status === "OPEN" ? "blue" : "purple"} size={14} />
 				{statusDesc}
 			</StyledIssueDetailStatus>
 			<StyledIssueDetailDesc>{`${createDateDesc} ∙ ${commentsCountDesc}`}</StyledIssueDetailDesc>
