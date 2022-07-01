@@ -16,7 +16,7 @@ const IssueStateEditor = () => {
 	const [checkedIssues, setCheckedIssues] = useRecoilState(atoms.issueList.checkedIssues);
 	const [isDown, setIsDown] = useState(false);
 	const [searchParams] = useSearchParams();
-	const { mutate, isLoading } = useIssuesPatch();
+	const { mutate, isLoading } = useIssuesPatch({});
 	const query = searchParams.get("q");
 	const isQueryOpen = query === "is:open " || !query;
 	const isQueryClosed = query === "is:closed ";

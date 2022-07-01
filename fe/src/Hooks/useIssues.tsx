@@ -8,7 +8,7 @@ type TUseIssuesGetParams = {
 };
 
 type TEditedIssuesOptions = {
-	issueIds: number[];
+	issueIds?: number[];
 	status: "OPEN" | "CLOSED";
 };
 
@@ -79,18 +79,20 @@ export const useIssuesCommentPost = ({ id = "NONE" }: { id?: string }) => {
 	return mutation;
 };
 
-export const useIssuesPatch = () => {
+export const useIssuesPatch = ({ id = undefined }: { id?: string }) => {
 	const client = useFetch("issues");
 	const queryClient = useQueryClient();
+	const detail = id ? `${id}/status` : "";
 
 	const issuesPatchApi = async (editedIssuesOptions: TEditedIssuesOptions) => {
-		const { data } = await client.patch("", editedIssuesOptions);
+		const { data } = await client.patch(detail, editedIssuesOptions);
 		return data;
 	};
 
 	const mutation = useMutation(issuesPatchApi, {
 		onSuccess: () => {
 			queryClient.invalidateQueries("issues");
+			queryClient.invalidateQueries("issue");
 		},
 	});
 	return mutation;
